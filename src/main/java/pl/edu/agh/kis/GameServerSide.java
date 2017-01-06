@@ -6,4 +6,5 @@ package pl.edu.agh.kis;
 public interface GameServerSide {
     Question createQuestion();
 
+
 }
