@@ -1,3 +1,6 @@
+package pl.edu.agh.kis;
+
+import java.io.FileNotFoundException;
 import java.util.Vector;
 
 /**
@@ -7,7 +10,7 @@ public class QuestionClientSide extends Question {
     Vector<Integer> randomSortedAnswers = new Vector<>();
 
 
-    QuestionClientSide(int id) {
+    QuestionClientSide(int id) throws FileNotFoundException {
         super(id);
     }
 }

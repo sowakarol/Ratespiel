@@ -1,3 +1,5 @@
+package pl.edu.agh.kis;
+
 import java.io.*;
 
 /**
@@ -7,8 +9,17 @@ public class QuestionServerSide extends Question {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
     int questionNumber;
 
-    QuestionServerSide(int id) {
+    QuestionServerSide(int id) throws FileNotFoundException {
         super(id);
+        questionNumber = id;
+    }
+
+    public static void main(String[] args) {
+        try {
+            QuestionServerSide questionServerSide = new QuestionServerSide(-1);
+        } catch (FileNotFoundException e) {
+            e.getMessage();
+        }
     }
 
     boolean IsTrue(String answer) {
