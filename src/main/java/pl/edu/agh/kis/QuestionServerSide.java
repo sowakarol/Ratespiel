@@ -9,7 +9,7 @@ public class QuestionServerSide extends Question {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
     int questionNumber;
 
-    QuestionServerSide(int id) throws FileNotFoundException {
+    QuestionServerSide(int id) {
         super(id);
         questionNumber = id;
     }

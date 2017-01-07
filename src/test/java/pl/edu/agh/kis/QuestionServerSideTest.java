@@ -1,28 +1,32 @@
 package pl.edu.agh.kis;
 
+import org.junit.Rule;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
+
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Created by Karl on 06.01.2017.
+ * Created by Karl on 07.01.2017.
  */
-class QuestionServerSideTest {
+public class QuestionServerSideTest {
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
     @Test
     public void setQuestionAndAssertItsCorrect() {
         int testID = 1;
         final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
         QuestionServerSide testQuestion = null;
-        try {
-            testQuestion = new QuestionServerSide(testID);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        testQuestion = new QuestionServerSide(testID);
+
         assertEquals(testID, testQuestion.questionNumber);
 
         try {
@@ -42,16 +46,16 @@ class QuestionServerSideTest {
 
     @Test
     public void checkExceptionIfQuestionFileIsNotExisting() {
-        int testID = -1;
         String expected = "java.io.FileNotFoundException: C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\-1 (The system cannot find the file specified)";
 
-        try {
-            QuestionServerSide testQuestion = new QuestionServerSide(testID);
-            //fail("Expected FileNotFoundException");
-        } catch (FileNotFoundException e) {
-            assertEquals(expected, e.getMessage());
-        }
-    }
+        exception.expect(FileNotFoundException.class);
+        exception.expectMessage(containsString(expected));
+        int testID = -1;
 
+
+        QuestionServerSide testQuestion = new QuestionServerSide(testID);
+        //fail("Expected FileNotFoundException");
+
+    }
 
 }

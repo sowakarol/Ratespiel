@@ -8,18 +8,20 @@ import java.util.Vector;
  * Created by Karl on 06.01.2017.
  */
 public class QuestionClientSide extends Question {
-    QuestionClientSide(int id) throws FileNotFoundException {
+    QuestionClientSide(int id) {
         super(id);
     }
 
+    public QuestionClientSide(Vector<String> answers, String trueAnswer) {
+        super(answers, trueAnswer);
+    }
+
     public static void main(String[] args) {
-        try {
-            QuestionClientSide questionClientSide = new QuestionClientSide(2);
-            questionClientSide.randomizeAnswers();
-            System.out.println("" + questionClientSide);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        QuestionClientSide questionClientSide = new QuestionClientSide(2);
+        questionClientSide.randomizeAnswers();
+        System.out.println("" + questionClientSide);
+
 
 
     }

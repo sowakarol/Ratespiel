@@ -11,8 +11,12 @@ public abstract class Question {
     Vector<String> answers = new Vector<>(4);
     String toTranslate;
 
+    public Question(Vector<String> answers, String toTranslate) {
+        this.answers = answers;
+        this.toTranslate = toTranslate;
+    }
 
-    Question(int id) throws FileNotFoundException {
+    Question(int id) {
         File questionFile = new File(path + id);
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(questionFile));
