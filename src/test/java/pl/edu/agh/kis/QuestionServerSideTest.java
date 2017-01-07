@@ -38,6 +38,7 @@ public class QuestionServerSideTest {
             }
 
         } catch (FileNotFoundException e) {
+            //zrób coś tu
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

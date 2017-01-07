@@ -8,10 +8,23 @@ import java.io.*;
 public class QuestionServerSide extends Question {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
     int questionNumber;
+    String toTranslate;
+
 
     QuestionServerSide(int id) {
-        super(id);
         questionNumber = id;
+        File questionFile = new File(path + id);
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(questionFile));
+            toTranslate = bufferedReader.readLine();
+
+            for (int i = 0; i < 4; i++) {
+                answers.add(i, bufferedReader.readLine());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     boolean IsTrue(String answer) {
@@ -19,10 +32,10 @@ public class QuestionServerSide extends Question {
         if (questionFile.exists()) {
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(questionFile));
-                bufferedReader.readLine();
-                String trueQuestion = bufferedReader.readLine();
+                bufferedReader.readLine(); //skipping toTranslate string
+                String trueAnswer = bufferedReader.readLine();
 
-                if (trueQuestion.equals(answer)) {
+                if (trueAnswer.equals(answer)) {
                     return true;
                 }
             } catch (FileNotFoundException e) {

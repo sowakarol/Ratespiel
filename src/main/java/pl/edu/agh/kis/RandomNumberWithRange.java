@@ -26,7 +26,6 @@ public class RandomNumberWithRange {
         }
 
 
-        System.out.println("from: " + from + " to: " + to);
         int divider = to - from + 1;
         int ret = Math.abs(random.nextInt()) % divider;
         return ret + from;

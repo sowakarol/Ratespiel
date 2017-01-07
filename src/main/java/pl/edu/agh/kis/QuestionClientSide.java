@@ -8,23 +8,14 @@ import java.util.Vector;
  * Created by Karl on 06.01.2017.
  */
 public class QuestionClientSide extends Question {
-    QuestionClientSide(int id) {
-        super(id);
+    String toTranslate;
+
+
+    public QuestionClientSide(Vector<String> answers, String toTranslate) {
+        super(answers);
+        this.toTranslate = toTranslate;
     }
 
-    public QuestionClientSide(Vector<String> answers, String trueAnswer) {
-        super(answers, trueAnswer);
-    }
-
-    public static void main(String[] args) {
-
-        QuestionClientSide questionClientSide = new QuestionClientSide(2);
-        questionClientSide.randomizeAnswers();
-        System.out.println("" + questionClientSide);
-
-
-
-    }
 
     public void randomizeAnswers() {
         answers = durstenfeldShuffle(answers);
