@@ -12,6 +12,18 @@ public class QuestionClientSide extends Question {
         super(id);
     }
 
+    public static void main(String[] args) {
+        try {
+            QuestionClientSide questionClientSide = new QuestionClientSide(2);
+            questionClientSide.randomizeAnswers();
+            System.out.println("" + questionClientSide);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public void randomizeAnswers() {
         answers = durstenfeldShuffle(answers);
     }
@@ -19,11 +31,13 @@ public class QuestionClientSide extends Question {
     private Vector<String> durstenfeldShuffle(Vector<String> unsortedAnswers) {
         Vector<String> ret = new Vector<>(unsortedAnswers);
         RandomNumberWithRange random = new RandomNumberWithRange();
+        System.out.println(ret);
 
-        for (int i = ret.size() - 1; i >= 1; i++) {
+        for (int i = ret.size() - 1; i > 0; i--) {
             int j = random.randomInteger(0, i);
             Collections.swap(ret, j, i);
         }
+        System.out.println(ret);
 
         return ret;
     }

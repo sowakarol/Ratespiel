@@ -14,14 +14,6 @@ public class QuestionServerSide extends Question {
         questionNumber = id;
     }
 
-    public static void main(String[] args) {
-        try {
-            QuestionServerSide questionServerSide = new QuestionServerSide(-1);
-        } catch (FileNotFoundException e) {
-            e.getMessage();
-        }
-    }
-
     boolean IsTrue(String answer) {
         File questionFile = new File(path + this.questionNumber);
         if (questionFile.exists()) {

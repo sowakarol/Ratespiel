@@ -17,8 +17,9 @@ public class RandomNumberWithRange {
     }
 
     public int randomInteger(int from, int to) {
+        System.out.println("from: " + from + " to: " + to);
         int divider = to - from + 1;
-        int ret = random.nextInt() % divider;
+        int ret = Math.abs(random.nextInt()) % divider;
         return ret + from;
     }
 }
