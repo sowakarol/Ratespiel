@@ -22,6 +22,11 @@ public class Server implements Runnable {
 
     }
 
+    public static void main(String[] args) {
+        Server server = new Server(8888);
+        server.listenAndPreparePlayer();
+    }
+
     @Override
     public void run() {
         listenAndPreparePlayer();
@@ -36,8 +41,9 @@ public class Server implements Runnable {
             Socket playerSocket = serverSocket.accept();
             PlayerServerSide player = new PlayerServerSide(playerSocket, ++playersNumber);
             addToPlayersList(player);
-            if (players.size() == 2) {
-
+            if (players.size() == 1) {
+                GameServerSideForOnePlayer game = new GameServerSideForOnePlayer(player);
+                game.play();
 
             }
 
@@ -46,6 +52,5 @@ public class Server implements Runnable {
             e.printStackTrace();
         }
     }
-
 
 }

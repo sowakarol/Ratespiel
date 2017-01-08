@@ -20,8 +20,14 @@ public abstract class GameServerSide implements GameServerSideInterface {
 /* TODO
 * chooseWinner
 * multithreading
+* Vector of players
 * play()
 */
+
+    GameServerSide(PlayerServerSide player1) {
+        this.player1 = player1;
+    }
+
 
     public void play() {
         playRound();
@@ -33,11 +39,15 @@ public abstract class GameServerSide implements GameServerSideInterface {
 
     public void playRound() { // WITHOUT MULTITHREAD
         QuestionServerSide question = createQuestion();
+
         sendQuestionToPlayer(question, player1);
-        sendQuestionToPlayer(question, player2);
-        Vector<Answer> answers = new Vector<>(2); //initialCapacity zależne od playersNumber
+        //sendQuestionToPlayer(question, player2);
+        Vector<Answer> answers = new Vector<>(1); //initialCapacity zależne od playersNumber
         answers.add(getAnswer(player1));
-        answers.add(getAnswer(player2));
+        System.out.println("NIGGA WE MADE IT");
+        //answers.add(getAnswer(player2));
+
+        chooseWinner(answers, question);
 
 
 
@@ -49,7 +59,7 @@ public abstract class GameServerSide implements GameServerSideInterface {
                 ) {
             if (answer.isTrue(question)) {
                 correctAnswers.add(answer);
-                System.out.println("PLAYER " + answer.getPlayerID());
+                System.out.println("PLAYER " + answer.getPlayerID() + " CORRECT ANSWER");
             }
         }
 

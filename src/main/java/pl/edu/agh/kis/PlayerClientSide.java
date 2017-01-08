@@ -2,6 +2,7 @@ package pl.edu.agh.kis;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.Vector;
 
 /**
@@ -27,6 +28,7 @@ public class PlayerClientSide extends PlayerAbstract implements PlayerClientSide
         return null;
     }
 
+    //CZY MĄDRZE Z ARGUMENTEM
     @Override
     public boolean sendReply(Reply reply) { //MAYBE SEND BACK THAT EVERYTHING OK FROM SERVER??
         printWriter.println(reply.getPlayerChoice());
@@ -55,4 +57,31 @@ public class PlayerClientSide extends PlayerAbstract implements PlayerClientSide
         }
         return false;
     }
+
+    @Override
+    public void play() {
+        playRound();
+    }
+
+
+    private Reply reply() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("REPLY::");
+        String playerChoice = "";
+
+        playerChoice = sc.nextLine();
+        System.out.println("Saved");
+
+        return new Reply(playerChoice, System.nanoTime());
+    }
+
+    private void playRound() {
+        QuestionClientSide question = getQuestion();
+        System.out.println(question);
+
+        sendReply(reply());
+        System.out.println("Sended");
+
+    }
+
 }

@@ -9,4 +9,6 @@ public interface PlayerClientSideInterface {
     boolean sendReply(Reply reply);
 
     boolean quit(boolean playerChoice);
+
+    void play();
 }

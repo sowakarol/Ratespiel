@@ -35,4 +35,13 @@ public class QuestionClientSide extends Question {
 
         return ret;
     }
+
+    @Override
+    public String toString() {
+        String ret = "toTranslate: " + toTranslate + "\n";
+        for (int i = 0; i < 4; i++) {
+            ret += "" + i + " " + answers.get(i) + "\n";
+        }
+        return ret;
+    }
 }

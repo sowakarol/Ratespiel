@@ -7,7 +7,7 @@ import java.util.Vector;
  */
 public abstract class Question {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
-    private Vector<String> answers = new Vector<>(4);
+    protected Vector<String> answers = new Vector<>(4);
 
     public Question(Vector<String> answers) {
         this.answers = answers;
