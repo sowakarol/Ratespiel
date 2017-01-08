@@ -1,6 +1,5 @@
 package pl.edu.agh.kis;
 
-import java.io.*;
 import java.util.Vector;
 
 /**
@@ -8,13 +7,23 @@ import java.util.Vector;
  */
 public abstract class Question {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
-    Vector<String> answers = new Vector<>(4);
+    private Vector<String> answers = new Vector<>(4);
 
     public Question(Vector<String> answers) {
         this.answers = answers;
     }
 
     public Question() {
+
+    }
+
+    public Vector<String> getAnswers() {
+
+        return answers;
+    }
+
+    public void setAnswers(Vector<String> answers) {
+        this.answers = answers;
     }
 
 }

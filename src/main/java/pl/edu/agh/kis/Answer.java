@@ -1,21 +1,10 @@
 package pl.edu.agh.kis;
 
 /**
- * Created by Karl on 06.01.2017.
- * Server-side Reply with every information to determinate a winner
+ * Created by Karl on 07.01.2017.
  */
-public abstract class Answer implements AnswerInterface {
-    //checks time somehow??
-
-
-    Reply reply;
-
-    Answer(Reply reply) {
-        this.reply = reply;
+public class Answer extends AnswerAbstract {
+    Answer(Reply reply, int playerID) {
+        super(reply, playerID);
     }
-
-    public boolean isTrue(QuestionServerSide question) {
-        return question.IsTrue(this.reply.playerChoice);
-    }
-
 }

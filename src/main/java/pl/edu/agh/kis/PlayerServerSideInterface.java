@@ -4,9 +4,11 @@ package pl.edu.agh.kis;
  * Created by Karl on 07.01.2017.
  */
 public interface PlayerServerSideInterface {
-    boolean sendQuestion(QuestionServerSide question);
+    boolean sendQuestion(QuestionClientSide question);
 
-    Answer answer(Reply reply);
+    Answer answer();
 
     Reply getReply();
+
+    boolean quit();
 }

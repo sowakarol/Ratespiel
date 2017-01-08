@@ -1,6 +1,5 @@
 package pl.edu.agh.kis;
 
-import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.Vector;
 
@@ -8,17 +7,19 @@ import java.util.Vector;
  * Created by Karl on 06.01.2017.
  */
 public class QuestionClientSide extends Question {
-    String toTranslate;
-
+    private String toTranslate;
 
     public QuestionClientSide(Vector<String> answers, String toTranslate) {
         super(answers);
         this.toTranslate = toTranslate;
     }
 
+    public String getToTranslate() {
+        return toTranslate;
+    }
 
     public void randomizeAnswers() {
-        answers = durstenfeldShuffle(answers);
+        setAnswers(durstenfeldShuffle(getAnswers()));
     }
 
     private Vector<String> durstenfeldShuffle(Vector<String> unsortedAnswers) {

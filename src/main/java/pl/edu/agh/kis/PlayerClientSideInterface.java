@@ -6,7 +6,7 @@ package pl.edu.agh.kis;
 public interface PlayerClientSideInterface {
     QuestionClientSide getQuestion();
 
-    boolean sendReply();
+    boolean sendReply(Reply reply);
 
-    boolean quit();
+    boolean quit(boolean playerChoice);
 }

@@ -10,7 +10,8 @@ import java.util.Vector;
  */
 public class Server implements Runnable {
     ServerSocket serverSocket;
-    //Vector<PlayerServerSide> wektor graczy
+    Vector<PlayerServerSide> players = new Vector<>(2);
+    int playersNumber;
 
     public Server(int portNumber) {
         try {
@@ -26,13 +27,19 @@ public class Server implements Runnable {
         listenAndPreparePlayer();
     }
 
-    private synchronized boolean addToPlayersList() {
-        return false;
+    private synchronized boolean addToPlayersList(PlayerServerSide player) {
+        return players.add(player);
     }
 
     public void listenAndPreparePlayer() {
         try {
             Socket playerSocket = serverSocket.accept();
+            PlayerServerSide player = new PlayerServerSide(playerSocket, ++playersNumber);
+            addToPlayersList(player);
+            if (players.size() == 2) {
+
+
+            }
 
 
         } catch (IOException e) {
