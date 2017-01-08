@@ -5,8 +5,6 @@ package pl.edu.agh.kis;
  */
 public class GameServerSideForOnePlayer extends GameServerSide {
     GameServerSideForOnePlayer(PlayerServerSide player1) {
-        super(player1);
+        getPlayers().add(player1);
     }
-
-
 }

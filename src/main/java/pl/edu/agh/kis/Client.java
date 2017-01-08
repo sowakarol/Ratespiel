@@ -7,8 +7,8 @@ import java.net.Socket;
  * Created by Karl on 08.01.2017.
  */
 public class Client {
-    int portNumber;
-    String hostname;
+    private int portNumber;
+    private String hostname;
     private Socket playerSocket;
 
     Client(int portNumber, String hostname) {

@@ -10,13 +10,15 @@ import java.util.Vector;
  */
 public class Server implements Runnable {
     ServerSocket serverSocket;
-    Vector<PlayerServerSide> players = new Vector<>(2);
+    Vector<PlayerServerSide> players = new Vector<>();
     int playersNumber;
+    private LoggingToFile logger = new LoggingToFile("ServerLogs.txt");
 
     public Server(int portNumber) {
         try {
             serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {
+            logger.critical(e.getMessage());
             e.printStackTrace();
         }
 
@@ -38,17 +40,22 @@ public class Server implements Runnable {
 
     public void listenAndPreparePlayer() {
         try {
-            Socket playerSocket = serverSocket.accept();
-            PlayerServerSide player = new PlayerServerSide(playerSocket, ++playersNumber);
-            addToPlayersList(player);
-            if (players.size() == 1) {
-                GameServerSideForOnePlayer game = new GameServerSideForOnePlayer(player);
-                game.play();
+            while (true) {
+                Socket playerSocket = serverSocket.accept();
+                PlayerServerSide player = new PlayerServerSide(playerSocket, ++playersNumber);
+                addToPlayersList(player);
+                if (players.size() == 2) {
+                    GameServerSideForTwoPlayers game = new GameServerSideForTwoPlayers(players.get(0), players.get(1));
+                    game.play();
+
+                }
 
             }
 
 
+
         } catch (IOException e) {
+            logger.critical(e.getMessage());
             e.printStackTrace();
         }
     }

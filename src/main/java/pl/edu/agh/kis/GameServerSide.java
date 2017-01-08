@@ -10,23 +10,26 @@ import java.util.Vector;
  */
 public abstract class GameServerSide implements GameServerSideInterface {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
-    PlayerServerSide player1;
-    PlayerServerSide player2;
+    private Vector<PlayerServerSide> players = new Vector<PlayerServerSide>();
 
-    GameServerSide(PlayerServerSide player1, PlayerServerSide player2) {
+   /* GameServerSide(PlayerServerSide player1, PlayerServerSide player2) {
         this.player1 = player1;
         this.player2 = player2;
+    }*/
+
+    public Vector<PlayerServerSide> getPlayers() {
+        return players;
     }
-/* TODO
+    /* TODO
 * chooseWinner
 * multithreading
 * Vector of players
 * play()
 */
 
-    GameServerSide(PlayerServerSide player1) {
+    /*GameServerSide(PlayerServerSide player1) {
         this.player1 = player1;
-    }
+    }*/
 
 
     public void play() {
@@ -40,23 +43,79 @@ public abstract class GameServerSide implements GameServerSideInterface {
     public void playRound() { // WITHOUT MULTITHREAD
         QuestionServerSide question = createQuestion();
 
-        sendQuestionToPlayer(question, player1);
-        //sendQuestionToPlayer(question, player2);
-        Vector<Answer> answers = new Vector<>(1); //initialCapacity zależne od playersNumber
-        answers.add(getAnswer(player1));
+        sendQuestionToPlayers(question, players);
+        Vector<Answer> answers = new Vector<>(); //initialCapacity zależne od playersNumber
+        Vector<Thread> threads = new Vector<>();
+        int i = 0;
+        for (PlayerServerSide player : players) {
+            threads.add(new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    answers.add(getAnswer(player));
+                }
+            }));
+            threads.get(i).start();
+            i++;
+        }
+
+        for (Thread thread : threads
+                ) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (Answer answer :
+                answers) {
+            System.out.println(answer);
+        }
+
         System.out.println("NIGGA WE MADE IT");
-        //answers.add(getAnswer(player2));
 
         chooseWinner(answers, question);
 
+    }
 
+    private synchronized Vector<Answer> getAnswers(Vector<PlayerServerSide> players) {
+        Vector<Answer> answers = new Vector<>();
+        for (PlayerServerSide player : players) {
+            answers.add(player.answer());
+        }
+        return answers;
+    }
+
+    private void sendQuestionToPlayers(QuestionServerSide questionServerSide, Vector<PlayerServerSide> players) {
+        Vector<Thread> threads = new Vector<>();
+        int i = 0;
+        for (PlayerServerSide player : players) {
+            threads.add(new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    sendQuestionToPlayer(questionServerSide, player);
+
+                }
+            }));
+
+            threads.get(i).start();
+            i++;
+        }
+
+        for (Thread thread : threads
+                ) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
     private int chooseWinner(Vector<Answer> answers, QuestionServerSide question) {
         Vector<Answer> correctAnswers = new Vector<>();
-        for (Answer answer : answers
-                ) {
+        for (Answer answer : answers) {
             if (answer.isTrue(question)) {
                 correctAnswers.add(answer);
                 System.out.println("PLAYER " + answer.getPlayerID() + " CORRECT ANSWER");
