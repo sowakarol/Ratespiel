@@ -11,4 +11,7 @@ public interface PlayerClientSideInterface {
     boolean quit(boolean playerChoice);
 
     void play();
+
+    void closeConnection();
+
 }

@@ -47,7 +47,7 @@ public class Server implements Runnable {
                 if (players.size() == 2) {
                     GameServerSideForTwoPlayers game = new GameServerSideForTwoPlayers(players.get(0), players.get(1));
                     game.play();
-
+                    serverSocket.close();
                 }
 
             }

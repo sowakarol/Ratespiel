@@ -51,13 +51,15 @@ public class PlayerServerSide extends PlayerAbstract implements PlayerServerSide
         int b = 1;
         try {
             b = inputStream.read();
+            //closeConnection();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (b == 0) {
-            return false;
-        } else {
+        if (b == 1) {
+            closeConnection();
             return true;
+        } else {
+            return false;
         }
     }
 }

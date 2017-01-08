@@ -25,4 +25,16 @@ public abstract class PlayerAbstract {
             e.printStackTrace();
         }
     }
+
+    public void closeConnection() {
+        printWriter.close();
+        try {
+            bufferedReader.close();
+            player.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

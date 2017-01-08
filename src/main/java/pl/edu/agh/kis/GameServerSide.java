@@ -34,17 +34,17 @@ public abstract class GameServerSide implements GameServerSideInterface {
 
     public void play() {
         playRound();
-        /*while(!isOver()){
+        while (!isOver()) {
             playRound();
-        }*/
+        }
     }
 
 
-    public void playRound() { // WITHOUT MULTITHREAD
+    public void playRound() {
         QuestionServerSide question = createQuestion();
 
         sendQuestionToPlayers(question, players);
-        Vector<Answer> answers = new Vector<>(); //initialCapacity zależne od playersNumber
+        Vector<Answer> answers = new Vector<>();
         Vector<Thread> threads = new Vector<>();
         int i = 0;
         for (PlayerServerSide player : players) {
@@ -152,10 +152,12 @@ public abstract class GameServerSide implements GameServerSideInterface {
         }
 
         return new QuestionServerSide(randomNumberOfFile);
-
-
     }
 
+
+    private Boolean getQuitDecision(PlayerServerSide player) {
+        return player.quit();
+    }
 
     protected int numberOfQuestions() {
         try {
@@ -165,5 +167,38 @@ public abstract class GameServerSide implements GameServerSideInterface {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    private boolean isOver() {
+        System.out.println("IM HERE");
+        Vector<Boolean> quitDecisionsFromPlayers = new Vector<>();
+        Vector<Thread> threads = new Vector<>();
+        int i = 0;
+        for (PlayerServerSide player : players) {
+            threads.add(new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    quitDecisionsFromPlayers.add(getQuitDecision(player));
+                }
+            }));
+            threads.get(i).start();
+            i++;
+        }
+
+        for (Thread thread : threads
+                ) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        boolean ret = false;
+        for (Boolean decision : quitDecisionsFromPlayers) {
+            if (decision == true) ret = true;
+
+        }
+        System.out.println("IM OUT");
+        return ret;
     }
 }

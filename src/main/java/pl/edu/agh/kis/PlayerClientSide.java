@@ -43,6 +43,7 @@ public class PlayerClientSide extends PlayerAbstract implements PlayerClientSide
         if (playerChoice) {
             try {
                 outputStream.write(1);
+                closeConnection();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -61,6 +62,10 @@ public class PlayerClientSide extends PlayerAbstract implements PlayerClientSide
     @Override
     public void play() {
         playRound();
+        while (!sendDecisionIsOver()) {
+            playRound();
+        }
+
     }
 
 
@@ -75,13 +80,29 @@ public class PlayerClientSide extends PlayerAbstract implements PlayerClientSide
         return new Reply(playerChoice, System.nanoTime());
     }
 
+    private boolean sendDecisionIsOver() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Quit??");
+        String playerChoice = "";
+
+        playerChoice = sc.nextLine();
+        if (playerChoice.equals("1")) {
+            quit(true);
+            closeConnection();
+            return true;
+        } else {
+            quit(false);
+            return false;
+        }
+    }
+
     private void playRound() {
         QuestionClientSide question = getQuestion();
         System.out.println(question);
 
         sendReply(reply());
         System.out.println("Sended");
-
+        sendDecisionIsOver();
     }
 
 }
