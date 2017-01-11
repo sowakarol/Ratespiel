@@ -9,6 +9,18 @@ import java.util.Vector;
  * Created by Karl on 07.01.2017.
  */
 public abstract class GameServerSide implements GameServerSideInterface {
+    //Czy game jest dobrze zrobiony? Model szablonowy
+    //MVC
+    //Controller czy może zawierać obiekt View
+    //foldery na Playera, czy na Server/Client + common
+    //czas reakcji - local time serwera, klient wysyla roznice czasu na odpowiedz
+    //Answer czy jest sens mieć interfejs, abstrakcyjną
+    //klase pomocnicze typu RandomNumberWithRange itd
+    //wspolbieznosc wtedy kiedy nie trzeba typu - czy musi czekac zawsze na odpowiedz od klientow, nawet kiedy nie beda mieli
+    // mozliwosci odpowiadac - zastanowic nad deadlockami - wątek sterowany timerem
+    //testy czy mozna pisac klase anonimowe np serwera i tak testowac
+
+
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
     private Vector<PlayerServerSide> players = new Vector<PlayerServerSide>();
 
@@ -32,8 +44,8 @@ public abstract class GameServerSide implements GameServerSideInterface {
     }*/
 
 
-    public void play() {
-        playRound();
+    public void play() { //do czegokolwiek działą, są rundy,najsłabszy gracz po 3 rundach zostaje wyrzucony
+        playRound(); // szerszy scenariusz gr, moze nastepowac eliminacja graczy
         while (!isOver()) {
             playRound();
         }

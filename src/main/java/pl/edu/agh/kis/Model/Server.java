@@ -11,9 +11,9 @@ import java.util.Vector;
  * Created by Karl on 07.01.2017.
  */
 public class Server implements Runnable {
-    ServerSocket serverSocket;
     Vector<PlayerServerSide> players = new Vector<>();
-    int playersNumber;
+    private ServerSocket serverSocket;    Vector<PlayerServerSide> players = new Vector<>();
+    private int playersNumber;
     private LoggingToFile logger = new LoggingToFile("ServerLogs.txt");
 
     public Server(int portNumber) {

@@ -9,7 +9,8 @@ public class QuestionServerSide extends Question {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
     int questionNumber;
     String toTranslate;
-
+    //TODO
+    //add something in one exception
 
     QuestionServerSide(int id) {
         questionNumber = id;
@@ -40,6 +41,7 @@ public class QuestionServerSide extends Question {
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                //add something
             } catch (IOException e) {
                 e.printStackTrace();
             }
