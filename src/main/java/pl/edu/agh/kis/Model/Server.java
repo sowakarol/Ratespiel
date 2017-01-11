@@ -1,4 +1,6 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.Model;
+
+import pl.edu.agh.kis.LoggingToFile;
 
 import java.io.IOException;
 import java.net.ServerSocket;

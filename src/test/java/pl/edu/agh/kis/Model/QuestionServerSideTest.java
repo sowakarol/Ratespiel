@@ -1,9 +1,8 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.Model;
 
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
-
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -11,10 +10,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Karl on 07.01.2017.
+ * Created by Karl on 11.01.2017.
  */
 public class QuestionServerSideTest {
     @Rule

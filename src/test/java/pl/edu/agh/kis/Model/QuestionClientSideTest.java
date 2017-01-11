@@ -1,20 +1,17 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.Model;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Vector;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Created by Karl on 07.01.2017.
+ * Created by Karl on 11.01.2017.
  */
-class QuestionClientSideTest {
+public class QuestionClientSideTest {
     public static void main(String[] args) throws FileNotFoundException {
         QuestionClientSideTest questionClientSideTest = new QuestionClientSideTest();
         int testID = 2;
@@ -35,7 +32,7 @@ class QuestionClientSideTest {
      */
     private void checkDifferentOrderOfAnswersWithConstantSeed(int ID) {
         QuestionClientSideTest questionClientSideTest = new QuestionClientSideTest();
-        QuestionClientSideTestImplementation testedQuestion = null;
+        QuestionClientSideTest.QuestionClientSideTestImplementation testedQuestion = null;
         int seed = 2;
         try {
             QuestionServerSide tmp = new QuestionServerSide(ID);
@@ -104,6 +101,5 @@ class QuestionClientSideTest {
 
 
     }
-
 
 }

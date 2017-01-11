@@ -1,4 +1,4 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.Model;
 
 import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
 
@@ -71,8 +71,6 @@ public abstract class GameServerSide implements GameServerSideInterface {
                 answers) {
             System.out.println(answer);
         }
-
-        System.out.println("NIGGA WE MADE IT");
 
         chooseWinner(answers, question);
 

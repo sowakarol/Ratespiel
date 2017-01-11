@@ -1,4 +1,4 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.Model;
 
 /**
  * Created by Karl on 08.01.2017.
