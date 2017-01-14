@@ -13,11 +13,15 @@ public class MainFrame extends JFrame {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\View\\";
     boolean changeDefaultToGame = false;
     MainController mainController;
-
+    private JPanel mainPanel;
 
     public MainFrame(MainController mainController) {
         super(title);
         this.mainController = mainController;
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 
     /*public static void main(String[] args) {
@@ -37,9 +41,9 @@ public class MainFrame extends JFrame {
         // }
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        JPanel panel = new JPanel();
-        setDefaultButtons(mainController, panel);
-        add(panel);
+        mainPanel = new JPanel();
+        setDefaultButtons(mainController, mainPanel);
+        add(mainPanel);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         pack();

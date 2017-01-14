@@ -1,4 +1,10 @@
-package pl.edu.agh.kis.Model;
+package pl.edu.agh.kis;
+
+import pl.edu.agh.kis.Controller.QuestionController;
+import pl.edu.agh.kis.Model.PlayerClientSide;
+import pl.edu.agh.kis.Model.QuestionClientSide;
+import pl.edu.agh.kis.Model.Reply;
+import pl.edu.agh.kis.View.MainFrame;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -6,11 +12,14 @@ import java.util.Scanner;
 import java.util.Vector;
 
 /**
- * Created by Karl on 07.01.2017.
+ * Created by Karl on 14.01.2017.
  */
-public class PlayerClientSide extends PlayerAbstract implements PlayerClientSideInterface {
-    public PlayerClientSide(Socket player) {
+public class PlayerClientSideWithGUI extends PlayerClientSide {
+    MainFrame mainFrame;
+
+    public PlayerClientSideWithGUI(Socket player, MainFrame mainFrame) {
         super(player);
+        this.mainFrame = mainFrame;
     }
 
 
@@ -99,11 +108,14 @@ public class PlayerClientSide extends PlayerAbstract implements PlayerClientSide
 
     public void playRound() {
         QuestionClientSide question = getQuestion();
-        System.out.println(question);
+        long time = System.nanoTime();
+        QuestionController questionController = new QuestionController(question, time, this, mainFrame);
 
-        sendReply(reply());
-        System.out.println("Sended");
-        sendDecisionIsOver();
+        //System.out.println(question);
+
+        //sendReply(reply());
+        //System.out.println("Sended");
+        //sendDecisionIsOver();
     }
 
 }

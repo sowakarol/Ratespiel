@@ -1,5 +1,6 @@
 package pl.edu.agh.kis.View;
 
+import pl.edu.agh.kis.Controller.QuestionController;
 import pl.edu.agh.kis.Model.QuestionClientSide;
 
 import javax.swing.*;
@@ -11,10 +12,16 @@ import java.util.Vector;
  */
 public class QuestionPanel extends JPanel {
     QuestionClientSide question;
+    MainFrame mainFrame;
+    QuestionController questionController;
+    private Container container;
 
-    QuestionPanel(QuestionClientSide question) {
+    public QuestionPanel(QuestionClientSide question, MainFrame mainFrame, QuestionController questionController) {
         super();
         this.question = question;
+        this.mainFrame = mainFrame;
+        this.questionController = questionController;
+        prepareAndShow();
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -57,11 +64,36 @@ public class QuestionPanel extends JPanel {
         answersButtonsPanel.setLayout(new BoxLayout(answersButtonsPanel, BoxLayout.Y_AXIS));
 
         for (int i = 0; i < 4; i++) {
-            answersButtonsPanel.add(new JButton(question.getAnswers().get(i)));
+            JButton button = new JButton(question.getAnswers().get(i));
+            button.addActionListener(questionController);
+            button.setActionCommand(question.getAnswers().get(i));
+
+            answersButtonsPanel.add(button);
             answersButtonsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         }
         add(answersButtonsPanel);
         setVisible(true);
+
+
+        //if(mainFrame.getMainPanel() == null) System.out.println("PRZYPA");
+        container = mainFrame.getContentPane();
+        container.removeAll();
+        //mainFrame.revalidate();
+
+        //mainFrame.repaint();
+        //mainFrame.revalidate();
+        //loginController.getLoginPanel().set();
+        container.add(this);
+        //mainFrame.repaint();
+        //mainFrame.revalidate();
+        System.out.println("ASDAS");
+        mainFrame.validate();
+        mainFrame.repaint();
+        mainFrame.setVisible(true);
+        System.out.println("ASDAS");
+
+
+
 
     }
 

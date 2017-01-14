@@ -1,11 +1,13 @@
 package pl.edu.agh.kis.Controller;
 
 import pl.edu.agh.kis.Client;
-import pl.edu.agh.kis.View.LoginFrame;
+import pl.edu.agh.kis.Model.PlayerClientSide;
 import pl.edu.agh.kis.View.MainFrame;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.Socket;
 
 /**
  * Created by Karl on 14.01.2017.
@@ -15,39 +17,59 @@ public class MainController implements ActionListener {
     Client client;
     String username;
     int portNumber;
+    Socket socket;
+    PlayerClientSide player;
+    private Container container;
+
+    public MainController() {
+    }
 
     public static void main(String[] args) {
         MainController main = new MainController();
         MainFrame mainFrame = new MainFrame(main);
+        main.setMainFrame(mainFrame);
         mainFrame.setDefault();
+    }
+
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         //LoginCreation loginCreation = new LoginCreation();
+        LoginController loginController = new LoginController(mainFrame);
+        //if(mainFrame.getMainPanel() == null) System.out.println("PRZYPA");
+        container = mainFrame.getContentPane();
+        container.removeAll();
+        //mainFrame.revalidate();
 
-        Thread thread = new Thread(new LoginCreation());
-        thread.start();
-        while (!loginCreation.loginFrame.isInitialized()) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-        }
+        //mainFrame.repaint();
+        //mainFrame.revalidate();
+        loginController.getLoginPanel().set();
+        container.add(loginController.getLoginPanel());
+        //mainFrame.repaint();
+        //mainFrame.revalidate();
+        System.out.println("ASDAS");
+        mainFrame.validate();
+        mainFrame.repaint();
+        mainFrame.setVisible(true);
+        System.out.println("ASDAS");
 
-        portNumber = loginCreation.loginController.getLoginFrame().getPortNumber();
-        username = loginCreation.loginController.getLoginFrame().getUsername();
+        /*portNumber = loginController.getLoginPanel().getPortNumber();
+        username = loginController.getLoginPanel().getUsername();
         client = new Client(portNumber, "localhost");
+        socket = client.getPlayerSocket();
+        player = new PlayerClientSideWithGUI(socket,mainFrame);*/
     }
 
-    class LoginCreation implements Runnable {
+    /*class LoginCreation implements Runnable {
         public LoginFrame loginFrame;
         LoginController loginController;
 
         LoginCreation() {
             loginController = new LoginController();
-            loginFrame = new LoginFrame(loginController);
+            loginPanel = new LoginPanel(loginController);
         }
 
         @Override
@@ -57,5 +79,5 @@ public class MainController implements ActionListener {
             loginFrame = new LoginFrame(loginController);
             loginFrame.set();
         }
-    }
+    }*/
 }

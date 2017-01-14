@@ -26,8 +26,8 @@ public class GameSimpleRound extends GameAbstract {
 //testy czy mozna pisac klase anonimowe np serwera i tak testowac
 
     public void play() { //do czegokolwiek działą, są rundy,najsłabszy gracz po 3 rundach zostaje wyrzucony
-        playRound(); // szerszy scenariusz gr, moze nastepowac eliminacja graczy
-        while (!isOver()) {
+        //szerszy scenariusz gr, moze nastepowac eliminacja graczy
+        for (int i = 0; i < 4; i++) {
             playRound();
         }
     }

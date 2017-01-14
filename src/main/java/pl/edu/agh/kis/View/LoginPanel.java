@@ -11,14 +11,25 @@ public class LoginPanel extends JPanel {
     boolean initialized;
     JLabel userLabel;
     JLabel portLabel;
-    String username;
-    int portNumber;
+    JTextField userText;
+    JTextField portText;
     LoginController loginController;
 
-    public LoginFrame(LoginController loginController) {
-        super("Log in");
+    public LoginPanel(LoginController loginController) {
+        super();
         initialized = false;
         this.loginController = loginController;
+    }
+
+    public static void main(String[] args) {
+        JFrame jFrame = new JFrame();
+
+        //LoginPanel loginPanel = new LoginPanel();
+
+
+        //jFrame.add(loginPanel);
+        jFrame.pack();
+        jFrame.setVisible(true);
     }
 
     public JLabel getUserLabel() {
@@ -29,13 +40,21 @@ public class LoginPanel extends JPanel {
         return portLabel;
     }
 
-    private void placeButtons(JPanel panel) {
+    public JTextField getUserText() {
+        return userText;
+    }
+
+    public JTextField getPortText() {
+        return portText;
+    }
+
+    private void placeButtons() {
 
         /* We will discuss about layouts in the later sections
          * of this tutorial. For now we are setting the layout
          * to null
          */
-        panel.setLayout(null);
+        setLayout(null);
 
         // Creating JLabel
         this.userLabel = new JLabel("Username");
@@ -46,45 +65,46 @@ public class LoginPanel extends JPanel {
          * and height of the component.
          */
         userLabel.setBounds(10, 20, 80, 25);
-        panel.add(userLabel);
+        add(userLabel);
 
         /* Creating text field where user is supposed to
          * enter user name.
          */
-        JTextField userText = new JTextField(20);
+        userText = new JTextField(20);
         userText.setBounds(100, 20, 165, 25);
-        panel.add(userText);
+        add(userText);
 
         // Same process for password label and text field.
         JLabel portLabel = new JLabel("Port number");
         portLabel.setBounds(10, 50, 80, 25);
-        panel.add(portLabel);
+        add(portLabel);
 
         /*This is similar to text field but it hides the user
          * entered data and displays dots instead to protect
          * the password like we normally see on login screens.
          */
-        JTextField portText = new JTextField(20);
+        portText = new JTextField(20);
         portText.setBounds(100, 50, 165, 25);
-        panel.add(portText);
+        add(portText);
 
         // Creating login button
         JButton loginButton = new JButton("Submit");
         loginButton.addActionListener(loginController);
 
         loginButton.setBounds(10, 80, 80, 25);
-        panel.add(loginButton);
+        add(loginButton);
+
     }
 
     public void set() {
         setSize(350, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        JPanel panel = new JPanel();
-        add(panel);
+        //JPanel panel = new JPanel();
+        //add(panel);
 
-        placeButtons(panel);
+        placeButtons();
 
         setVisible(true);
     }
@@ -95,21 +115,5 @@ public class LoginPanel extends JPanel {
 
     public void setInitialized(boolean initialized) {
         this.initialized = initialized;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getPortNumber() {
-        return portNumber;
-    }
-
-    public void setPortNumber(int portNumber) {
-        this.portNumber = portNumber;
     }
 }

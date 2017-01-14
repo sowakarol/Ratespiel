@@ -1,36 +1,50 @@
 package pl.edu.agh.kis.Controller;
 
+import pl.edu.agh.kis.Client;
 import pl.edu.agh.kis.Model.LoginModel;
-import pl.edu.agh.kis.View.LoginFrame;
+import pl.edu.agh.kis.Model.PlayerClientSide;
+import pl.edu.agh.kis.PlayerClientSideWithGUI;
+import pl.edu.agh.kis.View.LoginPanel;
+import pl.edu.agh.kis.View.MainFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.Socket;
 
 /**
  * Created by Karl on 14.01.2017.
  */
 public class LoginController implements ActionListener {
+    MainFrame mainFrame;
     LoginModel loginModel;
-    LoginFrame loginFrame;
+    LoginPanel loginPanel;
+
+    boolean initialized;
+    Client client;
     String username;
     int portNumber;
-    boolean initialized;
+    Socket socket;
+    PlayerClientSide player;
 
-    LoginController() {
-        loginFrame = new LoginFrame(this);
+    LoginController(MainFrame mainFrame) {
+        loginPanel = new LoginPanel(this);
         loginModel = new LoginModel();
+        this.mainFrame = mainFrame;
     }
 
-    public LoginController(LoginModel loginModel, LoginFrame loginFrame) {
+    public LoginController(LoginModel loginModel, LoginPanel loginPanel) {
 
         this.loginModel = loginModel;
-        this.loginFrame = loginFrame;
+        this.loginPanel = loginPanel;
     }
 
-    public static void main(String[] args) {
-        LoginController loginController = new LoginController();
-        LoginFrame loginFrame = new LoginFrame(loginController);
-        loginFrame.set();
+    public boolean init() {
+        if (this.loginPanel != null) {
+            loginPanel.set();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public LoginModel getLoginModel() {
@@ -41,19 +55,24 @@ public class LoginController implements ActionListener {
         this.loginModel = loginModel;
     }
 
-    public LoginFrame getLoginFrame() {
-        return loginFrame;
+    public LoginPanel getLoginPanel() {
+        return loginPanel;
     }
 
-    public void setLoginFrame(LoginFrame loginFrame) {
-        this.loginFrame = loginFrame;
-    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        username = loginFrame.getUserLabel().getText();
-        String tmp = loginFrame.getPortLabel().getText();
+        username = loginPanel.getUserText().getText();
+        System.out.println(username);
+        String tmp = loginPanel.getPortText().getText();
         portNumber = Integer.parseInt(tmp);
         initialized = true;
+
+        client = new Client(portNumber, "localhost");
+        socket = client.getPlayerSocket();
+        player = new PlayerClientSideWithGUI(socket, mainFrame);
+        player.playRound();
     }
+
 }

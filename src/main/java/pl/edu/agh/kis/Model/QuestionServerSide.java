@@ -9,7 +9,7 @@ import java.io.IOException;
  * Created by Karl on 06.01.2017.
  */
 public class QuestionServerSide extends Question {
-    private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
+    private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
     private int questionNumber;
     private String toTranslate;
     //TODO
