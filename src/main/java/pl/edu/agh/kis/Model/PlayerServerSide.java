@@ -10,7 +10,7 @@ public class PlayerServerSide extends PlayerAbstract implements PlayerServerSide
     private int id;
 
 
-    PlayerServerSide(Socket player, int id) {
+    public PlayerServerSide(Socket player, int id) {
         super(player);
         this.id = id;
 

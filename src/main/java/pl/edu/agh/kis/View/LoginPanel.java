@@ -5,9 +5,9 @@ import pl.edu.agh.kis.Controller.LoginController;
 import javax.swing.*;
 
 /**
- * Created by Karl on 11.01.2017.
+ * Created by Karl on 14.01.2017.
  */
-public class LoginFrame extends JFrame {
+public class LoginPanel extends JPanel {
     boolean initialized;
     JLabel userLabel;
     JLabel portLabel;
@@ -112,5 +112,4 @@ public class LoginFrame extends JFrame {
     public void setPortNumber(int portNumber) {
         this.portNumber = portNumber;
     }
-
 }

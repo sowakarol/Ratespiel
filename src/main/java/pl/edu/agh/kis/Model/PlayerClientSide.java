@@ -9,7 +9,7 @@ import java.util.Vector;
  * Created by Karl on 07.01.2017.
  */
 public class PlayerClientSide extends PlayerAbstract implements PlayerClientSideInterface {
-    PlayerClientSide(Socket player) {
+    public PlayerClientSide(Socket player) {
         super(player);
     }
 
@@ -86,7 +86,7 @@ public class PlayerClientSide extends PlayerAbstract implements PlayerClientSide
         String playerChoice = "";
 
         playerChoice = sc.nextLine();
-        if (playerChoice.equals("1")) {
+        if (playerChoice.equals("Questions/1")) {
             quit(true);
             closeConnection();
             return true;

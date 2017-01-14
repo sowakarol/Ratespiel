@@ -1,4 +1,6 @@
-package pl.edu.agh.kis.Model;
+package pl.edu.agh.kis;
+
+import pl.edu.agh.kis.Model.PlayerClientSide;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -11,7 +13,7 @@ public class Client {
     private String hostname;
     private Socket playerSocket;
 
-    Client(int portNumber, String hostname) {
+    public Client(int portNumber, String hostname) {
         this.portNumber = portNumber;
         this.hostname = hostname;
         try {

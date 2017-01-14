@@ -1,5 +1,7 @@
 package pl.edu.agh.kis.Model;
 
+import pl.edu.agh.kis.RandomNumberWithRange;
+
 import java.util.Collections;
 import java.util.Vector;
 

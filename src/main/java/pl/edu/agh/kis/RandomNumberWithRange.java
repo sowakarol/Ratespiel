@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.Model;
+package pl.edu.agh.kis;
 
 import pl.edu.agh.kis.Exception.InvalidRangeException;
 
@@ -10,11 +10,11 @@ import java.util.Random;
 public class RandomNumberWithRange {
     Random random;
 
-    RandomNumberWithRange() {
+    public RandomNumberWithRange() {
         random = new Random();
     }
 
-    RandomNumberWithRange(int seed) {
+    public RandomNumberWithRange(int seed) {
         random = new Random(seed);
     }
 

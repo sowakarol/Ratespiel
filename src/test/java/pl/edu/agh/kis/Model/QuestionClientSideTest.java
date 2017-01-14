@@ -1,6 +1,7 @@
 package pl.edu.agh.kis.Model;
 
 import org.junit.jupiter.api.Test;
+import pl.edu.agh.kis.RandomNumberWithRange;
 
 import java.io.FileNotFoundException;
 import java.util.Collections;
@@ -18,7 +19,7 @@ public class QuestionClientSideTest {
         int seed = 2;
         QuestionServerSide tmp = new QuestionServerSide(testID);
 
-        QuestionClientSideTest.QuestionClientSideTestImplementation questionClientSideTestImplementation = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.answers, tmp.toTranslate, seed);
+        QuestionClientSideTest.QuestionClientSideTestImplementation questionClientSideTestImplementation = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.answers, tmp.getToTranslate(), seed);
 
         questionClientSideTestImplementation.randomizeAnswers();
         System.out.println(questionClientSideTestImplementation.answers);
@@ -36,7 +37,7 @@ public class QuestionClientSideTest {
         int seed = 2;
         try {
             QuestionServerSide tmp = new QuestionServerSide(ID);
-            testedQuestion = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.answers, tmp.toTranslate, seed);
+            testedQuestion = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.answers, tmp.getToTranslate(), seed);
             testedQuestion.randomizeAnswers();
 
 

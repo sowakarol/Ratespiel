@@ -22,7 +22,7 @@ public abstract class AnswerAbstract implements AnswerInterface {//jakiś mechan
         return reply;
     }
 
-    public boolean isTrue(QuestionServerSide question) {
+    /*public boolean isTrue(QuestionServerSide question) {
         return question.IsTrue(this.reply.getPlayerChoice());
-    }
+    }*/
 }

@@ -26,11 +26,11 @@ public class QuestionServerSideTest {
         QuestionServerSide testQuestion = null;
         testQuestion = new QuestionServerSide(testID);
 
-        assertEquals(testID, testQuestion.questionNumber);
+        assertEquals(testID, testQuestion.getQuestionNumber());
 
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(path + testID));
-            assertEquals(bufferedReader.readLine(), testQuestion.toTranslate);
+            assertEquals(bufferedReader.readLine(), testQuestion.getToTranslate());
 
             for (int i = 0; i < 4; i++) {
                 assertEquals(bufferedReader.readLine(), testQuestion.answers.get(i));
