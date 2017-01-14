@@ -13,4 +13,6 @@ public interface PlayerServerSideInterface {
     boolean quit();
 
     void closeConnection();
+
+    void addPoints(int numberOfPoints);
 }

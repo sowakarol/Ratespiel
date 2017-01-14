@@ -14,4 +14,6 @@ public interface PlayerClientSideInterface {
 
     void closeConnection();
 
+    void addPoints(int points);
+
 }

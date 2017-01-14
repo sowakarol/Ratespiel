@@ -30,6 +30,7 @@ public class GameSimpleRound extends GameAbstract {
         for (int i = 0; i < 4; i++) {
             playRound();
         }
+
     }
 
 
@@ -64,7 +65,7 @@ public class GameSimpleRound extends GameAbstract {
             System.out.println(answer);
         }
 
-        chooseWinner(answers, question);
+        chooseWinnerOfRound(answers, question);
     }
 
 }

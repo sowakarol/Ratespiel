@@ -133,18 +133,43 @@ public abstract class GameAbstract implements GameInterface {
         }
     }
 
-    protected int chooseWinner(Vector<Answer> answers, QuestionServerSide question) {
+    protected int chooseWinnerOfRound(Vector<Answer> answers, QuestionServerSide question) {
         Vector<Answer> correctAnswers = new Vector<>();
         AnswerChecker checker = new AnswerChecker();
         for (Answer answer : answers) {
             if (checker.isTrue(question, answer)) {
                 correctAnswers.add(answer);
                 System.out.println("PLAYER " + answer.getPlayerID() + " CORRECT ANSWER");
+                findPlayer(answer.getPlayerID()).addPoints(1); // for correct answer
+            }
+        }
+
+        long quickestTime = Long.MAX_VALUE;
+        int i = 0;
+        for (Answer answer : correctAnswers) {
+            if (answer.getReply().getReplyTime() < quickestTime) {
+                quickestTime = answer.getReply().getReplyTime();
+            }
+        }
+
+        for (Answer answer : correctAnswers) {
+            if (answer.getReply().getReplyTime() < quickestTime) {
+                findPlayer(answer.getPlayerID()).addPoints(1); // for being quickest
             }
         }
 
         return -1;
-//check DRAW
+    }
+
+
+    private PlayerServerSide findPlayer(int id) {
+        for (PlayerServerSide player : players
+                ) {
+            if (player.getId() == id) {
+                return player;
+            }
+        }
+        return null;
     }
 
     private Boolean getQuitDecision(PlayerServerSide player) {
