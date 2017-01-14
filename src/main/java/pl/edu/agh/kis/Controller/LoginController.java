@@ -2,7 +2,6 @@ package pl.edu.agh.kis.Controller;
 
 import pl.edu.agh.kis.Client;
 import pl.edu.agh.kis.Model.LoginModel;
-import pl.edu.agh.kis.Model.PlayerClientSide;
 import pl.edu.agh.kis.PlayerClientSideWithGUI;
 import pl.edu.agh.kis.View.LoginPanel;
 import pl.edu.agh.kis.View.MainFrame;
@@ -19,12 +18,12 @@ public class LoginController implements ActionListener {
     LoginModel loginModel;
     LoginPanel loginPanel;
 
-    boolean initialized;
+    volatile boolean initialized = false;
     Client client;
     String username;
     int portNumber;
     Socket socket;
-    PlayerClientSide player;
+    PlayerClientSideWithGUI player;
 
     LoginController(MainFrame mainFrame) {
         loginPanel = new LoginPanel(this);
@@ -60,6 +59,14 @@ public class LoginController implements ActionListener {
     }
 
 
+    public PlayerClientSideWithGUI getPlayer() {
+        return player;
+    }
+
+
+    public synchronized boolean isInitialized() {
+        return initialized;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -67,12 +74,14 @@ public class LoginController implements ActionListener {
         System.out.println(username);
         String tmp = loginPanel.getPortText().getText();
         portNumber = Integer.parseInt(tmp);
-        initialized = true;
+        System.out.println(portNumber);
 
         client = new Client(portNumber, "localhost");
         socket = client.getPlayerSocket();
         player = new PlayerClientSideWithGUI(socket, mainFrame);
-        player.playRound();
+        initialized = true;
+        System.out.println(": (");
+
     }
 
 }

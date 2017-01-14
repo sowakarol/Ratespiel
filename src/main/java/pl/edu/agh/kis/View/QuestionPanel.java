@@ -49,6 +49,7 @@ public class QuestionPanel extends JPanel {
     }
 
     public void prepareAndShow() {
+        System.out.println(":O");
         JPanel questionString = new JPanel(new BorderLayout());
         JTextPane textPane = new JTextPane();
 

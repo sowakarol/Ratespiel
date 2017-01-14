@@ -30,14 +30,19 @@ public class QuestionController implements ActionListener {
 
     }
 
+    public QuestionPanel getQuestionPanel() {
+        return questionPanel;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         chosenAnswer = e.getActionCommand();
         long time = System.nanoTime();
-        reply = new Reply(chosenAnswer, deliveredTime - time);
+        reply = new Reply(chosenAnswer, time - deliveredTime);
         player.sendReply(reply);
-        player.quit(true);
-        player.closeConnection();
+        player.setAnswering(false);
+        //player.quit(true);
+        //player.closeConnection();
         //WAIT
     }
 }

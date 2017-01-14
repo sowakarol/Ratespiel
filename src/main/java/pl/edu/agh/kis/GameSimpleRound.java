@@ -58,7 +58,7 @@ public class GameSimpleRound extends GameAbstract {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("W");
         for (Answer answer :
                 answers) {
             System.out.println(answer);

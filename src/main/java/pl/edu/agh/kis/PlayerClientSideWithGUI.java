@@ -16,6 +16,7 @@ import java.util.Vector;
  */
 public class PlayerClientSideWithGUI extends PlayerClientSide {
     MainFrame mainFrame;
+    volatile boolean isAnswering = false;
 
     public PlayerClientSideWithGUI(Socket player, MainFrame mainFrame) {
         super(player);
@@ -70,12 +71,13 @@ public class PlayerClientSideWithGUI extends PlayerClientSide {
     }
 
     @Override
-    public void play() {
+    public synchronized void play() {
+        //for (int i = 0; i < 4; i++) {
+        setAnswering(true);
         playRound();
-        while (!sendDecisionIsOver()) {
-            playRound();
-        }
 
+
+        //}
     }
 
 
@@ -106,15 +108,48 @@ public class PlayerClientSideWithGUI extends PlayerClientSide {
         }
     }
 
+    public boolean isAnswering() {
+
+        return isAnswering;
+    }
+
+    public void setAnswering(boolean answering) {
+        isAnswering = answering;
+    }
+
     public void playRound() {
         QuestionClientSide question = getQuestion();
         long time = System.nanoTime();
+        System.out.println(question);
         QuestionController questionController = new QuestionController(question, time, this, mainFrame);
+        System.out.println("before prepare");
+        //questionController.getQuestionPanel().prepareAndShow();
+        System.out.println("after");
 
-        //System.out.println(question);
+
+        /*Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isAnswering()) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+        });
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+
+        System.out.println(question);
 
         //sendReply(reply());
-        //System.out.println("Sended");
+        System.out.println("Sended");
         //sendDecisionIsOver();
     }
 

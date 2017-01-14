@@ -4,6 +4,7 @@ import pl.edu.agh.kis.Client;
 import pl.edu.agh.kis.Model.PlayerClientSide;
 import pl.edu.agh.kis.View.MainFrame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,26 +20,39 @@ public class MainController implements ActionListener {
     int portNumber;
     Socket socket;
     PlayerClientSide player;
+    boolean mainControllerClicked = false;
+    LoginController loginController;
     private Container container;
 
     public MainController() {
     }
 
     public static void main(String[] args) {
-        MainController main = new MainController();
-        MainFrame mainFrame = new MainFrame(main);
-        main.setMainFrame(mainFrame);
-        mainFrame.setDefault();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                MainController main = new MainController();
+                MainFrame mainFrame = new MainFrame(main);
+                main.setMainFrame(mainFrame);
+                mainFrame.setDefault();
+
+            }
+        });
+
     }
 
     public void setMainFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
+        loginController = new LoginController(mainFrame);
+    }
+
+    public LoginController getLoginController() {
+        return loginController;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         //LoginCreation loginCreation = new LoginCreation();
-        LoginController loginController = new LoginController(mainFrame);
         //if(mainFrame.getMainPanel() == null) System.out.println("PRZYPA");
         container = mainFrame.getContentPane();
         container.removeAll();
@@ -55,6 +69,9 @@ public class MainController implements ActionListener {
         mainFrame.repaint();
         mainFrame.setVisible(true);
         System.out.println("ASDAS");
+
+
+        mainControllerClicked = true;
 
         /*portNumber = loginController.getLoginPanel().getPortNumber();
         username = loginController.getLoginPanel().getUsername();
