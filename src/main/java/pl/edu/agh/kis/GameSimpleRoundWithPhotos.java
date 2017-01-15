@@ -1,14 +1,12 @@
 package pl.edu.agh.kis;
 
 import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
-import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.Model.Photo.QuestionServerSideWithPhoto;
 import pl.edu.agh.kis.Model.PlayerServerSide;
 import pl.edu.agh.kis.Model.QuestionServerSideAbstract;
 
 import java.io.File;
-import java.util.Vector;
 
 /**
  * Created by Karl on 15.01.2017.
@@ -41,6 +39,18 @@ public class GameSimpleRoundWithPhotos extends GameSimpleRoundAbstract {
         player.sendQuestion(questionToSend);
     }
 
+    protected QuestionServerSideAbstract createQuestion() {
+        int randomNumberOfFile = new RandomNumberWithRange().randomInteger(1, numberOfQuestions());
+
+
+        if (randomNumberOfFile < 1) try {
+            throw new EmptyQuestionFolderException("Not found any files in: " + path);
+        } catch (EmptyQuestionFolderException emptyQuestionFolder) {
+            emptyQuestionFolder.printStackTrace();
+        }
+
+        return new QuestionServerSideWithPhoto(randomNumberOfFile);
+    }
 
     protected int numberOfQuestions() {
         try {
@@ -53,14 +63,8 @@ public class GameSimpleRoundWithPhotos extends GameSimpleRoundAbstract {
     }
 
 
-    @Override
-    public void play() {
-        for (int i = 0; i < 4; i++) {
-            playRound();
-        }
-    }
 
-    public void playRound() {
+    /*public void playRound() {
         QuestionServerSideWithPhoto question = createQuestionWithPhoto();
 
         sendQuestionToPlayers(question, players);
@@ -92,5 +96,5 @@ public class GameSimpleRoundWithPhotos extends GameSimpleRoundAbstract {
         }
 
         chooseWinnerOfRound(answers, question);
-    }
+    }*/
 }

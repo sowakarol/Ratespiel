@@ -14,7 +14,7 @@ public interface PlayerServerSideInterface {
 
     Reply getReply();
 
-    boolean quit();
+    boolean sendResult(byte b);
 
     void closeConnection();
 

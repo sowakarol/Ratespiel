@@ -43,7 +43,7 @@ public abstract class GameAbstract implements GameInterface {
         return player.answer();
     }
 
-    protected QuestionServerSide createQuestion() {
+    protected QuestionServerSideAbstract createQuestion() {
         int randomNumberOfFile = new RandomNumberWithRange().randomInteger(1, numberOfQuestions());
 
 
@@ -65,7 +65,7 @@ public abstract class GameAbstract implements GameInterface {
         return answers;
     }
 
-    protected void sendQuestionToPlayers(QuestionServerSideAbstract questionServerSide, Vector<PlayerServerSide> players) {
+    protected synchronized void sendQuestionToPlayers(QuestionServerSideAbstract questionServerSide, Vector<PlayerServerSide> players) {
         Vector<Thread> threads = new Vector<>();
         int i = 0;
         for (PlayerServerSide player : players) {
@@ -119,6 +119,36 @@ public abstract class GameAbstract implements GameInterface {
         return -1;
     }
 
+    public void chooseWinner() {
+        int maxPoints = 0;
+        for (PlayerServerSide player : players) {
+            if (maxPoints < player.getPoints()) {
+                maxPoints = player.getPoints();
+            }
+        }
+
+        for (PlayerServerSide player : players) {
+            if (maxPoints == player.getPoints()) {
+                byte b = 1;
+                sendInformationAboutResult(b, player);
+            } else {
+                byte b = 0;
+                sendInformationAboutResult(b, player);
+            }
+        }
+    }
+
+
+    //TODO
+    //b==-1 DRAW with other player
+
+    /**
+     * @param b      if b==1 player win, b==0 player lose
+     * @param player player who is informed by server about result
+     */
+    private void sendInformationAboutResult(byte b, PlayerServerSide player) {
+        player.sendResult(b);
+    }
 
     private PlayerServerSide findPlayer(int id) {
         for (PlayerServerSide player : players
@@ -160,8 +190,7 @@ public abstract class GameAbstract implements GameInterface {
             i++;
         }
 
-        for (Thread thread : threads
-                ) {
+        for (Thread thread : threads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {

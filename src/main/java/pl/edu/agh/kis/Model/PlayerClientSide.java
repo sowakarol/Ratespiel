@@ -70,6 +70,33 @@ public class PlayerClientSide extends PlayerAbstract implements PlayerClientSide
     }
 
 
+    protected void youWinInformation(String points) {
+        System.out.println("You win with " + points + " points");
+    }
+
+    protected void youFailedInformation(String points) {
+        System.out.println("You failed with " + points + " points");
+    }
+
+    @Override
+    public boolean getResult() {
+        try {
+            String b = bufferedReader.readLine();
+            String points = bufferedReader.readLine();
+            if (b.equals("1")) {
+                youWinInformation(points);
+            } else {
+                youFailedInformation(points);
+            }
+            return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     private Reply reply() {
         Scanner sc = new Scanner(System.in);
         System.out.println("REPLY::");

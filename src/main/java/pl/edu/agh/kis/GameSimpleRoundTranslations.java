@@ -1,7 +1,5 @@
 package pl.edu.agh.kis;
 
-import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
-import pl.edu.agh.kis.Model.Photo.QuestionServerSideWithPhoto;
 import pl.edu.agh.kis.Model.PlayerServerSide;
 import pl.edu.agh.kis.Model.QuestionClientSide;
 import pl.edu.agh.kis.Model.QuestionServerSide;
@@ -36,24 +34,6 @@ public class GameSimpleRoundTranslations extends GameSimpleRoundAbstract {
     // mozliwosci odpowiadac - zastanowic nad deadlockami - wątek sterowany timerem
 //testy czy mozna pisac klase anonimowe np serwera i tak testowac
 
-    public void play() { //do czegokolwiek działą, są rundy,najsłabszy gracz po 3 rundach zostaje wyrzucony
-        //szerszy scenariusz gr, moze nastepowac eliminacja graczy
-        for (int i = 0; i < 20; i++) {
-            playRound();
-        }
-
-    }
-
-    protected QuestionServerSideWithPhoto createQuestionWithPhoto() {
-        int randomNumberOfFile = new RandomNumberWithRange().randomInteger(1, numberOfQuestions());
 
 
-        if (randomNumberOfFile < 1) try {
-            throw new EmptyQuestionFolderException("Not found any files in: " + path);
-        } catch (EmptyQuestionFolderException emptyQuestionFolder) {
-            emptyQuestionFolder.printStackTrace();
-        }
-
-        return new QuestionServerSideWithPhoto(randomNumberOfFile);
-    }
 }

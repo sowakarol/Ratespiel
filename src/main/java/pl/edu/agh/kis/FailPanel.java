@@ -14,6 +14,8 @@ public class FailPanel extends JPanel {
     public FailPanel() {
         try {
             add(new JLabel(new ImageIcon(ImageIO.read(new File(path + "fail.jpg")))));
+            setVisible(true);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

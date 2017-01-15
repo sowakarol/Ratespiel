@@ -15,11 +15,14 @@ public class PlayerServerSide extends PlayerAbstract implements PlayerServerSide
     protected int points = 0;
     private int id;
 
-
     public PlayerServerSide(Socket player, int id) {
         super(player);
         this.id = id;
 
+    }
+
+    public int getPoints() {
+        return points;
     }
 
     public int getId() {
@@ -76,6 +79,19 @@ public class PlayerServerSide extends PlayerAbstract implements PlayerServerSide
     }
 
     @Override
+    public boolean sendResult(byte b) {
+        if (b == 1) {
+            printWriter.println(b);
+            printWriter.println(getPoints());
+        } else {
+            printWriter.println(b);
+            printWriter.println(getPoints());
+        }
+
+
+        return false;
+    }
+
     public boolean quit() {
         int b = 1;
         try {

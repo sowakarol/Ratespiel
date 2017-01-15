@@ -47,4 +47,14 @@ public abstract class GameSimpleRoundAbstract extends GameAbstract {
 
         chooseWinnerOfRound(answers, question);
     }
+
+
+    public void play() { //do czegokolwiek działą, są rundy,najsłabszy gracz po 3 rundach zostaje wyrzucony
+        //szerszy scenariusz gr, moze nastepowac eliminacja graczy
+        for (int i = 0; i < 4; i++) {
+            playRound();
+        }
+        chooseWinner();
+
+    }
 }

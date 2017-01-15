@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
  * Created by Karl on 15.01.2017.
  */
 public class QuestionControllerAbstract implements ActionListener {
+    boolean clicked = false;
     private PlayerClientSideWithGUIAbstract player;
     private long deliveredTime;
     // private QuestionPanel questionPanel;
@@ -31,13 +32,16 @@ public class QuestionControllerAbstract implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String chosenAnswer = e.getActionCommand();
-        long time = System.nanoTime();
-        Reply reply = new Reply(chosenAnswer, time - deliveredTime);
-        player.sendReply(reply);
-        player.setAnswering(false);
-        //player.quit(true);
-        //player.closeConnection();
-        //WAIT
+        if (!clicked) {
+            String chosenAnswer = e.getActionCommand();
+            long time = System.nanoTime();
+            Reply reply = new Reply(chosenAnswer, time - deliveredTime);
+            player.sendReply(reply);
+            player.setAnswering(false);
+            //player.quit(true);
+            //player.closeConnection();
+            //WAIT
+            clicked = true;
+        }
     }
 }

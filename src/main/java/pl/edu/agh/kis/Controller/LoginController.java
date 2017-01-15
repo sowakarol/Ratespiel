@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.Controller;
 
-import pl.edu.agh.kis.Client;
 import pl.edu.agh.kis.Model.LoginModel;
 import pl.edu.agh.kis.PlayerClientSideWithGUI;
 import pl.edu.agh.kis.PlayerClientSideWithGUIAbstract;
@@ -10,16 +9,17 @@ import pl.edu.agh.kis.View.MainFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.Socket;
 
 /**
  * Created by Karl on 14.01.2017.
  */
 public class LoginController implements ActionListener {
+    boolean clicked = false;
     private MainFrame mainFrame;
     private LoginModel loginModel;
     private LoginPanel loginPanel;
-
     private volatile boolean initialized = false;
     private Client client;
     private String username;
@@ -72,25 +72,32 @@ public class LoginController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        username = loginPanel.getUserText().getText();
-        System.out.println(username);
-        String tmp = loginPanel.getPortText().getText();
-        portNumber = Integer.parseInt(tmp);
-        System.out.println(portNumber);
+        if (!clicked) {
+            username = loginPanel.getUserText().getText();
+            System.out.println(username);
+            String tmp = loginPanel.getPortText().getText();
+            portNumber = Integer.parseInt(tmp);
+            System.out.println(portNumber);
+            try {
+                socket = new Socket("localhost", portNumber);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            //client = new Client(portNumber, "localhost");
+            //socket = client.getPlayerSocket();
+            //player = new PlayerClientSideWithGUI(socket, mainFrame);
+            if (loginPanel.getCitiesButton().isSelected()) {
+                player = new PlayerClientSideWithGUIPhoto(socket, mainFrame);
 
-        client = new Client(portNumber, "localhost");
-        socket = client.getPlayerSocket();
-        //player = new PlayerClientSideWithGUI(socket, mainFrame);
-        if (loginPanel.getCitiesButton().isSelected()) {
-            player = new PlayerClientSideWithGUIPhoto(socket, mainFrame);
+            } else {
+                player = new PlayerClientSideWithGUI(socket, mainFrame);
+            }
 
-        } else {
-            player = new PlayerClientSideWithGUI(socket, mainFrame);
+
+            initialized = true;
+            System.out.println(": (");
+            clicked = true;
         }
-
-
-        initialized = true;
-        System.out.println(": (");
 
     }
 
