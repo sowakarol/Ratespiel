@@ -12,7 +12,6 @@ public abstract class PlayerAbstract {
     protected BufferedReader bufferedReader;
     protected OutputStream outputStream;
     protected InputStream inputStream;
-    protected int points = 0;
 
 
     PlayerAbstract(Socket player) {
@@ -27,9 +26,6 @@ public abstract class PlayerAbstract {
         }
     }
 
-    public void addPoints(int numberOfPoints) {
-        points += numberOfPoints;
-    }
 
     public void closeConnection() {
         printWriter.close();

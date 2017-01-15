@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
  * Created by Karl on 07.01.2017.
  */
 public class PlayerServerSide extends PlayerAbstract implements PlayerServerSideInterface {
+    protected int points = 0;
     private int id;
 
 
@@ -89,6 +90,11 @@ public class PlayerServerSide extends PlayerAbstract implements PlayerServerSide
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void addPoints(int numberOfPoints) {
+        points += numberOfPoints;
     }
 
 

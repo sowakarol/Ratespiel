@@ -56,42 +56,6 @@ public abstract class GameAbstract implements GameInterface {
         return new QuestionServerSide(randomNumberOfFile);
     }
 
-/*    public void playRound() {
-        QuestionServerSide question = createQuestion();
-
-        sendQuestionToPlayers(question, players);
-        Vector<Answer> answers = new Vector<>();
-        Vector<Thread> threads = new Vector<>();
-        int i = 0;
-        for (PlayerServerSide player : players) {
-            threads.add(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    answers.add(getAnswer(player));
-                }
-            }));
-            threads.get(i).start();
-            i++;
-        }
-
-        for (Thread thread : threads
-                ) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        for (Answer answer :
-                answers) {
-            System.out.println(answer);
-        }
-
-        chooseWinner(answers, question);
-
-    }*/
-
 
     private synchronized Vector<Answer> getAnswers(Vector<PlayerServerSide> players) {
         Vector<Answer> answers = new Vector<>();

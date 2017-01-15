@@ -14,6 +14,9 @@ public interface PlayerClientSideInterface {
 
     void closeConnection();
 
-    void addPoints(int points);
+    /**
+     * @return true if a player won the game, or false
+     */
+    boolean checkResultOfGame();
 
 }
