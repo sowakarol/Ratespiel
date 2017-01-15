@@ -38,7 +38,7 @@ public class GameSimpleRoundTranslations extends GameSimpleRoundAbstract {
 
     public void play() { //do czegokolwiek działą, są rundy,najsłabszy gracz po 3 rundach zostaje wyrzucony
         //szerszy scenariusz gr, moze nastepowac eliminacja graczy
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 20; i++) {
             playRound();
         }
 

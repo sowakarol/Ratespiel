@@ -16,12 +16,11 @@ public class QuestionPanelAbstract extends JPanel {
     protected Container container;
 
 
-    public QuestionPanelAbstract(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionController questionController, Container container) {
+    public QuestionPanelAbstract(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionController questionController) {
         super();
         this.question = question;
         this.mainFrame = mainFrame;
         this.questionController = questionController;
-        this.container = container;
     }
 
     protected void addAnswersAndPrepare() {

@@ -8,7 +8,6 @@ import pl.edu.agh.kis.View.MainFrame;
 import pl.edu.agh.kis.View.QuestionPanelAbstract;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Vector;
 
 /**
@@ -17,8 +16,8 @@ import java.util.Vector;
 public class QuestionPanelWithPhoto extends QuestionPanelAbstract {
 
 
-    public QuestionPanelWithPhoto(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionController questionController, Container container) {
-        super(question, mainFrame, questionController, container);
+    public QuestionPanelWithPhoto(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionController questionController) {
+        super(question, mainFrame, questionController);
         prepareAndShow();
     }
 

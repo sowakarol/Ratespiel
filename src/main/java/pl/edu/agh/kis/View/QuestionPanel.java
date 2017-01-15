@@ -14,8 +14,8 @@ import java.util.Vector;
 public class QuestionPanel extends QuestionPanelAbstract {
 
 
-    public QuestionPanel(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionController questionController, Container container) {
-        super(question, mainFrame, questionController, container);
+    public QuestionPanel(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionController questionController) {
+        super(question, mainFrame, questionController);
         prepareAndShow();
 
     }
