@@ -1,9 +1,7 @@
 package pl.edu.agh.kis;
 
 import pl.edu.agh.kis.Controller.QuestionController;
-import pl.edu.agh.kis.Model.PlayerClientSide;
 import pl.edu.agh.kis.Model.QuestionClientSide;
-import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.View.MainFrame;
 
 import java.net.Socket;
@@ -11,46 +9,13 @@ import java.net.Socket;
 /**
  * Created by Karl on 14.01.2017.
  */
-public class PlayerClientSideWithGUI extends PlayerClientSide {
-    MainFrame mainFrame;
-    volatile boolean isAnswering = false;
+public class PlayerClientSideWithGUI extends PlayerClientSideWithGUIAbstract {
 
     public PlayerClientSideWithGUI(Socket player, MainFrame mainFrame) {
-        super(player);
-        this.mainFrame = mainFrame;
+        super(player, mainFrame);
     }
 
 
-
-    //CZY MĄDRZE Z ARGUMENTEM
-    @Override
-    public boolean sendReply(Reply reply) { //MAYBE SEND BACK THAT EVERYTHING OK FROM SERVER??
-        printWriter.println(reply.getPlayerChoice());
-        printWriter.println(reply.getReplyTime());
-        return true;
-    }
-
-
-    @Override
-    public synchronized void play() {
-        //for (int i = 0; i < 4; i++) {
-        setAnswering(true);
-        playRound();
-
-
-        //}
-    }
-
-
-
-    public boolean isAnswering() {
-
-        return isAnswering;
-    }
-
-    public void setAnswering(boolean answering) {
-        isAnswering = answering;
-    }
 
     public void playRound() {
         QuestionClientSide question = getQuestion();

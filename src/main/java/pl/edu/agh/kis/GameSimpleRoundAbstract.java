@@ -2,7 +2,7 @@ package pl.edu.agh.kis;
 
 import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.PlayerServerSide;
-import pl.edu.agh.kis.Model.QuestionServerSide;
+import pl.edu.agh.kis.Model.QuestionServerSideAbstract;
 
 import java.util.Vector;
 
@@ -15,7 +15,7 @@ public abstract class GameSimpleRoundAbstract extends GameAbstract {
     }
 
     public void playRound() {
-        QuestionServerSide question = createQuestion();
+        QuestionServerSideAbstract question = createQuestion();
 
         sendQuestionToPlayers(question, players);
         Vector<Answer> answers = new Vector<>();

@@ -8,7 +8,7 @@ import pl.edu.agh.kis.View.MainFrame;
  */
 public class PlayerStart {
     MainController main;
-    PlayerClientSideWithGUI player;
+    PlayerClientSideWithGUIAbstract player;
 
     public static void main(String[] args) {
         PlayerStart playerStart = new PlayerStart();

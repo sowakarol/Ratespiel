@@ -3,6 +3,8 @@ package pl.edu.agh.kis.Controller;
 import pl.edu.agh.kis.Client;
 import pl.edu.agh.kis.Model.LoginModel;
 import pl.edu.agh.kis.PlayerClientSideWithGUI;
+import pl.edu.agh.kis.PlayerClientSideWithGUIAbstract;
+import pl.edu.agh.kis.PlayerClientSideWithGUIPhoto;
 import pl.edu.agh.kis.View.LoginPanel;
 import pl.edu.agh.kis.View.MainFrame;
 
@@ -23,7 +25,7 @@ public class LoginController implements ActionListener {
     private String username;
     private int portNumber;
     private Socket socket;
-    private PlayerClientSideWithGUI player;
+    private PlayerClientSideWithGUIAbstract player;
 
     LoginController(MainFrame mainFrame) {
         loginPanel = new LoginPanel(this);
@@ -59,7 +61,7 @@ public class LoginController implements ActionListener {
     }
 
 
-    public PlayerClientSideWithGUI getPlayer() {
+    public PlayerClientSideWithGUIAbstract getPlayer() {
         return player;
     }
 
@@ -78,7 +80,15 @@ public class LoginController implements ActionListener {
 
         client = new Client(portNumber, "localhost");
         socket = client.getPlayerSocket();
-        player = new PlayerClientSideWithGUI(socket, mainFrame);
+        //player = new PlayerClientSideWithGUI(socket, mainFrame);
+        if (loginPanel.getCitiesButton().isSelected()) {
+            player = new PlayerClientSideWithGUIPhoto(socket, mainFrame);
+
+        } else {
+            player = new PlayerClientSideWithGUI(socket, mainFrame);
+        }
+
+
         initialized = true;
         System.out.println(": (");
 

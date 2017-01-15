@@ -1,12 +1,14 @@
 package pl.edu.agh.kis;
 
 import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
+import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.Model.Photo.QuestionServerSideWithPhoto;
 import pl.edu.agh.kis.Model.PlayerServerSide;
 import pl.edu.agh.kis.Model.QuestionServerSideAbstract;
 
 import java.io.File;
+import java.util.Vector;
 
 /**
  * Created by Karl on 15.01.2017.
@@ -56,5 +58,39 @@ public class GameSimpleRoundWithPhotos extends GameSimpleRoundAbstract {
         for (int i = 0; i < 4; i++) {
             playRound();
         }
+    }
+
+    public void playRound() {
+        QuestionServerSideWithPhoto question = createQuestionWithPhoto();
+
+        sendQuestionToPlayers(question, players);
+        Vector<Answer> answers = new Vector<>();
+        Vector<Thread> threads = new Vector<>();
+        int i = 0;
+        for (PlayerServerSide player : players) {
+            threads.add(new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    answers.add(getAnswer(player));
+                }
+            }));
+            threads.get(i).start();
+            i++;
+        }
+        for (Thread thread : threads
+                ) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("W");
+        for (Answer answer :
+                answers) {
+            System.out.println(answer);
+        }
+
+        chooseWinnerOfRound(answers, question);
     }
 }

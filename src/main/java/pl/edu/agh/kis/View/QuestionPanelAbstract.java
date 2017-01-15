@@ -1,6 +1,6 @@
 package pl.edu.agh.kis.View;
 
-import pl.edu.agh.kis.Controller.QuestionController;
+import pl.edu.agh.kis.Controller.QuestionControllerAbstract;
 import pl.edu.agh.kis.Model.QuestionClientSideAbstract;
 
 import javax.swing.*;
@@ -12,11 +12,11 @@ import java.awt.*;
 public class QuestionPanelAbstract extends JPanel {
     protected QuestionClientSideAbstract question;
     protected MainFrame mainFrame;
-    protected QuestionController questionController;
+    protected QuestionControllerAbstract questionController;
     protected Container container;
 
 
-    public QuestionPanelAbstract(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionController questionController) {
+    public QuestionPanelAbstract(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionControllerAbstract questionController) {
         super();
         this.question = question;
         this.mainFrame = mainFrame;

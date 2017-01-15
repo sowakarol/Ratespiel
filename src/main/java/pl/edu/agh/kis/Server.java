@@ -47,7 +47,7 @@ public class Server implements Runnable {
                 PlayerServerSide player = new PlayerServerSide(playerSocket, ++playersNumber);
                 addToPlayersList(player);
                 if (players.size() == 2) {
-                    GameSimpleRoundTranslations game = new GameSimpleRoundTranslations(5, players.get(0), players.get(1));
+                    GameSimpleRoundWithPhotos game = new GameSimpleRoundWithPhotos(5, players.get(0), players.get(1));
                     game.play();
                     serverSocket.close();
                 }

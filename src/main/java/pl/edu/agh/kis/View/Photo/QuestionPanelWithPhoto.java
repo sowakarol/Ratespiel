@@ -1,6 +1,6 @@
 package pl.edu.agh.kis.View.Photo;
 
-import pl.edu.agh.kis.Controller.QuestionController;
+import pl.edu.agh.kis.Controller.Photo.QuestionControllerWithPhoto;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.Model.QuestionClientSide;
 import pl.edu.agh.kis.Model.QuestionClientSideAbstract;
@@ -16,7 +16,7 @@ import java.util.Vector;
 public class QuestionPanelWithPhoto extends QuestionPanelAbstract {
 
 
-    public QuestionPanelWithPhoto(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionController questionController) {
+    public QuestionPanelWithPhoto(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionControllerWithPhoto questionController) {
         super(question, mainFrame, questionController);
         prepareAndShow();
     }

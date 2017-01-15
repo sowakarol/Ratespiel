@@ -8,12 +8,14 @@ import javax.swing.*;
  * Created by Karl on 14.01.2017.
  */
 public class LoginPanel extends JPanel {
-    boolean initialized;
-    JLabel userLabel;
-    JLabel portLabel;
-    JTextField userText;
-    JTextField portText;
-    LoginController loginController;
+    JRadioButton citiesButton;
+    private boolean initialized;
+    private JLabel userLabel;
+    private JLabel portLabel;
+    private JTextField userText;
+    private JTextField portText;
+    private LoginController loginController;
+    private JRadioButton wordsButton;
 
     public LoginPanel(LoginController loginController) {
         super();
@@ -30,6 +32,14 @@ public class LoginPanel extends JPanel {
         //jFrame.add(loginPanel);
         jFrame.pack();
         jFrame.setVisible(true);
+    }
+
+    public JRadioButton getWordsButton() {
+        return wordsButton;
+    }
+
+    public JRadioButton getCitiesButton() {
+        return citiesButton;
     }
 
     public JLabel getUserLabel() {
@@ -79,6 +89,23 @@ public class LoginPanel extends JPanel {
         portLabel.setBounds(10, 50, 80, 25);
         add(portLabel);
 
+
+        wordsButton = new JRadioButton("Words");
+        wordsButton.setSelected(true);
+
+        citiesButton = new JRadioButton("Cities");
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(wordsButton);
+        group.add(citiesButton);
+        wordsButton.setBounds(10, 70, 80, 25);
+        citiesButton.setBounds(10, 90, 80, 25);
+
+
+        add(wordsButton);
+        add(citiesButton);
+
+
         /*This is similar to text field but it hides the user
          * entered data and displays dots instead to protect
          * the password like we normally see on login screens.
@@ -91,7 +118,7 @@ public class LoginPanel extends JPanel {
         JButton loginButton = new JButton("Submit");
         loginButton.addActionListener(loginController);
 
-        loginButton.setBounds(10, 80, 80, 25);
+        loginButton.setBounds(10, 120, 80, 25);
         add(loginButton);
 
     }
