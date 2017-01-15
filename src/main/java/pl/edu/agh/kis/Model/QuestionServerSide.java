@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by Karl on 06.01.2017.
  */
-public class QuestionServerSide extends Question {
+public class QuestionServerSide extends QuestionServerSideAbstract {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
     private int questionNumber;
     private String toTranslate;
@@ -16,7 +16,7 @@ public class QuestionServerSide extends Question {
     //add something in one exception
 
     public QuestionServerSide(int id) {
-        questionNumber = id;
+        super(id);
         File questionFile = new File(path + id);
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(questionFile));

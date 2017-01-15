@@ -14,15 +14,14 @@ import java.net.Socket;
  * Created by Karl on 14.01.2017.
  */
 public class MainController implements ActionListener {
-    MainFrame mainFrame;
     Client client;
     String username;
     int portNumber;
     Socket socket;
     PlayerClientSide player;
-    boolean mainControllerClicked = false;
-    LoginController loginController;
-    private Container container;
+    private MainFrame mainFrame;
+    private boolean mainControllerClicked = false;
+    private LoginController loginController;
 
     public MainController() {
     }
@@ -54,7 +53,7 @@ public class MainController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //LoginCreation loginCreation = new LoginCreation();
         //if(mainFrame.getMainPanel() == null) System.out.println("PRZYPA");
-        container = mainFrame.getContentPane();
+        Container container = mainFrame.getContentPane();
         container.removeAll();
         //mainFrame.revalidate();
 

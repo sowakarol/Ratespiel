@@ -3,8 +3,8 @@ package pl.edu.agh.kis;
 import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
 import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.PlayerServerSide;
-import pl.edu.agh.kis.Model.QuestionClientSide;
 import pl.edu.agh.kis.Model.QuestionServerSide;
+import pl.edu.agh.kis.Model.QuestionServerSideAbstract;
 
 import java.io.File;
 import java.util.Vector;
@@ -15,7 +15,7 @@ import java.util.Vector;
 public abstract class GameAbstract implements GameInterface {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
     protected Vector<PlayerServerSide> players = new Vector<PlayerServerSide>();
-    int numberOfPlayers;
+    protected int numberOfPlayers;
     /**
      * variable representing time in which player has to answer for question in seconds
      */
@@ -36,16 +36,8 @@ public abstract class GameAbstract implements GameInterface {
     public void removeTheWorstPlayer() {
     }
 
-    private int findQuickestAnswer(Vector<Answer> answers) {
-        return -1;
-    }
-
     //METODA RUN() Z SENDQUESTIONS + GETANSWERS
-    protected void sendQuestionToPlayer(QuestionServerSide questionServerSide, PlayerServerSide player) {
-        QuestionClientSide questionToSend = new QuestionClientSide(questionServerSide.getAnswers(), questionServerSide.getToTranslate());
-        questionToSend.randomizeAnswers();
-        player.sendQuestion(questionToSend);
-    }
+    protected abstract void sendQuestionToPlayer(QuestionServerSideAbstract questionServerSide, PlayerServerSide player);
 
     protected Answer getAnswer(PlayerServerSide player) {
         return player.answer();
@@ -100,6 +92,7 @@ public abstract class GameAbstract implements GameInterface {
 
     }*/
 
+
     private synchronized Vector<Answer> getAnswers(Vector<PlayerServerSide> players) {
         Vector<Answer> answers = new Vector<>();
         for (PlayerServerSide player : players) {
@@ -108,7 +101,7 @@ public abstract class GameAbstract implements GameInterface {
         return answers;
     }
 
-    protected void sendQuestionToPlayers(QuestionServerSide questionServerSide, Vector<PlayerServerSide> players) {
+    protected void sendQuestionToPlayers(QuestionServerSideAbstract questionServerSide, Vector<PlayerServerSide> players) {
         Vector<Thread> threads = new Vector<>();
         int i = 0;
         for (PlayerServerSide player : players) {
@@ -133,7 +126,7 @@ public abstract class GameAbstract implements GameInterface {
         }
     }
 
-    protected int chooseWinnerOfRound(Vector<Answer> answers, QuestionServerSide question) {
+    protected int chooseWinnerOfRound(Vector<Answer> answers, QuestionServerSideAbstract question) {
         Vector<Answer> correctAnswers = new Vector<>();
         AnswerChecker checker = new AnswerChecker();
         for (Answer answer : answers) {
@@ -145,7 +138,8 @@ public abstract class GameAbstract implements GameInterface {
         }
 
         long quickestTime = Long.MAX_VALUE;
-        int i = 0;
+
+
         for (Answer answer : correctAnswers) {
             if (answer.getReply().getReplyTime() < quickestTime) {
                 quickestTime = answer.getReply().getReplyTime();

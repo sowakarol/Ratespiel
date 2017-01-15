@@ -14,16 +14,16 @@ import java.net.Socket;
  * Created by Karl on 14.01.2017.
  */
 public class LoginController implements ActionListener {
-    MainFrame mainFrame;
-    LoginModel loginModel;
-    LoginPanel loginPanel;
+    private MainFrame mainFrame;
+    private LoginModel loginModel;
+    private LoginPanel loginPanel;
 
-    volatile boolean initialized = false;
-    Client client;
-    String username;
-    int portNumber;
-    Socket socket;
-    PlayerClientSideWithGUI player;
+    private volatile boolean initialized = false;
+    private Client client;
+    private String username;
+    private int portNumber;
+    private Socket socket;
+    private PlayerClientSideWithGUI player;
 
     LoginController(MainFrame mainFrame) {
         loginPanel = new LoginPanel(this);
