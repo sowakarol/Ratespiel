@@ -1,4 +1,4 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.utils;
 
 import pl.edu.agh.kis.Exception.InvalidRangeException;
 

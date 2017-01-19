@@ -1,7 +1,9 @@
 package pl.edu.agh.kis.Model;
 
 import org.junit.jupiter.api.Test;
-import pl.edu.agh.kis.RandomNumberWithRange;
+import pl.edu.agh.kis.Model.question.QuestionClientSide;
+import pl.edu.agh.kis.Model.question.QuestionServerSide;
+import pl.edu.agh.kis.utils.RandomNumberWithRange;
 
 import java.io.FileNotFoundException;
 import java.util.Collections;
@@ -19,10 +21,10 @@ public class QuestionClientSideTest {
         int seed = 2;
         QuestionServerSide tmp = new QuestionServerSide(testID);
 
-        QuestionClientSideTest.QuestionClientSideTestImplementation questionClientSideTestImplementation = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.answers, tmp.getToTranslate(), seed);
+        QuestionClientSideTest.QuestionClientSideTestImplementation questionClientSideTestImplementation = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.getAnswers(), tmp.getToTranslate(), seed);
 
         questionClientSideTestImplementation.randomizeAnswers();
-        System.out.println(questionClientSideTestImplementation.answers);
+        System.out.println(questionClientSideTestImplementation.getAnswers());
         System.out.println(questionClientSideTestImplementation.answersBeforRandomize);
 
     }
@@ -37,21 +39,21 @@ public class QuestionClientSideTest {
         int seed = 2;
         try {
             QuestionServerSide tmp = new QuestionServerSide(ID);
-            testedQuestion = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.answers, tmp.getToTranslate(), seed);
+            testedQuestion = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.getAnswers(), tmp.getToTranslate(), seed);
             testedQuestion.randomizeAnswers();
 
 
             for (int i = 0; i < 4; i++) {
                 if (i == 0) {
-                    assertEquals(testedQuestion.answersBeforRandomize.get(i), testedQuestion.answers.get(i + 2));
+                    assertEquals(testedQuestion.answersBeforRandomize.get(i), testedQuestion.getAnswers().get(i + 2));
 
                 } else if (i == 1) {
-                    assertEquals(testedQuestion.answersBeforRandomize.get(i), testedQuestion.answers.get(i - 1));
+                    assertEquals(testedQuestion.answersBeforRandomize.get(i), testedQuestion.getAnswers().get(i - 1));
 
                 } else if (i == 2) {
-                    assertEquals(testedQuestion.answersBeforRandomize.get(i), testedQuestion.answers.get(i - 1));
+                    assertEquals(testedQuestion.answersBeforRandomize.get(i), testedQuestion.getAnswers().get(i - 1));
                 } else {
-                    assertEquals(testedQuestion.answersBeforRandomize.get(i), testedQuestion.answers.get(i));
+                    assertEquals(testedQuestion.answersBeforRandomize.get(i), testedQuestion.getAnswers().get(i));
                 }
             }
         } catch (FileNotFoundException e) {

@@ -1,11 +1,11 @@
 package pl.edu.agh.kis.Controller;
 
 import pl.edu.agh.kis.Model.LoginModel;
-import pl.edu.agh.kis.PlayerClientSideWithGUI;
-import pl.edu.agh.kis.PlayerClientSideWithGUIAbstract;
-import pl.edu.agh.kis.PlayerClientSideWithGUIPhoto;
 import pl.edu.agh.kis.View.LoginPanel;
 import pl.edu.agh.kis.View.MainFrame;
+import pl.edu.agh.kis.player.PlayerClientSideWithGUI;
+import pl.edu.agh.kis.player.PlayerClientSideWithGUIAbstract;
+import pl.edu.agh.kis.player.PlayerClientSideWithGUIPhoto;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +21,6 @@ public class LoginController implements ActionListener {
     private LoginModel loginModel;
     private LoginPanel loginPanel;
     private volatile boolean initialized = false;
-    private Client client;
     private String username;
     private int portNumber;
     private Socket socket;
@@ -39,14 +38,6 @@ public class LoginController implements ActionListener {
         this.loginPanel = loginPanel;
     }
 
-    public boolean init() {
-        if (this.loginPanel != null) {
-            loginPanel.set();
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public LoginModel getLoginModel() {
         return loginModel;

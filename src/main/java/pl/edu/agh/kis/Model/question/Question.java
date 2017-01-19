@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.Model;
+package pl.edu.agh.kis.Model.question;
 
 import java.util.Vector;
 

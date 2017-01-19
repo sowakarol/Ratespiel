@@ -1,6 +1,6 @@
 package pl.edu.agh.kis.Controller;
 
-import pl.edu.agh.kis.PlayerClientSideWithGUI;
+import pl.edu.agh.kis.player.PlayerClientSideWithGUI;
 
 import java.net.Socket;
 

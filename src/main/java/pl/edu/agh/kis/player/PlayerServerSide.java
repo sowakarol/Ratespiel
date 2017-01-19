@@ -1,6 +1,9 @@
-package pl.edu.agh.kis.Model;
+package pl.edu.agh.kis.player;
 
+import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
+import pl.edu.agh.kis.Model.Reply;
+import pl.edu.agh.kis.Model.question.QuestionClientSide;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayOutputStream;
@@ -37,6 +40,25 @@ public class PlayerServerSide extends PlayerAbstract implements PlayerServerSide
         }
         return true;
     }
+
+    /*@Override
+    public boolean sendQuestion(QuestionClientSideWithPhoto question) {
+        InputStream input= null;
+        try {
+            input = new FileInputStream(question.getImageFile());
+            byte[] buffer = new byte[1024];
+            int readData;
+            while((readData=input.read(buffer))!=-1){
+                this.outputStream.write(buffer,0,readData);
+            }
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Źle wysłano zdjęcie!!");
+        return false;
+    }*/
 
     @Override
     public boolean sendQuestion(QuestionClientSideWithPhoto question) {

@@ -1,9 +1,9 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.game;
 
-import pl.edu.agh.kis.Model.PlayerServerSide;
-import pl.edu.agh.kis.Model.QuestionClientSide;
-import pl.edu.agh.kis.Model.QuestionServerSide;
-import pl.edu.agh.kis.Model.QuestionServerSideAbstract;
+import pl.edu.agh.kis.Model.question.QuestionClientSide;
+import pl.edu.agh.kis.Model.question.QuestionServerSide;
+import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
+import pl.edu.agh.kis.player.PlayerServerSide;
 
 /**
  * Created by Karl on 15.01.2017.

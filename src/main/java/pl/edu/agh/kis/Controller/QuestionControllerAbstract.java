@@ -1,8 +1,8 @@
 package pl.edu.agh.kis.Controller;
 
 import pl.edu.agh.kis.Model.Reply;
-import pl.edu.agh.kis.PlayerClientSideWithGUIAbstract;
 import pl.edu.agh.kis.View.MainFrame;
+import pl.edu.agh.kis.player.PlayerClientSideWithGUIAbstract;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

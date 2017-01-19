@@ -1,8 +1,8 @@
 package pl.edu.agh.kis.View;
 
 import pl.edu.agh.kis.Controller.QuestionController;
-import pl.edu.agh.kis.Model.QuestionClientSide;
-import pl.edu.agh.kis.Model.QuestionClientSideAbstract;
+import pl.edu.agh.kis.Model.question.QuestionClientSide;
+import pl.edu.agh.kis.Model.question.QuestionClientSideAbstract;
 
 import javax.swing.*;
 import java.awt.*;

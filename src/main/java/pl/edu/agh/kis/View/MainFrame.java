@@ -33,7 +33,7 @@ public class MainFrame extends JFrame {
     public void setDefault() { //menu
         //try {
         //setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File(path + "background.jpg")))));
-        setIconImage(new ImageIcon(path + "icon.jpg").getImage());
+        //setIconImage(new ImageIcon(path + "icon.jpg").getImage());
 
         // } catch (IOException e) {
         //     e.printStackTrace();

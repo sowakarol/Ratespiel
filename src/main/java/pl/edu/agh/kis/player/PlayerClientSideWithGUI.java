@@ -1,7 +1,7 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.player;
 
 import pl.edu.agh.kis.Controller.QuestionController;
-import pl.edu.agh.kis.Model.QuestionClientSide;
+import pl.edu.agh.kis.Model.question.QuestionClientSide;
 import pl.edu.agh.kis.View.MainFrame;
 
 import java.net.Socket;

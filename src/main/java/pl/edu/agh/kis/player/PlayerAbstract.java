@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.Model;
+package pl.edu.agh.kis.player;
 
 import java.io.*;
 import java.net.Socket;

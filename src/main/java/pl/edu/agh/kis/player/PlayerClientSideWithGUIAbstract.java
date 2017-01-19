@@ -1,8 +1,8 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.player;
 
-import pl.edu.agh.kis.Model.PlayerClientSide;
 import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.View.MainFrame;
+import pl.edu.agh.kis.panels.FailPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,7 +14,7 @@ import java.net.Socket;
 /**
  * Created by Karl on 15.01.2017.
  */
-public class PlayerClientSideWithGUIAbstract extends PlayerClientSide {
+public abstract class PlayerClientSideWithGUIAbstract extends PlayerClientSide {
     MainFrame mainFrame;
     volatile boolean isAnswering = false;
     private Container container;

@@ -1,4 +1,4 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.panels;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

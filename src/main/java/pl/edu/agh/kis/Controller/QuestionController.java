@@ -1,9 +1,9 @@
 package pl.edu.agh.kis.Controller;
 
-import pl.edu.agh.kis.Model.QuestionClientSide;
-import pl.edu.agh.kis.PlayerClientSideWithGUI;
+import pl.edu.agh.kis.Model.question.QuestionClientSide;
 import pl.edu.agh.kis.View.MainFrame;
 import pl.edu.agh.kis.View.QuestionPanel;
+import pl.edu.agh.kis.player.PlayerClientSideWithGUI;
 
 
 /**

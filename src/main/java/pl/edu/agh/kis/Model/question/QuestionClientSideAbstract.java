@@ -1,6 +1,6 @@
-package pl.edu.agh.kis.Model;
+package pl.edu.agh.kis.Model.question;
 
-import pl.edu.agh.kis.RandomNumberWithRange;
+import pl.edu.agh.kis.utils.RandomNumberWithRange;
 
 import java.util.Collections;
 import java.util.Vector;

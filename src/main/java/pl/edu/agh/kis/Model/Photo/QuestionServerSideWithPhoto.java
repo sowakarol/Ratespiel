@@ -1,6 +1,6 @@
 package pl.edu.agh.kis.Model.Photo;
 
-import pl.edu.agh.kis.Model.QuestionServerSideAbstract;
+import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -16,12 +16,14 @@ public class QuestionServerSideWithPhoto extends QuestionServerSideAbstract {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\QuestionsWithPhotos\\";
     private int questionNumber;
     private BufferedImage image;
+    private File fileImage;
 
 
     public QuestionServerSideWithPhoto(int id) {
         super(id);
         try {
-            image = ImageIO.read(new File(path + id + ".jpg"));
+            fileImage = new File(path + id + ".jpg");
+            image = ImageIO.read(fileImage);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,6 +38,10 @@ public class QuestionServerSideWithPhoto extends QuestionServerSideAbstract {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public File getFileImage() {
+        return fileImage;
     }
 
     public int getQuestionNumber() {

@@ -1,7 +1,7 @@
 package pl.edu.agh.kis.Controller;
 
-import pl.edu.agh.kis.Model.PlayerClientSide;
 import pl.edu.agh.kis.View.MainFrame;
+import pl.edu.agh.kis.player.PlayerClientSide;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +21,7 @@ public class MainController implements ActionListener {
     private boolean mainControllerClicked = false;
     private LoginController loginController;
 
+    //observer albo interferjs jeszcze między buttonem
     public MainController() {
     }
 
@@ -51,7 +52,6 @@ public class MainController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (!mainControllerClicked) {
             //LoginCreation loginCreation = new LoginCreation();
-            //if(mainFrame.getMainPanel() == null) System.out.println("PRZYPA");
             Container container = mainFrame.getContentPane();
             container.removeAll();
             //mainFrame.revalidate();
@@ -62,11 +62,9 @@ public class MainController implements ActionListener {
             container.add(loginController.getLoginPanel());
             //mainFrame.repaint();
             //mainFrame.revalidate();
-            System.out.println("ASDAS");
             mainFrame.validate();
             mainFrame.repaint();
             mainFrame.setVisible(true);
-            System.out.println("ASDAS");
 
 
             mainControllerClicked = true;

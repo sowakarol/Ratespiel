@@ -1,10 +1,12 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.game;
 
 import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
 import pl.edu.agh.kis.Model.Answer;
-import pl.edu.agh.kis.Model.PlayerServerSide;
-import pl.edu.agh.kis.Model.QuestionServerSide;
-import pl.edu.agh.kis.Model.QuestionServerSideAbstract;
+import pl.edu.agh.kis.Model.question.QuestionServerSide;
+import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
+import pl.edu.agh.kis.player.PlayerServerSide;
+import pl.edu.agh.kis.utils.AnswerChecker;
+import pl.edu.agh.kis.utils.RandomNumberWithRange;
 
 import java.io.File;
 import java.util.Vector;
@@ -24,8 +26,8 @@ public abstract class GameAbstract implements GameInterface {
     public GameAbstract(int waitingForPlayersAnswer, PlayerServerSide... players) {
         this.numberOfPlayers = players.length;
         this.waitingForPlayersAnswer = waitingForPlayersAnswer;
-        for (int i = 0; i < players.length; i++) {
-            this.players.add(players[i]);
+        for (PlayerServerSide player : players) {
+            this.players.add(player);
         }
     }
 
@@ -167,7 +169,11 @@ public abstract class GameAbstract implements GameInterface {
     protected int numberOfQuestions() {
         try {
             File[] listOfFiles = new File(path).listFiles();
-            return listOfFiles.length;
+            if (listOfFiles != null) {
+                return listOfFiles.length;
+            } else {
+                return 0;
+            }
         } catch (NullPointerException e) {
             e.printStackTrace();
             return 0;
@@ -199,7 +205,7 @@ public abstract class GameAbstract implements GameInterface {
         }
         boolean ret = false;
         for (Boolean decision : quitDecisionsFromPlayers) {
-            if (decision == true) ret = true;
+            if (decision) ret = true;
 
         }
         System.out.println("IM OUT");

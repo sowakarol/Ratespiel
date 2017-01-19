@@ -1,4 +1,7 @@
-package pl.edu.agh.kis.Model;
+package pl.edu.agh.kis.player;
+
+import pl.edu.agh.kis.Model.Reply;
+import pl.edu.agh.kis.Model.question.QuestionClientSide;
 
 import java.io.IOException;
 import java.net.Socket;

@@ -2,8 +2,8 @@ package pl.edu.agh.kis.View.Photo;
 
 import pl.edu.agh.kis.Controller.Photo.QuestionControllerWithPhoto;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
-import pl.edu.agh.kis.Model.QuestionClientSide;
-import pl.edu.agh.kis.Model.QuestionClientSideAbstract;
+import pl.edu.agh.kis.Model.question.QuestionClientSide;
+import pl.edu.agh.kis.Model.question.QuestionClientSideAbstract;
 import pl.edu.agh.kis.View.MainFrame;
 import pl.edu.agh.kis.View.QuestionPanelAbstract;
 

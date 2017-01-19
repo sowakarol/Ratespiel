@@ -2,9 +2,9 @@ package pl.edu.agh.kis.Controller.Photo;
 
 import pl.edu.agh.kis.Controller.QuestionControllerAbstract;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
-import pl.edu.agh.kis.PlayerClientSideWithGUIPhoto;
 import pl.edu.agh.kis.View.MainFrame;
 import pl.edu.agh.kis.View.Photo.QuestionPanelWithPhoto;
+import pl.edu.agh.kis.player.PlayerClientSideWithGUIPhoto;
 
 /**
  * Created by Karl on 15.01.2017.

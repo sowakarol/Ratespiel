@@ -1,4 +1,4 @@
-package pl.edu.agh.kis;
+package pl.edu.agh.kis.player;
 
 import pl.edu.agh.kis.Controller.Photo.QuestionControllerWithPhoto;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
@@ -41,6 +41,7 @@ public class PlayerClientSideWithGUIPhoto extends PlayerClientSideWithGUIAbstrac
         }
         return null;
     }
+
 
     public void playRound() {
         QuestionClientSideWithPhoto question = getQuestionWithPhoto();

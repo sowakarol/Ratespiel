@@ -3,6 +3,7 @@ package pl.edu.agh.kis.Model;
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
+import pl.edu.agh.kis.Model.question.QuestionServerSide;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -33,7 +34,7 @@ public class QuestionServerSideTest {
             assertEquals(bufferedReader.readLine(), testQuestion.getToTranslate());
 
             for (int i = 0; i < 4; i++) {
-                assertEquals(bufferedReader.readLine(), testQuestion.answers.get(i));
+                assertEquals(bufferedReader.readLine(), testQuestion.getAnswers().get(i));
             }
 
         } catch (FileNotFoundException e) {

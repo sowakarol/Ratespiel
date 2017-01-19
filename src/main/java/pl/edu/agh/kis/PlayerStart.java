@@ -2,6 +2,7 @@ package pl.edu.agh.kis;
 
 import pl.edu.agh.kis.Controller.MainController;
 import pl.edu.agh.kis.View.MainFrame;
+import pl.edu.agh.kis.player.PlayerClientSideWithGUIAbstract;
 
 /**
  * Created by Karl on 14.01.2017.
@@ -12,24 +13,22 @@ public class PlayerStart {
 
     public static void main(String[] args) {
         PlayerStart playerStart = new PlayerStart();
-        playerStart.start();
+        playerStart.startPlaying();
 
 
     }
 
-    private void start() {
+    private void startPlaying() {
         main = new MainController();
         MainFrame mainFrame = new MainFrame(main);
         main.setMainFrame(mainFrame);
         mainFrame.setDefault();
-        System.out.println("xdxd"
-        );
 
         while (!main.getLoginController().isInitialized()) {
             try {
                 Thread.sleep(500);
-                System.out.println("still hir");
             } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
@@ -41,7 +40,7 @@ public class PlayerStart {
 
         player.getResult();
 
-        //player.closeConnection();
+        player.closeConnection();
 
     }
 }

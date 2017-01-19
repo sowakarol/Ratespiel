@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.Model;
+package pl.edu.agh.kis.Model.question;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,7 +10,6 @@ import java.io.IOException;
  */
 public class QuestionServerSide extends QuestionServerSideAbstract {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
-    private int questionNumber;
     private String toTranslate;
     //TODO
     //add something in one exception

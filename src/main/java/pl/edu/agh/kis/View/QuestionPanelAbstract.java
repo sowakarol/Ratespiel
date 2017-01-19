@@ -1,7 +1,7 @@
 package pl.edu.agh.kis.View;
 
 import pl.edu.agh.kis.Controller.QuestionControllerAbstract;
-import pl.edu.agh.kis.Model.QuestionClientSideAbstract;
+import pl.edu.agh.kis.Model.question.QuestionClientSideAbstract;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * Created by Karl on 15.01.2017.
  */
-public class QuestionPanelAbstract extends JPanel {
+public abstract class QuestionPanelAbstract extends JPanel {
     protected QuestionClientSideAbstract question;
     protected MainFrame mainFrame;
     protected QuestionControllerAbstract questionController;

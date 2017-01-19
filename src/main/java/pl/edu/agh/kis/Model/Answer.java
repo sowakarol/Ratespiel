@@ -10,7 +10,7 @@ package pl.edu.agh.kis.Model;
 
 
 public class Answer extends AnswerAbstract {
-    Answer(Reply reply, int playerID) {
+    public Answer(Reply reply, int playerID) {
         super(reply, playerID);
     }
 }
