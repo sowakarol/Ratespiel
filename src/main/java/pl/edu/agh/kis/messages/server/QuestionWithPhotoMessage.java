@@ -4,10 +4,7 @@ import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.messages.MessageAbstract;
 
 import javax.imageio.ImageIO;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * Created by Karl on 22.01.2017.
@@ -26,6 +23,13 @@ public class QuestionWithPhotoMessage extends MessageAbstract {
     public void send() {
         try {
             out.write(message);
+            PrintWriter pw = new PrintWriter(out, true);
+            for (int i = 0; i < question.getAnswers().size(); i++) {
+                pw.println(question.getAnswers().get(i));
+            }
+
+
+
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
             baos = new ByteArrayOutputStream();
             ImageIO.write(question.getImage(), "jpg", baos);

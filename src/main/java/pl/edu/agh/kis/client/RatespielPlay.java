@@ -48,10 +48,10 @@ public class RatespielPlay {
         }
 
         for (int i = 0; i < 4; i++) {
-            player.playRound();
+            //player.playRound();
         }
 
-        player.getResult();
+        //player.getResult();
 
         player.closeConnection();
 

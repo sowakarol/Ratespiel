@@ -1,16 +1,23 @@
 package pl.edu.agh.kis.client;
 
 import pl.edu.agh.kis.Controller.MainController;
+import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
+import pl.edu.agh.kis.Model.question.QuestionClientSide;
 import pl.edu.agh.kis.messages.client.DisconnectPlayerMessage;
 import pl.edu.agh.kis.messages.client.HelloFromClientMessage;
 import pl.edu.agh.kis.messages.client.ReadyPlayerMessage;
 import pl.edu.agh.kis.ratespiel.PlayerAbstract;
 
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.Socket;
+import java.util.Vector;
 
 /**
  * Created by Karl on 22.01.2017.
+ *
+ *
  */
 public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     private MainController main;
@@ -74,6 +81,54 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         return true;
     }
 
+    public QuestionClientSide getQuestion() {
+        String toTranslate = "";
+        Vector<String> answers = new Vector<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            toTranslate = br.readLine();
+            for (int i = 0; i < 4; i++) {
+                answers.add(br.readLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        QuestionClientSide questionClientSide = new QuestionClientSide(answers, toTranslate);
+
+        return questionClientSide;
+    }
+
+    public QuestionClientSideWithPhoto getQuestionWithPhoto() {
+
+        Vector<String> answers = new Vector<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            for (int i = 0; i < 4; i++) {
+                answers.add(br.readLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        byte[] buffer;
+        ObjectInputStream input = null;
+        BufferedImage image = null;
+        try {
+            input = new ObjectInputStream(inputStream);
+            buffer = (byte[]) input.readObject();
+            image = ImageIO.read(new ByteArrayInputStream(buffer));
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return new QuestionClientSideWithPhoto(answers, image);
+
+    }
+
 
     public void play() {
         getHelloFromServer();
@@ -81,6 +136,15 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             try {
                 Thread.sleep(waitingTimeForNewGame * 1000);
                 sendMessage(new ReadyPlayerMessage(outputStream));
+                byte[] bytes = new byte[1];
+                if (bytes[0] == 3) {
+                    QuestionClientSide q = getQuestion();
+
+
+                } else if (bytes[0] == 4) {
+                    QuestionClientSideWithPhoto q = getQuestionWithPhoto();
+                }
+
 
 
             } catch (InterruptedException e) {
