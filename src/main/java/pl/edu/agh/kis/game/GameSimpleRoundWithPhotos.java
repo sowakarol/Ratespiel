@@ -4,7 +4,7 @@ import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.Model.Photo.QuestionServerSideWithPhoto;
 import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
-import pl.edu.agh.kis.player.PlayerServerSide;
+import pl.edu.agh.kis.server.PlayerServerSide;
 import pl.edu.agh.kis.utils.RandomNumberWithRange;
 
 import java.io.File;

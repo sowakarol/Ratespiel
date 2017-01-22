@@ -3,7 +3,7 @@ package pl.edu.agh.kis;
 import pl.edu.agh.kis.game.GameSimpleRoundAbstract;
 import pl.edu.agh.kis.game.GameSimpleRoundTranslations;
 import pl.edu.agh.kis.game.GameSimpleRoundWithPhotos;
-import pl.edu.agh.kis.player.PlayerServerSide;
+import pl.edu.agh.kis.server.PlayerServerSide;
 
 import java.io.IOException;
 import java.net.ServerSocket;

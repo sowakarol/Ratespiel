@@ -3,7 +3,7 @@ package pl.edu.agh.kis.Model;
 /**
  * Created by Karl on 07.01.2017.
  */
-public abstract class AnswerAbstract implements AnswerInterface {//jakiś mechanizm/klasa sprawdza czy odpowiedz jest poprawna
+public abstract class AnswerAbstract implements AnswerInterface {
     //checks time somehow??
     protected Reply reply;
     protected int playerID;

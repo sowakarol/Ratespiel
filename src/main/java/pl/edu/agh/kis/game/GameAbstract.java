@@ -4,7 +4,7 @@ import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
 import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.question.QuestionServerSide;
 import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
-import pl.edu.agh.kis.player.PlayerServerSide;
+import pl.edu.agh.kis.server.PlayerServerSide;
 import pl.edu.agh.kis.utils.AnswerChecker;
 import pl.edu.agh.kis.utils.RandomNumberWithRange;
 
@@ -47,7 +47,6 @@ public abstract class GameAbstract implements GameInterface {
 
     protected QuestionServerSideAbstract createQuestion() {
         int randomNumberOfFile = new RandomNumberWithRange().randomInteger(1, numberOfQuestions());
-
 
         if (randomNumberOfFile < 1) try {
             throw new EmptyQuestionFolderException("Not found any files in: " + path);

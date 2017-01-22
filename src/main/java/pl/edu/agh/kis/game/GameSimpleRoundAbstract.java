@@ -2,7 +2,7 @@ package pl.edu.agh.kis.game;
 
 import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
-import pl.edu.agh.kis.player.PlayerServerSide;
+import pl.edu.agh.kis.server.PlayerServerSide;
 
 import java.util.Vector;
 

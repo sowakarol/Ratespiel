@@ -1,4 +1,4 @@
-package pl.edu.agh.kis.player;
+package pl.edu.agh.kis.server;
 
 import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;

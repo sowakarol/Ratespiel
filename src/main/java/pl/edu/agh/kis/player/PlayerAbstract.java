@@ -14,7 +14,7 @@ public abstract class PlayerAbstract {
     protected InputStream inputStream;
 
 
-    PlayerAbstract(Socket player) {
+    public PlayerAbstract(Socket player) {
         this.player = player;
         try {
             outputStream = player.getOutputStream();
@@ -26,6 +26,25 @@ public abstract class PlayerAbstract {
         }
     }
 
+    public Socket getPlayer() {
+        return player;
+    }
+
+    public PrintWriter getPrintWriter() {
+        return printWriter;
+    }
+
+    public BufferedReader getBufferedReader() {
+        return bufferedReader;
+    }
+
+    public OutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
 
     public void closeConnection() {
         printWriter.close();
