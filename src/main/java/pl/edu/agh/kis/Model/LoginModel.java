@@ -6,9 +6,14 @@ package pl.edu.agh.kis.Model;
 public class LoginModel {
     String username;
     int portNumber;
+    String hostname;
 
     public LoginModel() {
 
+    }
+
+    public String getHostname() {
+        return hostname;
     }
 
     public String getUsername() {

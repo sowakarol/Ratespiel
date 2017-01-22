@@ -33,17 +33,12 @@ public class HelloServerMessage extends MessageAbstract {
     public void send() {
         try {
             out.write(message);
-
             out.write(numberOfPlayers);
-
             out.write(numberOfRounds);
-
             out.write(gameType);
-
             out.write(maximalRespondTime);
-
             out.write(waitingTimeForNewGame);
-
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

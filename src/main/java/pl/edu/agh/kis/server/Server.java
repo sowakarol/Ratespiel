@@ -32,6 +32,7 @@ public class Server {
         waitingTimeForNewGame = RatespielGetPropertyValues.getWaitingTimeForNewGame();
         roundsNumber = RatespielGetPropertyValues.getroundsNumber();
         maximalRespondTime = RatespielGetPropertyValues.getMaximalRespondTime();
+
         try {
             serverSocket = new ServerSocket(RatespielGetPropertyValues.getPortNumber());
         } catch (IOException e) {
@@ -40,14 +41,8 @@ public class Server {
     }
 
     public void startGame() {
-        int numberOfConnectedPlayers = 0;
-        int gameTypeRepresentation = -1;
-        if (gameType.equals("cities")) {
-            gameTypeRepresentation = 1;
-        } else if (gameType.equals("translation")) {
-            gameTypeRepresentation = 0;
-        }
-        //listenAndPrepareGame(numberOfConnectedPlayers);
+
+
     }
 
     /*private void listenAndPrepareGame(int numberOfConnectedPlayers) {
@@ -103,7 +98,10 @@ public class Server {
             b[0] = 1;
             in.read(b, 0, b.length);
             if (b[0] == 0) {
-                new HelloServerMessage(out, playersNumber, roundsNumber, gameTypeRepresentation, maximalRespondTime, waitingTimeForNewGame);
+                new HelloServerMessage(out, playersNumber, roundsNumber, gameTypeRepresentation,
+                        maximalRespondTime, waitingTimeForNewGame);
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();

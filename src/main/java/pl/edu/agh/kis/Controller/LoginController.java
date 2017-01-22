@@ -3,14 +3,9 @@ package pl.edu.agh.kis.Controller;
 import pl.edu.agh.kis.Model.LoginModel;
 import pl.edu.agh.kis.View.LoginPanel;
 import pl.edu.agh.kis.View.MainFrame;
-import pl.edu.agh.kis.player.PlayerClientSideWithGUI;
-import pl.edu.agh.kis.player.PlayerClientSideWithGUIAbstract;
-import pl.edu.agh.kis.player.PlayerClientSideWithGUIPhoto;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.Socket;
 
 /**
  * Created by Karl on 14.01.2017.
@@ -21,10 +16,11 @@ public class LoginController implements ActionListener {
     private LoginModel loginModel;
     private LoginPanel loginPanel;
     private volatile boolean initialized = false;
+    private String hostname;
     private String username;
     private int portNumber;
-    private Socket socket;
-    private PlayerClientSideWithGUIAbstract player;
+    //private Socket socket;
+    //private PlayerClientSideWithGUIAbstract player;
 
     LoginController(MainFrame mainFrame) {
         loginPanel = new LoginPanel(this);
@@ -52,13 +48,25 @@ public class LoginController implements ActionListener {
     }
 
 
-    public PlayerClientSideWithGUIAbstract getPlayer() {
-        return player;
-    }
+    //public PlayerClientSideWithGUIAbstract getPlayer() {
+    //  return player;
+    //}
 
 
     public synchronized boolean isInitialized() {
         return initialized;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public int getPortNumber() {
+        return portNumber;
     }
 
     @Override
@@ -69,8 +77,10 @@ public class LoginController implements ActionListener {
             String tmp = loginPanel.getPortText().getText();
             portNumber = Integer.parseInt(tmp);
             System.out.println(portNumber);
-            try {
-                socket = new Socket("localhost", portNumber);
+            hostname = loginPanel.getHostLabel().getText();
+
+            /*try {
+                socket = new Socket(hostname, portNumber);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -82,7 +92,7 @@ public class LoginController implements ActionListener {
 
             } else {
                 player = new PlayerClientSideWithGUI(socket, mainFrame);
-            }
+            }*/
 
 
             initialized = true;

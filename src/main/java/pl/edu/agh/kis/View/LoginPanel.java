@@ -12,10 +12,11 @@ public class LoginPanel extends JPanel {
     private boolean initialized;
     private JLabel userLabel;
     private JLabel portLabel;
+    private JLabel hostLabel;
     private JTextField userText;
     private JTextField portText;
     private LoginController loginController;
-    private JRadioButton wordsButton;
+    //private JRadioButton wordsButton;
 
     public LoginPanel(LoginController loginController) {
         super();
@@ -34,9 +35,13 @@ public class LoginPanel extends JPanel {
         jFrame.setVisible(true);
     }
 
-    public JRadioButton getWordsButton() {
-        return wordsButton;
+    public JLabel getHostLabel() {
+        return hostLabel;
     }
+
+    //public JRadioButton getWordsButton() {
+    //  return wordsButton;
+    //}
 
     public JRadioButton getCitiesButton() {
         return citiesButton;
@@ -77,6 +82,21 @@ public class LoginPanel extends JPanel {
         userLabel.setBounds(10, 20, 80, 25);
         add(userLabel);
 
+
+        hostLabel = new JLabel("Hostname");
+        /* This method specifies the location and size
+         * of component. setBounds(x, y, width, height)
+         * here (x,y) are cordinates from the top left
+         * corner and remaining two arguments are the width
+         * and height of the component.
+         */
+        hostLabel.setBounds(10, 75, 80, 25);
+        add(hostLabel);
+
+        JTextField hostText = new JTextField(20);
+        hostText.setBounds(100, 75, 165, 25);
+        add(hostText);
+
         /* Creating text field where user is supposed to
          * enter user name.
          */
@@ -85,12 +105,12 @@ public class LoginPanel extends JPanel {
         add(userText);
 
         // Same process for password label and text field.
-        JLabel portLabel = new JLabel("Port number");
+        portLabel = new JLabel("Port number");
         portLabel.setBounds(10, 50, 80, 25);
         add(portLabel);
 
 
-        wordsButton = new JRadioButton("Words");
+        /*wordsButton = new JRadioButton("Words");
         wordsButton.setSelected(true);
 
         citiesButton = new JRadioButton("Cities");
@@ -104,7 +124,7 @@ public class LoginPanel extends JPanel {
 
         add(wordsButton);
         add(citiesButton);
-
+        */
 
         /*This is similar to text field but it hides the user
          * entered data and displays dots instead to protect
