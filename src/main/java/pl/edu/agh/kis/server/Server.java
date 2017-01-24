@@ -75,12 +75,12 @@ public class Server {
                 players.add(player);
                 System.out.println("added");
                 if (players.size() == playersNumber) {
-                    for (ServerSidePlayer ignored : players
-                            ) {
-                        new StartGameMessage(ignored.getOutputStream()).send();
+                    for (ServerSidePlayer p : players) {
+                        new StartGameMessage(p.getOutputStream()).send();
                     }
 
-                    GameBasicVersion gameBasicVersion = new GameBasicVersion(players, waitingTimeForNewGame, RatespielGetPropertyValues.getPath(), roundsNumber);
+                    GameBasicVersion gameBasicVersion = new GameBasicVersion(players,
+                            waitingTimeForNewGame, RatespielGetPropertyValues.getPath(), roundsNumber);
                     gameBasicVersion.play();
                     break;
                 }

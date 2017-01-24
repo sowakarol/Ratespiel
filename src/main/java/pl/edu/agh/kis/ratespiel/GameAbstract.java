@@ -8,6 +8,7 @@ import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.Model.question.QuestionClientSide;
 import pl.edu.agh.kis.Model.question.QuestionServerSide;
 import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
+import pl.edu.agh.kis.messages.server.GetAnswerMessage;
 import pl.edu.agh.kis.messages.server.QuestionMessage;
 import pl.edu.agh.kis.messages.server.QuestionWithPhotoMessage;
 import pl.edu.agh.kis.server.PlayerServerSide;
@@ -115,9 +116,16 @@ public abstract class GameAbstract implements GameInterface {
             String ans = null;
             String timeString = null;
             while (!r.getTimePassed()) {
-                ans = br.readLine();
-                timeString = br.readLine();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            new GetAnswerMessage(player.getOutputStream()).send();
+            ans = br.readLine();
+            timeString = br.readLine();
+
             if (timeString == null || ans == null) {
                 answers.add(new Answer(null, player.getId()));
             } else {

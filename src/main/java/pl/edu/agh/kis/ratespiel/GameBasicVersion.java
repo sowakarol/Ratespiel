@@ -14,6 +14,8 @@ public class GameBasicVersion extends GameAbstract {
 
     @Override
     public void play() {
+
+
         for (int i = 0; i < roundNumbers; i++) {
             playRound();
         }

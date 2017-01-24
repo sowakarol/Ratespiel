@@ -43,7 +43,7 @@ public class RatespielPlay {
             System.out.println(i);
             System.out.println(s);
             Socket playerSocket = new Socket(s, main.getLoginController().getPortNumber());
-            player = new ClientSidePlayer(playerSocket);
+            player = new ClientSidePlayer(playerSocket, main);
             //player.getHelloFromServer();
 
 

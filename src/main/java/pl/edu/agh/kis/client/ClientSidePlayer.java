@@ -29,8 +29,9 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     private int roundsNumber;
     private int maximalRespondTime;
 
-    public ClientSidePlayer(Socket playerSocket) {
+    public ClientSidePlayer(Socket playerSocket, MainController main) {
         super(playerSocket);
+        this.main = main;
 
     }
 
@@ -97,6 +98,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             toTranslate = br.readLine();
             for (int i = 0; i < 4; i++) {
                 answers.add(br.readLine());
+                System.out.println(answers.get(i));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -156,16 +158,15 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
 
         }
-
-
     }
+
 
 
     public void playRound() {
         byte[] bytes = new byte[1];
         bytes[0] = -1;
         try {
-            inputStream.read(bytes);
+            bytes[0] = (byte) inputStream.read();
         } catch (IOException e) {
             e.printStackTrace();
         }
