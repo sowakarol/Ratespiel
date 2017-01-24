@@ -1,6 +1,6 @@
 package pl.edu.agh.kis.messages.client;
 
-import pl.edu.agh.kis.Model.Answer;
+import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.messages.MessageAbstract;
 
 import java.io.IOException;
@@ -12,11 +12,11 @@ import java.io.PrintWriter;
  */
 public class AnswerFromPlayerMessage extends MessageAbstract {
     PrintWriter printWriter;
-    Answer answer;
+    Reply reply;
 
-    public AnswerFromPlayerMessage(OutputStream out, Answer answer) {
+    public AnswerFromPlayerMessage(OutputStream out, Reply reply) {
         super(out);
-        this.answer = answer;
+        this.reply = reply;
         message = (byte) PlayerMessages.ANSWER.ordinal();
 
     }
@@ -27,8 +27,8 @@ public class AnswerFromPlayerMessage extends MessageAbstract {
             out.write(message);
             printWriter = new PrintWriter(out, true);
 
-            printWriter.println(answer.getReply().getPlayerChoice());
-            printWriter.println(answer.getReply().getReplyTime());
+            printWriter.println(reply.getPlayerChoice());
+            printWriter.println(reply.getReplyTime());
         } catch (IOException e) {
             e.printStackTrace();
         }

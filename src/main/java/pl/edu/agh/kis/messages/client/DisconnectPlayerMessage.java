@@ -18,6 +18,7 @@ public class DisconnectPlayerMessage extends MessageAbstract {
     public void send() {
         try {
             out.write(message);
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -77,7 +77,7 @@ public class LoginController implements ActionListener {
             String tmp = loginPanel.getPortText().getText();
             portNumber = Integer.parseInt(tmp);
             System.out.println(portNumber);
-            hostname = loginPanel.getHostLabel().getText();
+            hostname = loginPanel.getHostText().getText();
 
             /*try {
                 socket = new Socket(hostname, portNumber);

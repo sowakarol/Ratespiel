@@ -15,14 +15,15 @@ public class LoginPanel extends JPanel {
     private JLabel hostLabel;
     private JTextField userText;
     private JTextField portText;
+    private JTextField hostText;
     private LoginController loginController;
-    //private JRadioButton wordsButton;
 
     public LoginPanel(LoginController loginController) {
         super();
         initialized = false;
         this.loginController = loginController;
     }
+    //private JRadioButton wordsButton;
 
     public static void main(String[] args) {
         JFrame jFrame = new JFrame();
@@ -33,6 +34,10 @@ public class LoginPanel extends JPanel {
         //jFrame.add(loginPanel);
         jFrame.pack();
         jFrame.setVisible(true);
+    }
+
+    public JTextField getHostText() {
+        return hostText;
     }
 
     public JLabel getHostLabel() {
@@ -93,7 +98,7 @@ public class LoginPanel extends JPanel {
         hostLabel.setBounds(10, 75, 80, 25);
         add(hostLabel);
 
-        JTextField hostText = new JTextField(20);
+        hostText = new JTextField(20);
         hostText.setBounds(100, 75, 165, 25);
         add(hostText);
 

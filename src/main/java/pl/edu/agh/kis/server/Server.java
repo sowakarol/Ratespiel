@@ -2,13 +2,17 @@ package pl.edu.agh.kis.server;
 
 import pl.edu.agh.kis.LoggingToFile;
 import pl.edu.agh.kis.messages.server.HelloServerMessage;
+import pl.edu.agh.kis.messages.server.StartGameMessage;
+import pl.edu.agh.kis.ratespiel.GameBasicVersion;
 import pl.edu.agh.kis.utils.RatespielGetPropertyValues;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Created by Karl on 20.01.2017.
@@ -23,7 +27,7 @@ public class Server {
     private ServerSocket serverSocket;
     private int roundsNumber;
     private int maximalRespondTime;
-    //private ArrayList<ServerSidePlayerInterface> players;
+    private ArrayList<ServerSidePlayer> players;
 
     public Server() {
         gameType = RatespielGetPropertyValues.getGameType();
@@ -32,15 +36,60 @@ public class Server {
         waitingTimeForNewGame = RatespielGetPropertyValues.getWaitingTimeForNewGame();
         roundsNumber = RatespielGetPropertyValues.getroundsNumber();
         maximalRespondTime = RatespielGetPropertyValues.getMaximalRespondTime();
+        players = new ArrayList<>(playersNumber);
 
         try {
-            serverSocket = new ServerSocket(RatespielGetPropertyValues.getPortNumber());
+            serverSocket = new ServerSocket(RatespielGetPropertyValues.getPortNumber(), 0, InetAddress.getByName(hostname));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public static void main(String[] args) {
+        Server server = new Server();
+        server.startGame();
+    }
+
     public void startGame() {
+        int numberOfConnectedPlayers = 0;
+        try {
+            while (true) {
+                Socket playerSocket = serverSocket.accept();
+                System.out.println("asd");
+                // SERVERSIDEPLAYER!!   PlayerServerSide player = new PlayerServerSide(playerSocket, ++numberOfConnectedPlayers);
+                ServerSidePlayer player = new ServerSidePlayer(playerSocket, gameType, playersNumber, waitingTimeForNewGame, roundsNumber,
+                        maximalRespondTime, ++numberOfConnectedPlayers);
+                int gameTypeRepresentation;
+                switch (gameType) {
+                    case "translation":
+                        gameTypeRepresentation = 0;
+                        break;
+                    case "cities":
+                        gameTypeRepresentation = 1;
+                        break;
+                    default:
+                        gameTypeRepresentation = 0;
+                        break;
+                }
+                handleNewPlayer(playerSocket, gameTypeRepresentation);
+                players.add(player);
+                System.out.println("added");
+                if (players.size() == playersNumber) {
+                    for (ServerSidePlayer ignored : players
+                            ) {
+                        new StartGameMessage(ignored.getOutputStream()).send();
+                    }
+
+                    GameBasicVersion gameBasicVersion = new GameBasicVersion(players, waitingTimeForNewGame, RatespielGetPropertyValues.getPath(), roundsNumber);
+                    gameBasicVersion.play();
+                    break;
+                }
+
+            }
+            //serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -89,17 +138,16 @@ public class Server {
 
     }*/
 
-
     private void handleNewPlayer(Socket playerSocket, int gameTypeRepresentation) {
         try {
             OutputStream out = playerSocket.getOutputStream();
             InputStream in = playerSocket.getInputStream();
             byte b[] = new byte[1];
             b[0] = 1;
-            in.read(b, 0, b.length);
+            b[0] = (byte) in.read();
             if (b[0] == 0) {
                 new HelloServerMessage(out, playersNumber, roundsNumber, gameTypeRepresentation,
-                        maximalRespondTime, waitingTimeForNewGame);
+                        maximalRespondTime, waitingTimeForNewGame).send();
 
 
             }

@@ -15,18 +15,32 @@ public class ServerSidePlayer extends PlayerAbstract implements ServerSidePlayer
     private int waitingTimeForNewGame;
     private int roundsNumber;
     private int maximalRespondTime;
-
+    private int id;
+    private int points;
 
     public ServerSidePlayer(Socket playerSocket, String gameType, int playersNumber,
-                            int waitingTimeForNewGame, int roundsNumber, int maximalRespondTime) {
+                            int waitingTimeForNewGame, int roundsNumber, int maximalRespondTime, int id) {
         super(playerSocket);
         this.gameType = gameType;
         this.playersNumber = playersNumber;
         this.waitingTimeForNewGame = waitingTimeForNewGame;
         this.roundsNumber = roundsNumber;
         this.maximalRespondTime = maximalRespondTime;
+        this.id = id;
+        points = 0;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void addPoints(int i) {
+        points += i;
+    }
+
+    public int getPoints() {
+        return points;
+    }
 
     @Override
     public MessageAbstract getMessage() {

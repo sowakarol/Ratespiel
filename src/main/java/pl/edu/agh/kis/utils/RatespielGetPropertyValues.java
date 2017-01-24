@@ -53,6 +53,16 @@ public class RatespielGetPropertyValues {
         }
     }
 
+    public static String getPath() {
+        RatespielGetPropertyValues ratespielGetPropertyValues = new RatespielGetPropertyValues();
+        try {
+            return ratespielGetPropertyValues.getValue("path");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     public static Integer getWaitingTimeForNewGame() {
         RatespielGetPropertyValues ratespielGetPropertyValues = new RatespielGetPropertyValues();
         try {

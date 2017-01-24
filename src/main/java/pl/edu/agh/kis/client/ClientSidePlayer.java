@@ -1,6 +1,8 @@
 package pl.edu.agh.kis.client;
 
 import pl.edu.agh.kis.Controller.MainController;
+import pl.edu.agh.kis.Controller.Photo.QuestionControllerWithPhoto;
+import pl.edu.agh.kis.Controller.QuestionController;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.Model.question.QuestionClientSide;
 import pl.edu.agh.kis.messages.client.DisconnectPlayerMessage;
@@ -36,7 +38,10 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         sendMessage(new HelloFromClientMessage(outputStream));
         byte b[] = new byte[6];
         try {
-            inputStream.read(b);
+            for (int i = 0; i < b.length; i++) {
+                System.out.println(i);
+                b[i] = (byte) inputStream.read();
+            }
             if (b[0] == 0) {
                 playersNumber = b[1];
                 roundsNumber = b[2];
@@ -52,7 +57,10 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 }
                 maximalRespondTime = b[4];
                 waitingTimeForNewGame = b[5];
-
+                for (byte a : b
+                        ) {
+                    System.out.println(a);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,13 +72,13 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         byte b[] = new byte[1];
         b[0] = -1;
         try {
-            inputStream.read(b);
+            b[0] = (byte) inputStream.read();
             while (b[0] != 2) {
                 if (b[0] == 1) {
                     int requiredPlayers = b[1];
                     System.out.println(requiredPlayers + " more!! WAIT");
                 }
-                inputStream.read(b);
+                b[0] = (byte) inputStream.read();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,9 +102,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             e.printStackTrace();
         }
 
-        QuestionClientSide questionClientSide = new QuestionClientSide(answers, toTranslate);
-
-        return questionClientSide;
+        return new QuestionClientSide(answers, toTranslate);
     }
 
     public QuestionClientSideWithPhoto getQuestionWithPhoto() {
@@ -129,22 +135,19 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
     }
 
-
+    //TODO
+    //JUST DO IT!!
     public void play() {
         getHelloFromServer();
         if (waitForGame()) {
             try {
                 Thread.sleep(waitingTimeForNewGame * 1000);
                 sendMessage(new ReadyPlayerMessage(outputStream));
-                byte[] bytes = new byte[1];
-                if (bytes[0] == 3) {
-                    QuestionClientSide q = getQuestion();
 
 
-                } else if (bytes[0] == 4) {
-                    QuestionClientSideWithPhoto q = getQuestionWithPhoto();
+                for (int i = 0; i < roundsNumber; i++) {
+                    playRound();
                 }
-
 
 
             } catch (InterruptedException e) {
@@ -158,4 +161,26 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     }
 
 
+    public void playRound() {
+        byte[] bytes = new byte[1];
+        bytes[0] = -1;
+        try {
+            inputStream.read(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        long time = System.nanoTime();
+        //System.out.println(question);
+        //QuestionController questionController = new QuestionController(question, time, this, mainFrame);
+        if (bytes[0] == 3) {
+            QuestionClientSide q = getQuestion();
+            QuestionController questionController = new QuestionController(q, time, this, main.getMainFrame());
+
+
+        } else if (bytes[0] == 4) {
+            QuestionClientSideWithPhoto q = getQuestionWithPhoto();
+            QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, time, this, main.getMainFrame());
+
+        }
+    }
 }

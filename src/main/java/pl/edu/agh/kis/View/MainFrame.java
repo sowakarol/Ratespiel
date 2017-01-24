@@ -12,12 +12,15 @@ public class MainFrame extends JFrame {
     private static String title = "Ratespiele";
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\View\\";
     boolean changeDefaultToGame = false;
-    MainController mainController;
+    private MainController mainController;
     private JPanel mainPanel;
-
     public MainFrame(MainController mainController) {
         super(title);
         this.mainController = mainController;
+    }
+
+    public MainController getMainController() {
+        return mainController;
     }
 
     public JPanel getMainPanel() {

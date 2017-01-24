@@ -39,11 +39,6 @@ public class MainController implements ActionListener {
 
     }
 
-    public void setMainFrame(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-        loginController = new LoginController(mainFrame);
-    }
-
     public LoginController getLoginController() {
         return loginController;
     }
@@ -74,6 +69,15 @@ public class MainController implements ActionListener {
         client = new Client(portNumber, "localhost");
         socket = client.getPlayerSocket();
         player = new PlayerClientSideWithGUI(socket,mainFrame);*/
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        loginController = new LoginController(mainFrame);
     }
 
     /*class LoginCreation implements Runnable {

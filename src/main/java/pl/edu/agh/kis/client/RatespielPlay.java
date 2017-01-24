@@ -38,22 +38,26 @@ public class RatespielPlay {
 
 
         try {
-            Socket playerSocket = new Socket(main.getLoginController().getHostname(), main.getLoginController().getPortNumber());
+            String s = main.getLoginController().getHostname();
+            int i = main.getLoginController().getPortNumber();
+            System.out.println(i);
+            System.out.println(s);
+            Socket playerSocket = new Socket(s, main.getLoginController().getPortNumber());
             player = new ClientSidePlayer(playerSocket);
-            player.getHelloFromServer();
+            //player.getHelloFromServer();
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < 4; i++) {
-            //player.playRound();
-        }
+        player.play();
 
         //player.getResult();
 
         player.closeConnection();
 
     }
+
+
 }

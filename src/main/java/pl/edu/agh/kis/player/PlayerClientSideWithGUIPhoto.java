@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.player;
 
-import pl.edu.agh.kis.Controller.Photo.QuestionControllerWithPhoto;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.View.MainFrame;
 
@@ -47,7 +46,7 @@ public class PlayerClientSideWithGUIPhoto extends PlayerClientSideWithGUIAbstrac
         QuestionClientSideWithPhoto question = getQuestionWithPhoto();
         long time = System.nanoTime();
         System.out.println(question);
-        QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(question, time, this, mainFrame);
+        //QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(question, time, this, mainFrame);
         System.out.println("before prepare");
         //questionController.getQuestionPanel().prepareAndShow();
         System.out.println("after");

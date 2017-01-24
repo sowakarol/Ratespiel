@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.player;
 
-import pl.edu.agh.kis.Controller.QuestionController;
 import pl.edu.agh.kis.Model.question.QuestionClientSide;
 import pl.edu.agh.kis.View.MainFrame;
 
@@ -21,7 +20,7 @@ public class PlayerClientSideWithGUI extends PlayerClientSideWithGUIAbstract {
         QuestionClientSide question = getQuestion();
         long time = System.nanoTime();
         System.out.println(question);
-        QuestionController questionController = new QuestionController(question, time, this, mainFrame);
+        //QuestionController questionController = new QuestionController(question, time, this, mainFrame);
         System.out.println("before prepare");
         //questionController.getQuestionPanel().prepareAndShow();
         System.out.println("after");
