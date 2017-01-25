@@ -3,16 +3,15 @@ package pl.edu.agh.kis.panels;
 import javax.swing.*;
 
 /**
- * Created by Karl on 15.01.2017.
+ * Created by Karl on 25.01.2017.
  */
-public class FailPanel extends JPanel {
-    public FailPanel() {
+public class GetReadyPanel extends JPanel {
+    public GetReadyPanel(int a) {
         super();
         JTextPane textPane = new JTextPane();
         textPane.setContentType("text/html");
-        textPane.setText("You lost :(");
+        textPane.setText("Get Ready in next  " + a + " seconds the game will start!!");
         textPane.setEditable(false);
         add(textPane);
     }
-
 }

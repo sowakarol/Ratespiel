@@ -3,11 +3,10 @@ package pl.edu.agh.kis.Controller;
 import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.View.MainFrame;
 import pl.edu.agh.kis.client.ClientSidePlayer;
-import pl.edu.agh.kis.messages.client.AnswerFromPlayerMessage;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * Created by Karl on 15.01.2017.
@@ -21,6 +20,7 @@ public class QuestionControllerAbstract implements ActionListener {
     private String chosenAnswer;
     // private QuestionPanel questionPanel;
     private MainFrame mainFrame;
+    private Container container;
 
     public QuestionControllerAbstract(long deliveredTime, ClientSidePlayer player, MainFrame mainFrame) {
         this.player = player;
@@ -30,6 +30,7 @@ public class QuestionControllerAbstract implements ActionListener {
         //questionPanel = new QuestionPanel(question, mainFrame, this);
 
     }
+
 
     public long getDeliveredTime() {
         return deliveredTime;
@@ -69,7 +70,7 @@ public class QuestionControllerAbstract implements ActionListener {
     //public QuestionPanel getQuestionPanel() {
     //return questionPanel;
     //}
-    public void listenToTimeout() {
+    /*public void listenToTimeout() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -99,7 +100,7 @@ public class QuestionControllerAbstract implements ActionListener {
         });
         thread.start();
 
-    }
+    }*/
 
     @Override
     public void actionPerformed(ActionEvent e) {

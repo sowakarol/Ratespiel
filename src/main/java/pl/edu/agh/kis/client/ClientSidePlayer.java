@@ -11,9 +11,12 @@ import pl.edu.agh.kis.messages.client.AnswerFromPlayerMessage;
 import pl.edu.agh.kis.messages.client.DisconnectPlayerMessage;
 import pl.edu.agh.kis.messages.client.HelloFromClientMessage;
 import pl.edu.agh.kis.messages.client.ReadyPlayerMessage;
+import pl.edu.agh.kis.panels.GetReadyPanel;
+import pl.edu.agh.kis.panels.WaitForOtherPlayersPanel;
 import pl.edu.agh.kis.ratespiel.PlayerAbstract;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
@@ -32,10 +35,17 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     private int roundsNumber;
     private int maximalRespondTime;
     private boolean isAnswering = false;
+    private Container container;
 
     public ClientSidePlayer(Socket playerSocket, MainController main) {
         super(playerSocket);
         this.main = main;
+
+    }
+
+    private void clearMainFrame() {
+        container = main.getMainFrame().getContentPane();
+        container.removeAll();
 
     }
 
@@ -88,6 +98,13 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             while (b[0] != 2) {
                 if (b[0] == 1) {
                     int requiredPlayers = inputStream.read();
+                    clearMainFrame();
+
+                    main.getMainFrame().getContentPane().add(new WaitForOtherPlayersPanel(requiredPlayers));
+                    main.getMainFrame().pack();
+                    main.getMainFrame().validate();
+                    main.getMainFrame().repaint();
+                    main.getMainFrame().setVisible(true);
                     System.out.println(requiredPlayers + " more!! WAIT");
                 }
                 b[0] = (byte) inputStream.read();
@@ -97,6 +114,17 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             sendMessage(new DisconnectPlayerMessage(outputStream));
             return false;
         }
+
+        clearMainFrame();
+
+        main.getMainFrame().getContentPane().add(new GetReadyPanel(waitingTimeForNewGame));
+        main.getMainFrame().pack();
+        main.getMainFrame().validate();
+        main.getMainFrame().repaint();
+        main.getMainFrame().setVisible(true);
+        System.out.println(waitingTimeForNewGame + " more!! WAIT");
+
+
         System.out.println("BE READY " + waitingTimeForNewGame + " seconds for a game!");
         return true;
     }
