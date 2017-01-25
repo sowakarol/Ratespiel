@@ -1,7 +1,6 @@
 package pl.edu.agh.kis.Controller;
 
 import pl.edu.agh.kis.View.MainFrame;
-import pl.edu.agh.kis.player.PlayerClientSide;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +15,6 @@ public class MainController implements ActionListener {
     String username;
     int portNumber;
     Socket socket;
-    PlayerClientSide player;
     private MainFrame mainFrame;
     private boolean mainControllerClicked = false;
     private LoginController loginController;

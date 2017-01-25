@@ -11,7 +11,6 @@ import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
 import pl.edu.agh.kis.messages.server.GetAnswerMessage;
 import pl.edu.agh.kis.messages.server.QuestionMessage;
 import pl.edu.agh.kis.messages.server.QuestionWithPhotoMessage;
-import pl.edu.agh.kis.server.PlayerServerSide;
 import pl.edu.agh.kis.server.ServerSidePlayer;
 import pl.edu.agh.kis.utils.AnswerChecker;
 import pl.edu.agh.kis.utils.RandomNumberWithRange;
@@ -179,14 +178,6 @@ public abstract class GameAbstract implements GameInterface {
     }
 
 
-    private synchronized Vector<Answer> getAnswers(Vector<PlayerServerSide> players) {
-        Vector<Answer> answers = new Vector<>();
-        for (PlayerServerSide player : players) {
-            answers.add(player.answer());
-        }
-        return answers;
-    }
-
     protected void sendQuestionToPlayers(QuestionClientSide question, ArrayList<ServerSidePlayer> players) {
 
         Vector<Thread> threads = new Vector<>();
@@ -295,16 +286,6 @@ public abstract class GameAbstract implements GameInterface {
     }
 
 
-    //TODO
-    //b==-1 DRAW with other player
-
-    /**
-     * @param b      if b==1 player win, b==0 player lose
-     * @param player player who is informed by server about result
-     */
-    private void sendInformationAboutResult(byte b, PlayerServerSide player) {
-        player.sendResult(b);
-    }
 
     private ServerSidePlayer findPlayer(int id) {
         for (ServerSidePlayer player : players
@@ -316,9 +297,6 @@ public abstract class GameAbstract implements GameInterface {
         return null;
     }
 
-    private Boolean getQuitDecision(PlayerServerSide player) {
-        return player.quit();
-    }
 
     protected int numberOfQuestions() {
         try {
@@ -339,38 +317,6 @@ public abstract class GameAbstract implements GameInterface {
             return 0;
         }
     }
-
-    /*protected boolean isOver() {
-        System.out.println("IM HERE");
-        Vector<Boolean> quitDecisionsFromPlayers = new Vector<>();
-        Vector<Thread> threads = new Vector<>();
-        int i = 0;
-        for (PlayerServerSide player : players) {
-            threads.add(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    quitDecisionsFromPlayers.add(getQuitDecision(player));
-                }
-            }));
-            threads.get(i).start();
-            i++;
-        }
-
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        boolean ret = false;
-        for (Boolean decision : quitDecisionsFromPlayers) {
-            if (decision) ret = true;
-
-        }
-        System.out.println("IM OUT");
-        return ret;
-    }*/
 }
 
 class Reminder {
