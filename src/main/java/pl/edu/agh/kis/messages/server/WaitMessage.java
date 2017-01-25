@@ -10,7 +10,7 @@ import java.io.OutputStream;
  * Class representing a server's message which informs a client about how many players have to connect to start a game
  */
 public class WaitMessage extends MessageAbstract {
-    int numberOfRequiredPlayers;
+    private int numberOfRequiredPlayers;
 
     public WaitMessage(OutputStream out, int numberOfRequiredPlayers) {
         super(out);
@@ -21,7 +21,9 @@ public class WaitMessage extends MessageAbstract {
     @Override
     public void send() {
         try {
+            out.write(message);
             out.write(numberOfRequiredPlayers);
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

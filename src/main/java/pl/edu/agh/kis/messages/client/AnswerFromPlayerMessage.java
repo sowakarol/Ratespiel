@@ -25,6 +25,7 @@ public class AnswerFromPlayerMessage extends MessageAbstract {
     public void send() {
         try {
             out.write(message);
+            out.flush();
             printWriter = new PrintWriter(out, true);
 
             printWriter.println(reply.getPlayerChoice());

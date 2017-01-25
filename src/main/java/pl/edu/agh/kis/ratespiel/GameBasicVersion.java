@@ -14,13 +14,10 @@ public class GameBasicVersion extends GameAbstract {
 
     @Override
     public void play() {
-
-
+        checkPlayersReady();
         for (int i = 0; i < roundNumbers; i++) {
             playRound();
         }
         chooseWinner();
     }
-
-
 }

@@ -8,6 +8,7 @@ import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
  */
 public class AnswerChecker {
     public boolean isTrue(QuestionServerSideAbstract question, Answer answer) {
+        if (answer.getReply() == null) return false;
         if (question.getAnswers().get(0).equals(answer.getReply().getPlayerChoice())) {
             return true;
         }

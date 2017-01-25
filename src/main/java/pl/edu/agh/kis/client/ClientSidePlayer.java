@@ -4,7 +4,9 @@ import pl.edu.agh.kis.Controller.MainController;
 import pl.edu.agh.kis.Controller.Photo.QuestionControllerWithPhoto;
 import pl.edu.agh.kis.Controller.QuestionController;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
+import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.Model.question.QuestionClientSide;
+import pl.edu.agh.kis.messages.client.AnswerFromPlayerMessage;
 import pl.edu.agh.kis.messages.client.DisconnectPlayerMessage;
 import pl.edu.agh.kis.messages.client.HelloFromClientMessage;
 import pl.edu.agh.kis.messages.client.ReadyPlayerMessage;
@@ -28,11 +30,20 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     private int waitingTimeForNewGame;
     private int roundsNumber;
     private int maximalRespondTime;
+    private boolean isAnswering = false;
 
     public ClientSidePlayer(Socket playerSocket, MainController main) {
         super(playerSocket);
         this.main = main;
 
+    }
+
+    public boolean isAnswering() {
+        return isAnswering;
+    }
+
+    public void setAnswering(boolean answering) {
+        isAnswering = answering;
     }
 
     public void getHelloFromServer() {
@@ -58,8 +69,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 }
                 maximalRespondTime = b[4];
                 waitingTimeForNewGame = b[5];
-                for (byte a : b
-                        ) {
+                for (byte a : b) {
                     System.out.println(a);
                 }
             }
@@ -70,13 +80,13 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     }
 
     public boolean waitForGame() {
-        byte b[] = new byte[1];
+        byte b[] = new byte[2];
         b[0] = -1;
         try {
             b[0] = (byte) inputStream.read();
             while (b[0] != 2) {
                 if (b[0] == 1) {
-                    int requiredPlayers = b[1];
+                    int requiredPlayers = inputStream.read();
                     System.out.println(requiredPlayers + " more!! WAIT");
                 }
                 b[0] = (byte) inputStream.read();
@@ -146,8 +156,9 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 Thread.sleep(waitingTimeForNewGame * 1000);
                 sendMessage(new ReadyPlayerMessage(outputStream));
 
-
                 for (int i = 0; i < roundsNumber; i++) {
+                    //sendMessage(new ReadyPlayerMessage(outputStream));
+
                     playRound();
                 }
 
@@ -173,15 +184,58 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         long time = System.nanoTime();
         //System.out.println(question);
         //QuestionController questionController = new QuestionController(question, time, this, mainFrame);
+        isAnswering = true;
         if (bytes[0] == 3) {
             QuestionClientSide q = getQuestion();
+            System.out.println("1");
             QuestionController questionController = new QuestionController(q, time, this, main.getMainFrame());
+            System.out.println("2");
+            /*Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isAnswering()) {
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+        });
+        thread.start();
+
+*/
+
+            bytes[0] = -1;
+            System.out.println("3");
+            while (true) {
+                System.out.println("4");
+                if (bytes[0] == 9) {
+                    if (!questionController.isClicked()) {
+                        questionController.setClicked(true);
+                        questionController.setAnswerTime(Long.MAX_VALUE);
+                    }
+                    Reply reply = new Reply(questionController.getChosenAnswer(), Long.MAX_VALUE);
+                    System.out.println("WYSYLAM");
+                    new AnswerFromPlayerMessage(outputStream, reply).send();
+                    setAnswering(false);
+                    break;
+                }
+                try {
+                    bytes[0] = (byte) inputStream.read();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //questionController.listenToTimeout();
 
 
         } else if (bytes[0] == 4) {
             QuestionClientSideWithPhoto q = getQuestionWithPhoto();
             QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, time, this, main.getMainFrame());
-
+            //questionController.listenToTimeout();
         }
     }
 }

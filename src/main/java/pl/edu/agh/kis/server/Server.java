@@ -3,6 +3,7 @@ package pl.edu.agh.kis.server;
 import pl.edu.agh.kis.LoggingToFile;
 import pl.edu.agh.kis.messages.server.HelloServerMessage;
 import pl.edu.agh.kis.messages.server.StartGameMessage;
+import pl.edu.agh.kis.messages.server.WaitMessage;
 import pl.edu.agh.kis.ratespiel.GameBasicVersion;
 import pl.edu.agh.kis.utils.RatespielGetPropertyValues;
 
@@ -83,6 +84,8 @@ public class Server {
                             waitingTimeForNewGame, RatespielGetPropertyValues.getPath(), roundsNumber);
                     gameBasicVersion.play();
                     break;
+                } else {
+                    new WaitMessage(player.getOutputStream(), numberOfConnectedPlayers).send();
                 }
 
             }
@@ -148,7 +151,6 @@ public class Server {
             if (b[0] == 0) {
                 new HelloServerMessage(out, playersNumber, roundsNumber, gameTypeRepresentation,
                         maximalRespondTime, waitingTimeForNewGame).send();
-
 
             }
         } catch (IOException e) {

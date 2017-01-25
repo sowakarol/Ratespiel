@@ -13,37 +13,78 @@ import java.io.IOException;
  * Created by Karl on 15.01.2017.
  */
 public class QuestionControllerAbstract implements ActionListener {
-    boolean clicked = false;
+    private boolean clicked = false;
     private ClientSidePlayer player;
     private long deliveredTime;
     private Reply reply;
     private long answerTime;
+    private String chosenAnswer;
     // private QuestionPanel questionPanel;
     private MainFrame mainFrame;
-    //private QuestionClientSide question;
 
     public QuestionControllerAbstract(long deliveredTime, ClientSidePlayer player, MainFrame mainFrame) {
         this.player = player;
         this.deliveredTime = deliveredTime;
         this.mainFrame = mainFrame;
-        listenToTimeout();
+        //listenToTimeout();
         //questionPanel = new QuestionPanel(question, mainFrame, this);
 
+    }
+
+    public long getDeliveredTime() {
+        return deliveredTime;
+    }
+
+    public void setDeliveredTime(long deliveredTime) {
+        this.deliveredTime = deliveredTime;
+    }
+
+    public long getAnswerTime() {
+        return answerTime;
+    }
+
+    public void setAnswerTime(long answerTime) {
+        this.answerTime = answerTime;
+    }
+
+    public String getChosenAnswer() {
+        return chosenAnswer;
+    }
+
+    public void setChosenAnswer(String chosenAnswer) {
+        this.chosenAnswer = chosenAnswer;
+    }
+
+    public boolean isClicked() {
+
+        return clicked;
+    }
+    //private QuestionClientSide question;
+
+    public void setClicked(boolean clicked) {
+
+        this.clicked = clicked;
     }
 
     //public QuestionPanel getQuestionPanel() {
     //return questionPanel;
     //}
-    public final void listenToTimeout() {
+    public void listenToTimeout() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 byte[] bytes = new byte[1];
                 bytes[0] = -1;
-                while (true) {
+                while (bytes[0] != 9) {
                     if (bytes[0] == 9) {
-                        //Reply reply = new Reply(null, Long.MAX_VALUE);
+                        if (!clicked) {
+                            clicked = true;
+                            answerTime = Long.MAX_VALUE;
+                        }
+                        reply = new Reply(chosenAnswer, Long.MAX_VALUE);
+                        System.out.println("WYSYLAM");
                         new AnswerFromPlayerMessage(player.getOutputStream(), reply).send();
+                        player.setAnswering(false);
                         break;
                     }
                     try {
@@ -63,9 +104,9 @@ public class QuestionControllerAbstract implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!clicked) {
-            String chosenAnswer = e.getActionCommand();
+            chosenAnswer = e.getActionCommand();
             answerTime = System.nanoTime();
-            reply = new Reply(chosenAnswer, answerTime - deliveredTime);
+            //reply = new Reply(chosenAnswer, answerTime - deliveredTime);
             //new AnswerFromPlayerMessage(player.getOutputStream(), reply).send();
             //player.sendReply(reply);
             //player.setAnswering(false);

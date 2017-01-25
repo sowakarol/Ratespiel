@@ -78,7 +78,7 @@ public abstract class GameAbstract implements GameInterface {
         //sendQuestionToPlayers(new QuestionClientSideAbstract(question.getAnswers()), players,isImage);
         ArrayList<Answer> answers = new ArrayList<>();
 
-
+        System.out.println("sendeeed");
         Vector<Thread> threads = new Vector<>();
         int i = 0;
         for (ServerSidePlayer player : players) {
@@ -108,6 +108,21 @@ public abstract class GameAbstract implements GameInterface {
         chooseWinnerOfRound(answers, q);
     }
 
+    protected boolean checkPlayersReady() {
+        boolean check = true;
+        for (ServerSidePlayer player : players
+                ) {
+            try {
+                if (player.getInputStream().read() != 1) {
+                    check = false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return check;
+
+    }
 
     protected void getAnswer(ArrayList<Answer> answers, ServerSidePlayer player, int maxTimeToReply) {
         BufferedReader br = new BufferedReader(new InputStreamReader(player.getInputStream()));
@@ -123,9 +138,17 @@ public abstract class GameAbstract implements GameInterface {
                 }
             }
             new GetAnswerMessage(player.getOutputStream()).send();
-            ans = br.readLine();
-            timeString = br.readLine();
-
+            byte b = 0;
+            while (true) {
+                System.out.println("inside");
+                b = (byte) player.inputStream.read();
+                if (b == 3) {
+                    System.out.println("przp");
+                    ans = br.readLine();
+                    timeString = br.readLine();
+                    break;
+                }
+            }
             if (timeString == null || ans == null) {
                 answers.add(new Answer(null, player.getId()));
             } else {
