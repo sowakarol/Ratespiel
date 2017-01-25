@@ -1,23 +1,10 @@
 package pl.edu.agh.kis.Model;
 
-import org.junit.Rule;
-import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
-import pl.edu.agh.kis.Model.question.QuestionServerSide;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertEquals;
-
 /**
  * Created by Karl on 11.01.2017.
  */
 public class QuestionServerSideTest {
-    @Rule
+    /*@Rule
     public ExpectedException exception = ExpectedException.none();
 
     @Test
@@ -57,6 +44,6 @@ public class QuestionServerSideTest {
         QuestionServerSide testQuestion = new QuestionServerSide(testID);
         //fail("Expected FileNotFoundException");
 
-    }
+    }*/
 
 }

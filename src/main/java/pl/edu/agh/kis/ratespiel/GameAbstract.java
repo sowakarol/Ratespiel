@@ -65,12 +65,12 @@ public abstract class GameAbstract implements GameInterface {
         }
         QuestionServerSideAbstract q;
         if (isImage) {
-            QuestionServerSideWithPhoto question = new QuestionServerSideWithPhoto(questionNumber);
+            QuestionServerSideWithPhoto question = new QuestionServerSideWithPhoto(questionNumber, path);
             q = question;
             sendQuestionToPlayers(new QuestionClientSideWithPhoto(question), players);
 
         } else {
-            QuestionServerSide question = new QuestionServerSide(questionNumber);
+            QuestionServerSide question = new QuestionServerSide(questionNumber, path);
             q = question;
             sendQuestionToPlayers(new QuestionClientSide(question), players);
 

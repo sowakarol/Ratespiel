@@ -13,10 +13,10 @@ import java.io.File;
  * Created by Karl on 15.01.2017.
  */
 public class GameSimpleRoundWithPhotos extends GameSimpleRoundAbstract {
-    private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\QuestionsWithPhotos\\";
+    //private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\QuestionsWithPhotos\\";
 
-    public GameSimpleRoundWithPhotos(int waitingForPlayersAnswer, PlayerServerSide... players) {
-        super(waitingForPlayersAnswer, players);
+    public GameSimpleRoundWithPhotos(String path, int waitingForPlayersAnswer, PlayerServerSide... players) {
+        super(path, waitingForPlayersAnswer, players);
     }
 
     protected QuestionServerSideWithPhoto createQuestionWithPhoto() {
@@ -29,7 +29,7 @@ public class GameSimpleRoundWithPhotos extends GameSimpleRoundAbstract {
             emptyQuestionFolder.printStackTrace();
         }
 
-        return new QuestionServerSideWithPhoto(randomNumberOfFile);
+        return new QuestionServerSideWithPhoto(randomNumberOfFile, path);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class GameSimpleRoundWithPhotos extends GameSimpleRoundAbstract {
             emptyQuestionFolder.printStackTrace();
         }
 
-        return new QuestionServerSideWithPhoto(randomNumberOfFile);
+        return new QuestionServerSideWithPhoto(randomNumberOfFile, path);
     }
 
     protected int numberOfQuestions() {

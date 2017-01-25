@@ -10,8 +10,8 @@ import java.util.Vector;
  * Created by Karl on 15.01.2017.
  */
 public abstract class GameSimpleRoundAbstract extends GameAbstract {
-    public GameSimpleRoundAbstract(int waitingForPlayersAnswer, PlayerServerSide... players) {
-        super(waitingForPlayersAnswer, players);
+    public GameSimpleRoundAbstract(String path, int waitingForPlayersAnswer, PlayerServerSide... players) {
+        super(path, waitingForPlayersAnswer, players);
     }
 
     public void playRound() {

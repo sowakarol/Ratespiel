@@ -13,13 +13,13 @@ import java.io.IOException;
  * Created by Karl on 15.01.2017.
  */
 public class QuestionServerSideWithPhoto extends QuestionServerSideAbstract {
-    private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\QuestionsWithPhotos\\";
+    //private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\QuestionsWithPhotos\\";
     private int questionNumber;
     private BufferedImage image;
     private File fileImage;
 
 
-    public QuestionServerSideWithPhoto(int id) {
+    public QuestionServerSideWithPhoto(int id, String path) {
         super(id);
         try {
             fileImage = new File(path + id + ".jpg");

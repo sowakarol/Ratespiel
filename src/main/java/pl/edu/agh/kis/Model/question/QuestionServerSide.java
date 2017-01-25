@@ -9,12 +9,12 @@ import java.io.IOException;
  * Created by Karl on 06.01.2017.
  */
 public class QuestionServerSide extends QuestionServerSideAbstract {
-    private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
+    //private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
     private String toTranslate;
     //TODO
     //add something in one exception
 
-    public QuestionServerSide(int id) {
+    public QuestionServerSide(int id, String path) {
         super(id);
         File questionFile = new File(path + id);
         try {

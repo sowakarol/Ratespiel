@@ -1,8 +1,6 @@
 package pl.edu.agh.kis;
 
 import pl.edu.agh.kis.game.GameSimpleRoundAbstract;
-import pl.edu.agh.kis.game.GameSimpleRoundTranslations;
-import pl.edu.agh.kis.game.GameSimpleRoundWithPhotos;
 import pl.edu.agh.kis.server.PlayerServerSide;
 
 import java.io.IOException;
@@ -82,12 +80,12 @@ public class Server {
 
                     GameSimpleRoundAbstract game;
                     if (cities) {
-                        game = new GameSimpleRoundWithPhotos(maximalRespondTime, playerServerSides);
+                        //game = new GameSimpleRoundWithPhotos(maximalRespondTime, playerServerSides);
 
                     } else {
-                        game = new GameSimpleRoundTranslations(maximalRespondTime, playerServerSides);
+                        //game = new GameSimpleRoundTranslations(maximalRespondTime, playerServerSides);
                     }
-                    game.play();
+                    //game.play();
                     serverSocket.close();
                     break;
                 }

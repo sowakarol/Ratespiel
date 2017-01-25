@@ -81,7 +81,7 @@ public class Server {
                     }
 
                     GameBasicVersion gameBasicVersion = new GameBasicVersion(players,
-                            waitingTimeForNewGame, RatespielGetPropertyValues.getPath(), roundsNumber);
+                            maximalRespondTime, RatespielGetPropertyValues.getPath(), roundsNumber);
                     gameBasicVersion.play();
                     break;
                 } else {
@@ -89,7 +89,7 @@ public class Server {
                 }
 
             }
-            //serverSocket.close();
+            serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

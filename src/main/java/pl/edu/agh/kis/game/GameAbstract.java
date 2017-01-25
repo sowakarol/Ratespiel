@@ -15,16 +15,18 @@ import java.util.Vector;
  * Created by Karl on 11.01.2017.
  */
 public abstract class GameAbstract implements GameInterface {
-    private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
+    //private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
     protected Vector<PlayerServerSide> players = new Vector<PlayerServerSide>();
     protected int numberOfPlayers;
+    protected String path;
     /**
      * variable representing time in which player has to answer for question in seconds
      */
     int waitingForPlayersAnswer;
 
-    public GameAbstract(int waitingForPlayersAnswer, PlayerServerSide... players) {
+    public GameAbstract(String path, int waitingForPlayersAnswer, PlayerServerSide... players) {
         this.numberOfPlayers = players.length;
+        this.path = path;
         this.waitingForPlayersAnswer = waitingForPlayersAnswer;
         for (PlayerServerSide player : players) {
             this.players.add(player);
@@ -54,7 +56,7 @@ public abstract class GameAbstract implements GameInterface {
             emptyQuestionFolder.printStackTrace();
         }
 
-        return new QuestionServerSide(randomNumberOfFile);
+        return new QuestionServerSide(randomNumberOfFile, path);
     }
 
 

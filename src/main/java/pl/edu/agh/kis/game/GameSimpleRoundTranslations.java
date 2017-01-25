@@ -11,8 +11,8 @@ import pl.edu.agh.kis.server.PlayerServerSide;
 public class GameSimpleRoundTranslations extends GameSimpleRoundAbstract {
     private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
 
-    public GameSimpleRoundTranslations(int waitingForPlayersAnswer, PlayerServerSide... players) {
-        super(waitingForPlayersAnswer, players);
+    public GameSimpleRoundTranslations(String path, int waitingForPlayersAnswer, PlayerServerSide... players) {
+        super(path, waitingForPlayersAnswer, players);
     }
 
     @Override

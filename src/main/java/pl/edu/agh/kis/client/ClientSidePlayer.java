@@ -3,6 +3,7 @@ package pl.edu.agh.kis.client;
 import pl.edu.agh.kis.Controller.MainController;
 import pl.edu.agh.kis.Controller.Photo.QuestionControllerWithPhoto;
 import pl.edu.agh.kis.Controller.QuestionController;
+import pl.edu.agh.kis.Controller.QuestionControllerAbstract;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.Model.question.QuestionClientSide;
@@ -209,7 +210,9 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
             bytes[0] = -1;
             System.out.println("3");
-            while (true) {
+            sendAnswer(questionController, bytes);
+
+            /*while (true) {
                 System.out.println("4");
                 if (bytes[0] == 9) {
                     if (!questionController.isClicked()) {
@@ -227,7 +230,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             //questionController.listenToTimeout();
 
@@ -236,6 +239,52 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             QuestionClientSideWithPhoto q = getQuestionWithPhoto();
             QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, time, this, main.getMainFrame());
             //questionController.listenToTimeout();
+            bytes[0] = -1;
+            System.out.println("3");
+            sendAnswer(questionController, bytes);
+            /*while (true) {
+                System.out.println("4");
+                if (bytes[0] == 9) {
+                    if (!questionController.isClicked()) {
+                        questionController.setClicked(true);
+                        questionController.setAnswerTime(Long.MAX_VALUE);
+                    }
+                    Reply reply = new Reply(questionController.getChosenAnswer(), Long.MAX_VALUE);
+                    System.out.println("WYSYLAM");
+                    new AnswerFromPlayerMessage(outputStream, reply).send();
+                    setAnswering(false);
+                    break;
+                }
+                try {
+                    bytes[0] = (byte) inputStream.read();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }*/
         }
     }
+
+
+    private void sendAnswer(QuestionControllerAbstract questionController, byte[] bytes) {
+        while (true) {
+            System.out.println("4");
+            if (bytes[0] == 9) {
+                if (!questionController.isClicked()) {
+                    questionController.setClicked(true);
+                    questionController.setAnswerTime(Long.MAX_VALUE);
+                }
+                Reply reply = new Reply(questionController.getChosenAnswer(), Long.MAX_VALUE);
+                System.out.println("WYSYLAM");
+                new AnswerFromPlayerMessage(outputStream, reply).send();
+                setAnswering(false);
+                break;
+            }
+            try {
+                bytes[0] = (byte) inputStream.read();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

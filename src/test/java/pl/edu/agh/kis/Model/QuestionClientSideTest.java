@@ -1,21 +1,10 @@
 package pl.edu.agh.kis.Model;
 
-import org.junit.jupiter.api.Test;
-import pl.edu.agh.kis.Model.question.QuestionClientSide;
-import pl.edu.agh.kis.Model.question.QuestionServerSide;
-import pl.edu.agh.kis.utils.RandomNumberWithRange;
-
-import java.io.FileNotFoundException;
-import java.util.Collections;
-import java.util.Vector;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
  * Created by Karl on 11.01.2017.
  */
 public class QuestionClientSideTest {
-    public static void main(String[] args) throws FileNotFoundException {
+    /*public static void main(String[] args) throws FileNotFoundException {
         QuestionClientSideTest questionClientSideTest = new QuestionClientSideTest();
         int testID = 2;
         int seed = 2;
@@ -33,7 +22,7 @@ public class QuestionClientSideTest {
      * constant seed=2 makes first element swaps with second, after that again first with third
      * [0 1 2 3] original, after randomize [1 2 0 3]
      */
-    private void checkDifferentOrderOfAnswersWithConstantSeed(int ID) {
+    /*private void checkDifferentOrderOfAnswersWithConstantSeed(int ID) {
         QuestionClientSideTest questionClientSideTest = new QuestionClientSideTest();
         QuestionClientSideTest.QuestionClientSideTestImplementation testedQuestion = null;
         int seed = 2;
@@ -103,6 +92,6 @@ public class QuestionClientSideTest {
         }
 
 
-    }
+    }*/
 
 }
