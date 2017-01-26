@@ -20,7 +20,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Created by Karl on 22.01.2017.
@@ -43,9 +43,11 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
     }
 
-    private void clearMainFrame() {
+    private Dimension clearMainFrameAndGetDimension() {
+        Dimension ret = main.getMainFrame().getSize();
         container = main.getMainFrame().getContentPane();
         container.removeAll();
+        return ret;
 
     }
 
@@ -98,12 +100,15 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             while (b[0] != 2) {
                 if (b[0] == 1) {
                     int requiredPlayers = inputStream.read();
-                    clearMainFrame();
+
+
+                    Dimension d = clearMainFrameAndGetDimension();
 
                     main.getMainFrame().getContentPane().add(new WaitForOtherPlayersPanel(requiredPlayers));
                     main.getMainFrame().pack();
                     main.getMainFrame().validate();
                     main.getMainFrame().repaint();
+                    main.getMainFrame().setSize(d);
                     main.getMainFrame().setVisible(true);
                     System.out.println(requiredPlayers + " more!! WAIT");
                 }
@@ -115,12 +120,13 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             return false;
         }
 
-        clearMainFrame();
+        Dimension d = clearMainFrameAndGetDimension();
 
         main.getMainFrame().getContentPane().add(new GetReadyPanel(waitingTimeForNewGame));
         main.getMainFrame().pack();
         main.getMainFrame().validate();
         main.getMainFrame().repaint();
+        main.getMainFrame().setSize(d);
         main.getMainFrame().setVisible(true);
         System.out.println(waitingTimeForNewGame + " more!! WAIT");
 
@@ -131,7 +137,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
     public QuestionClientSide getQuestion() {
         String toTranslate = "";
-        Vector<String> answers = new Vector<>();
+        ArrayList<String> answers = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         try {
             toTranslate = br.readLine();
@@ -148,7 +154,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
     public QuestionClientSideWithPhoto getQuestionWithPhoto() {
 
-        Vector<String> answers = new Vector<>();
+        ArrayList<String> answers = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         try {
             for (int i = 0; i < 4; i++) {
@@ -301,7 +307,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                     questionController.setClicked(true);
                     questionController.setAnswerTime(Long.MAX_VALUE);
                 }
-                Reply reply = new Reply(questionController.getChosenAnswer(), Long.MAX_VALUE);
+                Reply reply = new Reply(questionController.getChosenAnswer(), questionController.getAnswerTime());
                 System.out.println("WYSYLAM");
                 new AnswerFromPlayerMessage(outputStream, reply).send();
                 setAnswering(false);

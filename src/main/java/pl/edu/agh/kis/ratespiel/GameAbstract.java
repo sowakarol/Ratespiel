@@ -35,7 +35,7 @@ public abstract class GameAbstract implements GameInterface {
     /**
      * variable representing time in which player has to answer for question in seconds
      */
-    int waitingForPlayersAnswer;
+    private int waitingForPlayersAnswer;
 
     public GameAbstract(ArrayList<ServerSidePlayer> players, int waitingForPlayersAnswer, String path, int roundNumbers) {
         this.numberOfPlayers = players.size();
@@ -66,12 +66,12 @@ public abstract class GameAbstract implements GameInterface {
         if (isImage) {
             QuestionServerSideWithPhoto question = new QuestionServerSideWithPhoto(questionNumber, path);
             q = question;
-            sendQuestionToPlayers(new QuestionClientSideWithPhoto(question), players);
+            sendQuestionToPlayers(question, players);
 
         } else {
             QuestionServerSide question = new QuestionServerSide(questionNumber, path);
             q = question;
-            sendQuestionToPlayers(new QuestionClientSide(question), players);
+            sendQuestionToPlayers(question, players);
 
         }
         //sendQuestionToPlayers(new QuestionClientSideAbstract(question.getAnswers()), players,isImage);
@@ -84,7 +84,7 @@ public abstract class GameAbstract implements GameInterface {
             threads.add(new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    getAnswer(answers, player, waitingForPlayersAnswer * 2);
+                    getAnswer(answers, player, waitingForPlayersAnswer);
                 }
             }));
             threads.get(i).start();
@@ -126,7 +126,7 @@ public abstract class GameAbstract implements GameInterface {
     protected void getAnswer(ArrayList<Answer> answers, ServerSidePlayer player, int maxTimeToReply) {
         BufferedReader br = new BufferedReader(new InputStreamReader(player.getInputStream()));
         try {
-            Reminder r = new Reminder(maxTimeToReply * 2);
+            Reminder r = new Reminder(maxTimeToReply);
             String ans = null;
             String timeString = null;
             while (!r.getTimePassed()) {
@@ -178,7 +178,8 @@ public abstract class GameAbstract implements GameInterface {
     }
 
 
-    protected void sendQuestionToPlayers(QuestionClientSide question, ArrayList<ServerSidePlayer> players) {
+    protected void sendQuestionToPlayers(QuestionServerSide question, ArrayList<ServerSidePlayer> players) {
+        QuestionClientSide q = new QuestionClientSide(question);
 
         Vector<Thread> threads = new Vector<>();
         int i = 0;
@@ -188,7 +189,7 @@ public abstract class GameAbstract implements GameInterface {
             threads.add(new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    new QuestionMessage(player.getOutputStream(), question).send();
+                    new QuestionMessage(player.getOutputStream(), q).send();
 
                 }
             }));
@@ -207,8 +208,8 @@ public abstract class GameAbstract implements GameInterface {
         }
     }
 
-    protected void sendQuestionToPlayers(QuestionClientSideWithPhoto question, ArrayList<ServerSidePlayer> players) {
-
+    protected void sendQuestionToPlayers(QuestionServerSideWithPhoto question, ArrayList<ServerSidePlayer> players) {
+        QuestionClientSideWithPhoto q = new QuestionClientSideWithPhoto(question);
         Vector<Thread> threads = new Vector<>();
         int i = 0;
 
@@ -217,7 +218,7 @@ public abstract class GameAbstract implements GameInterface {
             threads.add(new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    new QuestionWithPhotoMessage(player.getOutputStream(), question).send();
+                    new QuestionWithPhotoMessage(player.getOutputStream(), q).send();
 
                 }
             }));
@@ -307,11 +308,7 @@ public abstract class GameAbstract implements GameInterface {
                     i++;
                 }
             }
-            if (listOfFiles != null) {
-                return i;
-            } else {
-                return 0;
-            }
+            return i;
         } catch (NullPointerException e) {
             e.printStackTrace();
             return 0;

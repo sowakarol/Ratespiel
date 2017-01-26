@@ -4,7 +4,7 @@ import pl.edu.agh.kis.Model.question.QuestionClientSideAbstract;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Created by Karl on 15.01.2017.
@@ -19,7 +19,7 @@ public class QuestionClientSideWithPhoto extends QuestionClientSideAbstract {
         this.image = questionServerSideWithPhoto.getImage();
     }
 
-    public QuestionClientSideWithPhoto(Vector<String> answers, BufferedImage image) {
+    public QuestionClientSideWithPhoto(ArrayList<String> answers, BufferedImage image) {
         super(answers);
         this.image = image;
     }

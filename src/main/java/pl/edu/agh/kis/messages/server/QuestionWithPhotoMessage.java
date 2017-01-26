@@ -10,8 +10,8 @@ import java.io.*;
  * Created by Karl on 22.01.2017.
  */
 public class QuestionWithPhotoMessage extends MessageAbstract {
-    QuestionClientSideWithPhoto question;
-    ByteArrayOutputStream baos;
+    private QuestionClientSideWithPhoto question;
+    private ByteArrayOutputStream baos;
 
     public QuestionWithPhotoMessage(OutputStream out, QuestionClientSideWithPhoto question) {
         super(out);
@@ -23,6 +23,7 @@ public class QuestionWithPhotoMessage extends MessageAbstract {
     public void send() {
         try {
             out.write(message);
+            question.randomizeAnswers();
             PrintWriter pw = new PrintWriter(out, true);
             for (int i = 0; i < question.getAnswers().size(); i++) {
                 pw.println(question.getAnswers().get(i));

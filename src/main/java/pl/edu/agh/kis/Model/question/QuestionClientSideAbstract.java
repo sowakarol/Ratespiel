@@ -2,26 +2,28 @@ package pl.edu.agh.kis.Model.question;
 
 import pl.edu.agh.kis.utils.RandomNumberWithRange;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Vector;
 
 /**
  * Created by Karl on 15.01.2017.
  */
 public class QuestionClientSideAbstract extends Question {
 
-    public QuestionClientSideAbstract(Vector<String> answers) {
+    public QuestionClientSideAbstract(ArrayList<String> answers) {
         this.answers = answers;
     }
 
 
     public void randomizeAnswers() {
-        setAnswers(durstenfeldShuffle(getAnswers()));
+        ArrayList<String> ret = new ArrayList<>(this.getAnswers());
+        ret = durstenfeldShuffle(getAnswers());
+        setAnswers(ret);
     }
 
 
-    protected Vector<String> durstenfeldShuffle(Vector<String> unsortedAnswers) {
-        Vector<String> ret = new Vector<>(unsortedAnswers);
+    protected ArrayList<String> durstenfeldShuffle(ArrayList<String> unsortedAnswers) {
+        ArrayList<String> ret = new ArrayList<>(unsortedAnswers);
         RandomNumberWithRange random = new RandomNumberWithRange();
         System.out.println(ret);
 

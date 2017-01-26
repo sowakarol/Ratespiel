@@ -1,6 +1,6 @@
 package pl.edu.agh.kis.Model.question;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Created by Karl on 06.01.2017.
@@ -8,7 +8,7 @@ import java.util.Vector;
 public class QuestionClientSide extends QuestionClientSideAbstract {
     private String toTranslate;
 
-    public QuestionClientSide(Vector<String> answers, String toTranslate) {
+    public QuestionClientSide(ArrayList<String> answers, String toTranslate) {
         super(answers);
         this.toTranslate = toTranslate;
     }
