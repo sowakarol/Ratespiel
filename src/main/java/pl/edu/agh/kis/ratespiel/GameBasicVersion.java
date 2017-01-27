@@ -16,7 +16,8 @@ public class GameBasicVersion extends GameAbstract {
     public void play() {
         checkPlayersReady();
         for (int i = 0; i < roundNumbers; i++) {
-            playRound();
+            if (!playRound()) break;
+
         }
         chooseWinner();
     }

@@ -1,29 +1,35 @@
 package pl.edu.agh.kis.Controller;
 
 import pl.edu.agh.kis.View.MainFrame;
+import pl.edu.agh.kis.client.ClientSidePlayer;
+import pl.edu.agh.kis.messages.client.DisconnectPlayerMessage;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.Socket;
 
 /**
  * Created by Karl on 14.01.2017.
  */
 public class MainController implements ActionListener {
-    String username;
-    int portNumber;
-    Socket socket;
+    private ClientSidePlayer player;
     private MainFrame mainFrame;
     private boolean mainControllerClicked = false;
     private LoginController loginController;
-
     //observer albo interferjs jeszcze między buttonem
     public MainController() {
+
     }
 
-    public static void main(String[] args) {
+    public ClientSidePlayer getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(ClientSidePlayer player) {
+        this.player = player;
+    }
+
+    /*public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -35,7 +41,7 @@ public class MainController implements ActionListener {
             }
         });
 
-    }
+    }*/
 
     public LoginController getLoginController() {
         return loginController;
@@ -76,6 +82,17 @@ public class MainController implements ActionListener {
     public void setMainFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         loginController = new LoginController(mainFrame);
+    }
+
+    public void disconnectPlayerWhenClosingWindow() {
+        if (player.isConnected()) {
+            player.setConnected(false);
+            System.out.println("uuuu");
+            if (player != null) {
+                new DisconnectPlayerMessage(getPlayer().getOutputStream()).send();
+                getPlayer().closeConnection();
+            }
+        }
     }
 
     /*class LoginCreation implements Runnable {

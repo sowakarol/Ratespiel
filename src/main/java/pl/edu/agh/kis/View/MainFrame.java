@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
         //     e.printStackTrace();
         //getContentPane().setBackground(Color.GREEN);
         // }
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         mainPanel = new JPanel();
         setDefaultButtons(mainController, mainPanel);
@@ -68,6 +68,17 @@ public class MainFrame extends JFrame {
         panel.add(b1);
         panel.setVisible(true);
         pack();
+    }
+
+    /**
+     * actualizing MainController state to send a message to a server about disconnecting and closing window
+     */
+    @Override
+    public void dispose() {
+        System.out.println("u");
+
+        mainController.disconnectPlayerWhenClosingWindow();
+        super.dispose();
     }
 
 /*    class DefaultActionListener implements ActionListener {

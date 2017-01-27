@@ -1,6 +1,7 @@
 package pl.edu.agh.kis.server;
 
 import pl.edu.agh.kis.LoggingToFile;
+import pl.edu.agh.kis.messages.client.PlayerMessages;
 import pl.edu.agh.kis.messages.server.HelloServerMessage;
 import pl.edu.agh.kis.messages.server.StartGameMessage;
 import pl.edu.agh.kis.messages.server.WaitMessage;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
  * Class starting a game, getting values from config.properties, checking connection and listening for players
  */
 public class Server {
+    boolean gameStarted;
     private LoggingToFile logger = new LoggingToFile("ServerLogs.txt");
     private String gameType;
     private int playersNumber;
@@ -29,6 +31,7 @@ public class Server {
     private int roundsNumber;
     private int maximalRespondTime;
     private ArrayList<ServerSidePlayer> players;
+    private int numberOfConnectedPlayers;
 
     public Server() {
         gameType = RatespielGetPropertyValues.getGameType();
@@ -38,6 +41,7 @@ public class Server {
         roundsNumber = RatespielGetPropertyValues.getroundsNumber();
         maximalRespondTime = RatespielGetPropertyValues.getMaximalRespondTime();
         players = new ArrayList<>(playersNumber);
+
 
         try {
             serverSocket = new ServerSocket(RatespielGetPropertyValues.getPortNumber(), 0, InetAddress.getByName(hostname));
@@ -52,11 +56,10 @@ public class Server {
     }
 
     public void startGame() {
-        int numberOfConnectedPlayers = 0;
+        numberOfConnectedPlayers = 0;
         try {
             while (true) {
                 Socket playerSocket = serverSocket.accept();
-                System.out.println("asd");
                 // SERVERSIDEPLAYER!!   PlayerServerSide player = new PlayerServerSide(playerSocket, ++numberOfConnectedPlayers);
                 ServerSidePlayer player = new ServerSidePlayer(playerSocket, gameType, playersNumber, waitingTimeForNewGame, roundsNumber,
                         maximalRespondTime, ++numberOfConnectedPlayers);
@@ -72,20 +75,37 @@ public class Server {
                         gameTypeRepresentation = 0;
                         break;
                 }
+
+                //adding player
                 handleNewPlayer(playerSocket, gameTypeRepresentation);
                 players.add(player);
-                System.out.println("added");
+
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        checkForPlayerDisconnect(player);
+                    }
+                });
+                thread.start();
+
+
                 if (players.size() == playersNumber) {
+
+                    gameStarted = true;
+
                     for (ServerSidePlayer p : players) {
                         new StartGameMessage(p.getOutputStream()).send();
                     }
-
+                    gameStarted = true;
+                    System.out.println("started");
                     GameBasicVersion gameBasicVersion = new GameBasicVersion(players,
                             maximalRespondTime, RatespielGetPropertyValues.getPath(), roundsNumber);
                     gameBasicVersion.play();
                     break;
                 } else {
-                    new WaitMessage(player.getOutputStream(), numberOfConnectedPlayers).send();
+                    for (ServerSidePlayer pl : players) {
+                        new WaitMessage(pl.getOutputStream(), numberOfConnectedPlayers).send();
+                    }
                 }
 
             }
@@ -97,49 +117,6 @@ public class Server {
 
     }
 
-    /*private void listenAndPrepareGame(int numberOfConnectedPlayers) {
-        try {
-            while (true) {
-
-                Socket playerSocket = serverSocket.accept();
-                PlayerServerSide player = new PlayerServerSide(playerSocket, ++numberOfConnectedPlayers);
-
-
-                players.add(player);
-                if (players.size() == playersNumber) {
-
-                    PlayerServerSide playerServerSides[] = new PlayerServerSide[numberOfPlayer];
-
-                    for (int i = 0; i < playersNumber; i++) {
-
-                        playerServerSides[i] = players.poll();
-                    }
-
-                    GameSimpleRoundAbstract game;
-                    /*if (cities) {
-                        game = new GameSimpleRoundWithPhotos(maximalRespondTime, playerServerSides);
-
-                    } else {
-                        game = new GameSimpleRoundTranslations(maximalRespondTime, playerServerSides);
-                    }
-
-
-                    game.play();
-                    serverSocket.close();
-                    break;
-                }
-                }
-
-            } catch(IOException e){
-                logger.critical(e.getMessage());
-                e.printStackTrace();
-                //SOMEONE HAS DISCONNECTED
-
-            }
-        }
-
-
-    }*/
 
     private void handleNewPlayer(Socket playerSocket, int gameTypeRepresentation) {
         try {
@@ -156,6 +133,53 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void checkForPlayerDisconnect(ServerSidePlayer player) {
+        byte b = -1;
+
+        try {
+            while (true) {
+                Thread.sleep(200);
+                if (gameStarted) {
+                    break;
+                } else if (player.getInputStream().available() > 0) {
+                    b = (byte) player.getInputStream().read();
+                    if (b == PlayerMessages.DISCONNECT.ordinal()) {
+                        --numberOfConnectedPlayers;
+                        players.remove(player);
+                        //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
+                        for (ServerSidePlayer pl : players) {
+                            new WaitMessage(pl.getOutputStream(), numberOfConnectedPlayers).send();
+                        }
+                        player.closeConnection();
+                        break;
+                    }
+                }
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /*while(!gameStarted){
+            try {
+                b = (byte) player.getInputStream().read();
+                if(b == PlayerMessages.DISCONNECT.ordinal()){
+                    --numberOfConnectedPlayers;
+                    players.remove(player);
+                    //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
+                    for (ServerSidePlayer pl: players) {
+                        new WaitMessage(pl.getOutputStream(),numberOfConnectedPlayers).send();
+                    }
+                    player.closeConnection();
+                    break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
     }
 
 

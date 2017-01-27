@@ -8,9 +8,8 @@ import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.Model.question.QuestionClientSide;
 import pl.edu.agh.kis.Model.question.QuestionServerSide;
 import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
-import pl.edu.agh.kis.messages.server.GetAnswerMessage;
-import pl.edu.agh.kis.messages.server.QuestionMessage;
-import pl.edu.agh.kis.messages.server.QuestionWithPhotoMessage;
+import pl.edu.agh.kis.messages.client.PlayerMessages;
+import pl.edu.agh.kis.messages.server.*;
 import pl.edu.agh.kis.server.ServerSidePlayer;
 import pl.edu.agh.kis.utils.AnswerChecker;
 import pl.edu.agh.kis.utils.RandomNumberWithRange;
@@ -51,7 +50,7 @@ public abstract class GameAbstract implements GameInterface {
     public void removeTheWorstPlayer() {
     }
 
-    public void playRound() {
+    public boolean playRound() {
         boolean isImage = false;
         //Integer questionNumber = questionPath.split("/[0-9]+$")
 
@@ -90,6 +89,10 @@ public abstract class GameAbstract implements GameInterface {
             threads.get(i).start();
             i++;
         }
+        if (players.size() == 1) {
+            new WalkoverMessage(players.get(0).getOutputStream(), players.get(0).getPoints()).send();
+            return false;
+        }
         for (Thread thread : threads
                 ) {
             try {
@@ -105,6 +108,7 @@ public abstract class GameAbstract implements GameInterface {
         }
 
         chooseWinnerOfRound(answers, q);
+        return true;
     }
 
     protected boolean checkPlayersReady() {
@@ -141,10 +145,16 @@ public abstract class GameAbstract implements GameInterface {
             while (true) {
                 System.out.println("inside");
                 b = (byte) player.inputStream.read();
-                if (b == 3) {
+                if (b == ServerMessages.QUESTION.ordinal()) {
                     System.out.println("przp");
                     ans = br.readLine();
                     timeString = br.readLine();
+                    break;
+                } else if (b == PlayerMessages.DISCONNECT.ordinal()) {
+                    players.remove(player);
+                    //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
+
+                    player.closeConnection();
                     break;
                 }
             }
@@ -251,7 +261,7 @@ public abstract class GameAbstract implements GameInterface {
         long quickestTime = Long.MAX_VALUE;
 
 
-        for (Answer answer : correctAnswers) {
+/*        for (Answer answer : correctAnswers) {
             if (answer.getReply().getReplyTime() < quickestTime) {
                 quickestTime = answer.getReply().getReplyTime();
             }
@@ -261,13 +271,15 @@ public abstract class GameAbstract implements GameInterface {
             if (answer.getReply().getReplyTime() == quickestTime) {
                 findPlayer(answer.getPlayerID()).addPoints(1); // for being quickest
             }
-        }
+        }*/
 
         return -1;
     }
 
     public void chooseWinner() {
         int maxPoints = 0;
+        int tmp = 0; //checking if draw
+
         for (ServerSidePlayer player : players) {
             if (maxPoints < player.getPoints()) {
                 maxPoints = player.getPoints();
@@ -276,11 +288,23 @@ public abstract class GameAbstract implements GameInterface {
 
         for (ServerSidePlayer player : players) {
             if (maxPoints == player.getPoints()) {
+                tmp++;
+            }
+        }
+
+        tmp--;
+
+        for (ServerSidePlayer player : players) {
+            if (maxPoints == player.getPoints()) {
                 byte b = 1;
                 //sendInformationAboutResult(b, player);
+                new EndOfGameMessage(player.getOutputStream(), true, tmp, player.getPoints()).send();
+
                 System.out.println("player " + player.getId() + " won");
             } else {
                 byte b = 0;
+                new EndOfGameMessage(player.getOutputStream(), false, tmp, player.getPoints()).send();
+
                 //sendInformationAboutResult(b, player);
             }
         }

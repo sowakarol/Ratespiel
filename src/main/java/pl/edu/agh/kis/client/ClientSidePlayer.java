@@ -11,8 +11,8 @@ import pl.edu.agh.kis.messages.client.AnswerFromPlayerMessage;
 import pl.edu.agh.kis.messages.client.DisconnectPlayerMessage;
 import pl.edu.agh.kis.messages.client.HelloFromClientMessage;
 import pl.edu.agh.kis.messages.client.ReadyPlayerMessage;
-import pl.edu.agh.kis.panels.GetReadyPanel;
-import pl.edu.agh.kis.panels.WaitForOtherPlayersPanel;
+import pl.edu.agh.kis.messages.server.ServerMessages;
+import pl.edu.agh.kis.panels.*;
 import pl.edu.agh.kis.ratespiel.PlayerAbstract;
 
 import javax.imageio.ImageIO;
@@ -36,10 +36,13 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     private int maximalRespondTime;
     private boolean isAnswering = false;
     private Container container;
+    private boolean isConnected;
 
     public ClientSidePlayer(Socket playerSocket, MainController main) {
         super(playerSocket);
         this.main = main;
+        isConnected = true;
+
 
     }
 
@@ -97,8 +100,8 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         b[0] = -1;
         try {
             b[0] = (byte) inputStream.read();
-            while (b[0] != 2) {
-                if (b[0] == 1) {
+            while (b[0] != ServerMessages.START_GAME.ordinal()) {
+                if (b[0] == ServerMessages.WAIT.ordinal()) {
                     int requiredPlayers = inputStream.read();
 
 
@@ -111,6 +114,9 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                     main.getMainFrame().setSize(d);
                     main.getMainFrame().setVisible(true);
                     System.out.println(requiredPlayers + " more!! WAIT");
+                } else if (b[0] == ServerMessages.GOODBYE_IF_DISCONNECTED.ordinal()) {
+                    System.out.println("Disconnected");
+                    break;
                 }
                 b[0] = (byte) inputStream.read();
             }
@@ -152,6 +158,14 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         return new QuestionClientSide(answers, toTranslate);
     }
 
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(boolean connected) {
+        isConnected = connected;
+    }
+
     public QuestionClientSideWithPhoto getQuestionWithPhoto() {
 
         ArrayList<String> answers = new ArrayList<>();
@@ -164,6 +178,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             e.printStackTrace();
         }
         byte[] buffer;
+
         ObjectInputStream input = null;
         BufferedImage image = null;
         try {
@@ -196,7 +211,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
                     playRound();
                 }
-
+                endGame();
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -220,7 +235,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         //System.out.println(question);
         //QuestionController questionController = new QuestionController(question, time, this, mainFrame);
         isAnswering = true;
-        if (bytes[0] == 3) {
+        if (bytes[0] == ServerMessages.QUESTION.ordinal()) {
             QuestionClientSide q = getQuestion();
             System.out.println("1");
             QuestionController questionController = new QuestionController(q, time, this, main.getMainFrame());
@@ -246,63 +261,59 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             System.out.println("3");
             sendAnswer(questionController, bytes);
 
-            /*while (true) {
-                System.out.println("4");
-                if (bytes[0] == 9) {
-                    if (!questionController.isClicked()) {
-                        questionController.setClicked(true);
-                        questionController.setAnswerTime(Long.MAX_VALUE);
-                    }
-                    Reply reply = new Reply(questionController.getChosenAnswer(), Long.MAX_VALUE);
-                    System.out.println("WYSYLAM");
-                    new AnswerFromPlayerMessage(outputStream, reply).send();
-                    setAnswering(false);
-                    break;
-                }
-                try {
-                    bytes[0] = (byte) inputStream.read();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
 
-            //questionController.listenToTimeout();
-
-
-        } else if (bytes[0] == 4) {
+        } else if (bytes[0] == ServerMessages.QUESTION_WITH_PHOTO.ordinal()) {
             QuestionClientSideWithPhoto q = getQuestionWithPhoto();
             QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, time, this, main.getMainFrame());
             //questionController.listenToTimeout();
             bytes[0] = -1;
             System.out.println("3");
             sendAnswer(questionController, bytes);
-            /*while (true) {
-                System.out.println("4");
-                if (bytes[0] == 9) {
-                    if (!questionController.isClicked()) {
-                        questionController.setClicked(true);
-                        questionController.setAnswerTime(Long.MAX_VALUE);
-                    }
-                    Reply reply = new Reply(questionController.getChosenAnswer(), Long.MAX_VALUE);
-                    System.out.println("WYSYLAM");
-                    new AnswerFromPlayerMessage(outputStream, reply).send();
-                    setAnswering(false);
-                    break;
-                }
-                try {
-                    bytes[0] = (byte) inputStream.read();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
+
+        } else if (bytes[0] == ServerMessages.WALKOVER.ordinal()) {
+            winByWalkover();
         }
     }
 
 
     private void sendAnswer(QuestionControllerAbstract questionController, byte[] bytes) {
         while (true) {
-            System.out.println("4");
-            if (bytes[0] == 9) {
+            try {
+                Thread.sleep(200);
+                try {
+                    if (isConnected() && inputStream.available() > 0) {
+                        bytes[0] = (byte) inputStream.read();
+
+                    } else if (!isConnected()) {
+                        break;
+                    }
+                    if (bytes[0] == ServerMessages.GET_ANSWER.ordinal()) {
+                        if (!questionController.isClicked()) {
+                            questionController.setClicked(true);
+                            questionController.setAnswerTime(Long.MAX_VALUE);
+                        }
+                        Reply reply = new Reply(questionController.getChosenAnswer(), questionController.getAnswerTime());
+                        System.out.println("WYSYLAM");
+                        new AnswerFromPlayerMessage(outputStream, reply).send();
+                        setAnswering(false);
+                        break;
+                    } else if (bytes[0] == ServerMessages.WALKOVER.ordinal()) {
+                        winByWalkover();
+                        break;
+                    }
+
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+
+
+        }
+
+            /*System.out.println("4");
+            if (bytes[0] == ServerMessages.GET_ANSWER.ordinal()) {
                 if (!questionController.isClicked()) {
                     questionController.setClicked(true);
                     questionController.setAnswerTime(Long.MAX_VALUE);
@@ -312,13 +323,77 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 new AnswerFromPlayerMessage(outputStream, reply).send();
                 setAnswering(false);
                 break;
+            } else if(bytes[0] == ServerMessages.WALKOVER.ordinal()){
+                winByWalkover();
+                break;
             }
+
+
             try {
                 bytes[0] = (byte) inputStream.read();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
+
+    private void winByWalkover() {
+        Dimension d = clearMainFrameAndGetDimension();
+        main.getMainFrame().getContentPane().add(new WalkoverPanel());
+        main.getMainFrame().pack();
+        main.getMainFrame().validate();
+        main.getMainFrame().repaint();
+        main.getMainFrame().setSize(d);
+        main.getMainFrame().setVisible(true);
+
+    }
+
+
+    //check every while!!
+    private void endGame() {
+        byte b = -1;
+        while (true) {
+            try {
+                b = (byte) inputStream.read();
+                if (b == ServerMessages.END.ordinal()) {
+                    int hasWon = inputStream.read();
+                    int howManyDraws = inputStream.read();
+                    int points = inputStream.read();
+                    Dimension d = clearMainFrameAndGetDimension();
+
+                    if (hasWon == 1 && howManyDraws == 0) {
+                        main.getMainFrame().getContentPane().add(new WinPanel());
+                        main.getMainFrame().pack();
+
+                    } else if (hasWon == 1 && howManyDraws > 0) {
+                        main.getMainFrame().getContentPane().add(new DrawPanel(howManyDraws));
+                        main.getMainFrame().pack();
+
+                    } else {
+                        main.getMainFrame().getContentPane().add(new FailPanel());
+                        main.getMainFrame().pack();
+
+                    }
+                    main.getMainFrame().getContentPane().add(new PointsPanel(points));
+                    main.getMainFrame().pack();
+                    main.getMainFrame().validate();
+                    main.getMainFrame().repaint();
+                    main.getMainFrame().setSize(d);
+                    main.getMainFrame().setVisible(true);
+                    break;
+                } else if (b == ServerMessages.WALKOVER.ordinal()) {
+                    winByWalkover();
+                    break;
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        setConnected(false);
+    }
 }
