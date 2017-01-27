@@ -13,10 +13,10 @@ public class QuestionController extends QuestionControllerAbstract {
     private QuestionPanel questionPanel;
     private QuestionClientSide question;
 
-    public QuestionController(QuestionClientSide question, long deliveredTime, ClientSidePlayer player, MainFrame mainFrame) {
+    public QuestionController(QuestionClientSide question, long deliveredTime, ClientSidePlayer player, MainFrame mainFrame, int howManyLoopsLeft) {
         super(deliveredTime, player, mainFrame);
         this.question = question;
-        questionPanel = new QuestionPanel(question, mainFrame, this);
+        questionPanel = new QuestionPanel(question, mainFrame, this, howManyLoopsLeft);
     }
 
     public QuestionPanel getQuestionPanel() {

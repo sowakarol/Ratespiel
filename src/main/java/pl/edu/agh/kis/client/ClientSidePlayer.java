@@ -209,7 +209,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 for (int i = 0; i < roundsNumber; i++) {
                     //sendMessage(new ReadyPlayerMessage(outputStream));
 
-                    playRound();
+                    playRound(i + 1);
                 }
                 endGame();
 
@@ -222,8 +222,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     }
 
 
-
-    public void playRound() {
+    public void playRound(int currentLoop) {
         byte[] bytes = new byte[1];
         bytes[0] = -1;
         try {
@@ -238,24 +237,9 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         if (bytes[0] == ServerMessages.QUESTION.ordinal()) {
             QuestionClientSide q = getQuestion();
             System.out.println("1");
-            QuestionController questionController = new QuestionController(q, time, this, main.getMainFrame());
+            QuestionController questionController = new QuestionController(q, time, this,
+                    main.getMainFrame(), roundsNumber - currentLoop);
             System.out.println("2");
-            /*Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (isAnswering()) {
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-
-        });
-        thread.start();
-
-*/
 
             bytes[0] = -1;
             System.out.println("3");
@@ -264,7 +248,8 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
         } else if (bytes[0] == ServerMessages.QUESTION_WITH_PHOTO.ordinal()) {
             QuestionClientSideWithPhoto q = getQuestionWithPhoto();
-            QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, time, this, main.getMainFrame());
+            QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, time, this,
+                    main.getMainFrame(), roundsNumber - currentLoop);
             //questionController.listenToTimeout();
             bytes[0] = -1;
             System.out.println("3");

@@ -104,7 +104,8 @@ public class Server {
                     break;
                 } else {
                     for (ServerSidePlayer pl : players) {
-                        new WaitMessage(pl.getOutputStream(), numberOfConnectedPlayers).send();
+                        new WaitMessage(pl.getOutputStream(),
+                                playersNumber - numberOfConnectedPlayers).send();
                     }
                 }
 
@@ -150,7 +151,7 @@ public class Server {
                         players.remove(player);
                         //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
                         for (ServerSidePlayer pl : players) {
-                            new WaitMessage(pl.getOutputStream(), numberOfConnectedPlayers).send();
+                            new WaitMessage(pl.getOutputStream(), playersNumber - numberOfConnectedPlayers).send();
                         }
                         player.closeConnection();
                         break;

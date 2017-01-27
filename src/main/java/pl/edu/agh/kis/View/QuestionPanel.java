@@ -13,8 +13,9 @@ import java.awt.*;
 public class QuestionPanel extends QuestionPanelAbstract {
 
 
-    public QuestionPanel(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionController questionController) {
-        super(question, mainFrame, questionController);
+    public QuestionPanel(QuestionClientSideAbstract question, MainFrame mainFrame,
+                         QuestionController questionController, int howManyLoopsLeft) {
+        super(question, mainFrame, questionController, howManyLoopsLeft);
         prepareAndShow();
 
     }

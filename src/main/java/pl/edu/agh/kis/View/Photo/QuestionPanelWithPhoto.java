@@ -14,8 +14,9 @@ import javax.swing.*;
 public class QuestionPanelWithPhoto extends QuestionPanelAbstract {
 
 
-    public QuestionPanelWithPhoto(QuestionClientSideAbstract question, MainFrame mainFrame, QuestionControllerWithPhoto questionController) {
-        super(question, mainFrame, questionController);
+    public QuestionPanelWithPhoto(QuestionClientSideAbstract question, MainFrame mainFrame,
+                                  QuestionControllerWithPhoto questionController, int howManyLoopsLeft) {
+        super(question, mainFrame, questionController, howManyLoopsLeft);
         prepareAndShow();
     }
 
