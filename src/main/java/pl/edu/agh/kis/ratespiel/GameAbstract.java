@@ -89,10 +89,7 @@ public abstract class GameAbstract implements GameInterface {
             threads.get(i).start();
             i++;
         }
-        if (players.size() == 1) {
-            new WalkoverMessage(players.get(0).getOutputStream(), players.get(0).getPoints()).send();
-            return false;
-        }
+
         for (Thread thread : threads
                 ) {
             try {
@@ -100,6 +97,10 @@ public abstract class GameAbstract implements GameInterface {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        if (players.size() == 1) {
+            new WalkoverMessage(players.get(0).getOutputStream(), players.get(0).getPoints()).send();
+            return false;
         }
         System.out.println("W");
         for (Answer answer :
@@ -153,7 +154,11 @@ public abstract class GameAbstract implements GameInterface {
                 } else if (b == PlayerMessages.DISCONNECT.ordinal()) {
                     players.remove(player);
                     //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
+                    if (players.size() == 1) {
+                        players.get(0).sendMessage(new WalkoverMessage(players.get(0).getOutputStream(),
+                                players.get(0).getPoints()));
 
+                    }
                     player.closeConnection();
                     break;
                 }
@@ -163,9 +168,20 @@ public abstract class GameAbstract implements GameInterface {
             } else {
                 answers.add(new Answer(new Reply(ans, Long.parseLong(timeString)), player.getId()));
             }
+
         } catch (IOException e) {
             e.printStackTrace();
+            System.err.println("ERROR, REMOVING PLAYER " + player.getId());
+
+            players.remove(player);
+            //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
+            if (players.size() == 1) {
+                players.get(0).sendMessage(new WalkoverMessage(players.get(0).getOutputStream(),
+                        players.get(0).getPoints()));
+            }
+            player.closeConnection();
         }
+
     }
 
     //METODA RUN() Z SENDQUESTIONS + GETANSWERS

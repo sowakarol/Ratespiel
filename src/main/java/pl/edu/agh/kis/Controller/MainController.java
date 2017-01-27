@@ -85,16 +85,15 @@ public class MainController implements ActionListener {
     }
 
     public void disconnectPlayerWhenClosingWindow() {
-        if (player.isConnected()) {
-            player.setConnected(false);
-            System.out.println("uuuu");
-            if (player != null) {
+        if (player != null) {
+            if (player.isConnected()) {
+                player.setConnected(false);
+                System.out.println("uuuu");
                 new DisconnectPlayerMessage(getPlayer().getOutputStream()).send();
                 getPlayer().closeConnection();
             }
         }
     }
-
     /*class LoginCreation implements Runnable {
         public LoginFrame loginFrame;
         LoginController loginController;

@@ -201,17 +201,21 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     //JUST DO IT!!
     public void play() {
         getHelloFromServer();
-        if (waitForGame()) {
+        if (waitForGame() && isConnected()) {
             try {
                 Thread.sleep(waitingTimeForNewGame * 1000);
-                sendMessage(new ReadyPlayerMessage(outputStream));
+                if (isConnected())
+                    sendMessage(new ReadyPlayerMessage(outputStream));
 
                 for (int i = 0; i < roundsNumber; i++) {
                     //sendMessage(new ReadyPlayerMessage(outputStream));
-
-                    playRound(i + 1);
+                    if (isConnected()) {
+                        playRound(i + 1);
+                    }
                 }
-                endGame();
+                if (isConnected()) {
+                    endGame();
+                }
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -277,6 +281,9 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                             questionController.setClicked(true);
                             questionController.setAnswerTime(Long.MAX_VALUE);
                         }
+                        if (!isConnected()) {
+                            break;
+                        }
                         Reply reply = new Reply(questionController.getChosenAnswer(), questionController.getAnswerTime());
                         System.out.println("WYSYLAM");
                         new AnswerFromPlayerMessage(outputStream, reply).send();
@@ -289,6 +296,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
                 } catch (IOException e1) {
                     e1.printStackTrace();
+                    break;
                 }
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
@@ -297,29 +305,6 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
         }
 
-            /*System.out.println("4");
-            if (bytes[0] == ServerMessages.GET_ANSWER.ordinal()) {
-                if (!questionController.isClicked()) {
-                    questionController.setClicked(true);
-                    questionController.setAnswerTime(Long.MAX_VALUE);
-                }
-                Reply reply = new Reply(questionController.getChosenAnswer(), questionController.getAnswerTime());
-                System.out.println("WYSYLAM");
-                new AnswerFromPlayerMessage(outputStream, reply).send();
-                setAnswering(false);
-                break;
-            } else if(bytes[0] == ServerMessages.WALKOVER.ordinal()){
-                winByWalkover();
-                break;
-            }
-
-
-            try {
-                bytes[0] = (byte) inputStream.read();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
 
