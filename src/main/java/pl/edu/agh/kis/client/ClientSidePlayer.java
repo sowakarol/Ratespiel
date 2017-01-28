@@ -169,29 +169,27 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     public QuestionClientSideWithPhoto getQuestionWithPhoto() {
 
         ArrayList<String> answers = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-        try {
-            for (int i = 0; i < 4; i++) {
-                answers.add(br.readLine());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        byte[] buffer;
 
-        ObjectInputStream input = null;
+        byte[] buffer;
+        ObjectInputStream input;
         BufferedImage image = null;
         try {
             input = new ObjectInputStream(inputStream);
+
+            for (int i = 0; i < 4; i++) {
+                answers.add(input.readUTF());
+                System.out.println(answers.get(i));
+            }
             buffer = (byte[]) input.readObject();
             image = ImageIO.read(new ByteArrayInputStream(buffer));
-
+            //image = ImageIO.read((File) input.readObject());
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
 
         return new QuestionClientSideWithPhoto(answers, image);
 
@@ -300,6 +298,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 }
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
+                break;
             }
 
 
@@ -360,6 +359,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
             } catch (IOException e) {
                 e.printStackTrace();
+                break;
             }
 
 

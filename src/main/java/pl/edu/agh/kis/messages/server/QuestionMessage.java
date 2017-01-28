@@ -24,11 +24,16 @@ public class QuestionMessage extends MessageAbstract {
     @Override
     public void send() {
         try {
+
             out.write(message);
             printWriter = new PrintWriter(out, true);
             printWriter.println(question.getToTranslate());
             question.randomizeAnswers();
+
+
             for (int i = 0; i < question.getAnswers().size(); i++) {
+                System.out.println("XDXD" + this.toString() + "  " + question.getAnswers().get(i));
+
                 printWriter.println(question.getAnswers().get(i));
             }
         } catch (IOException e) {

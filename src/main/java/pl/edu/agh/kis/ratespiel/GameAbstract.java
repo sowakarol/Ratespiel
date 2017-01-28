@@ -32,6 +32,7 @@ public abstract class GameAbstract implements GameInterface {
     protected ArrayList<ServerSidePlayer> players = new ArrayList<>();
     protected int numberOfPlayers;
     protected int roundNumbers;
+    int threadCount;
     /**
      * variable representing time in which player has to answer for question in seconds
      */
@@ -57,6 +58,8 @@ public abstract class GameAbstract implements GameInterface {
 
 
         int questionNumber = getRandomNumberOfQuestion();
+
+
         File checkImage = new File(path + questionNumber + ".jpg");
 
         if (checkImage.exists()) {
@@ -211,22 +214,29 @@ public abstract class GameAbstract implements GameInterface {
 
 
     protected void sendQuestionToPlayers(QuestionServerSide question, ArrayList<ServerSidePlayer> players) {
-        QuestionClientSide q = new QuestionClientSide(question);
+        QuestionClientSide q;
+        synchronized (this) {
+            q = new QuestionClientSide(question);
+        }
+        for (int i = 0; i < q.getAnswers().size(); i++) {
+            System.out.println("X" + q.getAnswers().get(i));
+        }
 
         Vector<Thread> threads = new Vector<>();
-        int i = 0;
+        threadCount = -1;
 
 
         for (ServerSidePlayer player : players) {
             threads.add(new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    new QuestionMessage(player.getOutputStream(), q).send();
+                    new QuestionMessage(player.getOutputStream(), new QuestionClientSide(q)).send();
 
                 }
             }));
-            threads.get(i).start();
-            i++;
+            threadCount++;
+
+            threads.get(threadCount).start();
         }
 
 

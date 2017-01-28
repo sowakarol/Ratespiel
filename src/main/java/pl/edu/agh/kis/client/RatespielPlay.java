@@ -37,7 +37,6 @@ public class RatespielPlay {
             while (!main.getLoginController().isInitialized()) {
                 try {
                     Thread.sleep(500);
-                    System.out.println(" asd");
                     if (main.isExitWithoutPlaying()) break;
 
                 } catch (InterruptedException e) {

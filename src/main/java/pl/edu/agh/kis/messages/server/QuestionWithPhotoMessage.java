@@ -4,7 +4,10 @@ import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.messages.MessageAbstract;
 
 import javax.imageio.ImageIO;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Karl on 22.01.2017.
@@ -24,23 +27,31 @@ public class QuestionWithPhotoMessage extends MessageAbstract {
         try {
             out.write(message);
             question.randomizeAnswers();
-            PrintWriter pw = new PrintWriter(out, true);
+
+
+            ObjectOutputStream outputStream = new ObjectOutputStream(out);
+
+
             for (int i = 0; i < question.getAnswers().size(); i++) {
-                pw.println(question.getAnswers().get(i));
+                outputStream.writeUTF(question.getAnswers().get(i));
             }
 
+            /*PrintWriter pw = new PrintWriter(out, true);
+            for (int i = 0; i < question.getAnswers().size(); i++) {
+                pw.println(question.getAnswers().get(i));
+            }*/
 
 
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
+            //ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
             baos = new ByteArrayOutputStream();
             ImageIO.write(question.getImage(), "jpg", baos);
             baos.flush();
-            System.out.println("Size of baos = " + baos.size());
+            //System.out.println("Size of baos = " + baos.size());
             byte[] buffer = baos.toByteArray();
             baos.close();
             baos = null;
-            objectOutputStream.writeObject(buffer);
-            objectOutputStream.flush();
+            outputStream.writeObject(buffer);
+            outputStream.flush();
 
         } catch (IOException e) {
             e.printStackTrace();

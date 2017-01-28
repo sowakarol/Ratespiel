@@ -13,6 +13,15 @@ public class QuestionClientSide extends QuestionClientSideAbstract {
         this.toTranslate = toTranslate;
     }
 
+    public QuestionClientSide(QuestionClientSide q) {
+        super();
+        for (int i = 0; i < q.getAnswers().size(); i++) {
+            answers.add(q.getAnswers().get(i));
+        }
+        toTranslate = q.getToTranslate();
+
+    }
+
     public QuestionClientSide(QuestionServerSide question) {
         super(question.getAnswers());
         this.toTranslate = question.getToTranslate();

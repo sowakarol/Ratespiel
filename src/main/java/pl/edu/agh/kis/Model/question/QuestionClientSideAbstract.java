@@ -12,21 +12,46 @@ import java.util.Collections;
 public class QuestionClientSideAbstract extends Question {
 
     public QuestionClientSideAbstract(ArrayList<String> answers) {
-        this.answers = answers;
+        for (int i = 0; i < answers.size(); i++) {
+            this.answers.add(new String(answers.get(i)));
+        }
     }
 
+    public QuestionClientSideAbstract() {
+
+    }
+
+    public static void main(String[] args) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("a");
+        arrayList.add("b");
+        arrayList.add("c");
+        arrayList.add("d");
+
+        QuestionClientSide questionClientSide = new QuestionClientSide(arrayList, "");
+
+        for (int i = 0; i < 4; i++) {
+            System.out.println(questionClientSide.answers.get(i));
+        }
+
+        questionClientSide.randomizeAnswers();
+        System.out.println();
+
+        for (int i = 0; i < 4; i++) {
+            System.out.println(questionClientSide.answers.get(i));
+        }
+    }
 
     public void randomizeAnswers() {
-        ArrayList<String> ret = new ArrayList<>(this.getAnswers());
-        ret = durstenfeldShuffle(getAnswers());
-        setAnswers(ret);
+        ArrayList<String> ret = new ArrayList<>(getAnswers());
+        ArrayList<String> tmp = durstenfeldShuffle(ret);
+        setAnswers(tmp);
     }
-
 
     protected ArrayList<String> durstenfeldShuffle(ArrayList<String> unsortedAnswers) {
         ArrayList<String> ret = new ArrayList<>(unsortedAnswers);
         RandomNumberWithRange random = new RandomNumberWithRange();
-        System.out.println(ret);
+        //System.out.println(ret);
 
         for (int i = ret.size() - 1; i > 0; i--) {
             int j = 0;
