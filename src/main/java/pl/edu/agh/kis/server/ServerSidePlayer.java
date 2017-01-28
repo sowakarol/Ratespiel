@@ -2,6 +2,7 @@ package pl.edu.agh.kis.server;
 
 import pl.edu.agh.kis.messages.MessageAbstract;
 import pl.edu.agh.kis.ratespiel.PlayerAbstract;
+import pl.edu.agh.kis.ratespiel.PlayerInterface;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -9,7 +10,7 @@ import java.net.Socket;
 /**
  * Created by Karl on 22.01.2017.
  */
-public class ServerSidePlayer extends PlayerAbstract implements ServerSidePlayerInterface {
+public class ServerSidePlayer extends PlayerAbstract implements PlayerInterface {
     private String gameType;
     private int playersNumber;
     private int waitingTimeForNewGame;
@@ -42,7 +43,6 @@ public class ServerSidePlayer extends PlayerAbstract implements ServerSidePlayer
         return points;
     }
 
-    @Override
     public MessageAbstract getMessage() {
         return null;
     }
@@ -56,9 +56,4 @@ public class ServerSidePlayer extends PlayerAbstract implements ServerSidePlayer
         }
     }
 
-    @Override
-    public void play() {
-
-
-    }
 }

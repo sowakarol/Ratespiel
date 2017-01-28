@@ -1,5 +1,6 @@
 package pl.edu.agh.kis.Model.question;
 
+import pl.edu.agh.kis.Exception.InvalidRangeException;
 import pl.edu.agh.kis.utils.RandomNumberWithRange;
 
 import java.util.ArrayList;
@@ -28,7 +29,12 @@ public class QuestionClientSideAbstract extends Question {
         System.out.println(ret);
 
         for (int i = ret.size() - 1; i > 0; i--) {
-            int j = random.randomInteger(0, i);
+            int j = 0;
+            try {
+                j = random.randomInteger(0, i);
+            } catch (InvalidRangeException e) {
+                e.printStackTrace();
+            }
             Collections.swap(ret, j, i);
         }
         System.out.println(ret);

@@ -11,7 +11,7 @@ import java.net.Socket;
  * Created by Karl on 22.01.2017.
  * abstract class refactoring code to player on both server/client side
  */
-public abstract class PlayerAbstract {
+public abstract class PlayerAbstract implements PlayerInterface {
     protected Socket playerSocket;
     protected OutputStream outputStream;
     protected InputStream inputStream;

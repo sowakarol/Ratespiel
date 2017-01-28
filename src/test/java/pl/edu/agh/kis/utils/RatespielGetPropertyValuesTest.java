@@ -1,6 +1,6 @@
 package pl.edu.agh.kis.utils;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.IOException;
 
@@ -15,6 +15,27 @@ public class RatespielGetPropertyValuesTest {
         RatespielGetPropertyValues ratespielGetPropertyValues = new RatespielGetPropertyValues();
         try {
             assertEquals("test", ratespielGetPropertyValues.getValue("test"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test(expected = Exception.class)
+    public void getNullValue() {
+        RatespielGetPropertyValues ratespielGetPropertyValues = new RatespielGetPropertyValues();
+        try {
+            assertEquals("test", ratespielGetPropertyValues.getValue(null));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    public void getWrongValue() {
+        RatespielGetPropertyValues ratespielGetPropertyValues = new RatespielGetPropertyValues();
+        try {
+            assertEquals(null, ratespielGetPropertyValues.getValue("veryWrongValue"));
         } catch (IOException e) {
             e.printStackTrace();
         }

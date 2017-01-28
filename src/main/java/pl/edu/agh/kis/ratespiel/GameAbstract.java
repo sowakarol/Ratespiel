@@ -1,6 +1,7 @@
 package pl.edu.agh.kis.ratespiel;
 
 import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
+import pl.edu.agh.kis.Exception.InvalidRangeException;
 import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.Model.Photo.QuestionServerSideWithPhoto;
@@ -192,7 +193,12 @@ public abstract class GameAbstract implements GameInterface {
     //}
 
     protected int getRandomNumberOfQuestion() {
-        int randomNumberOfFile = new RandomNumberWithRange().randomInteger(1, numberOfQuestions());
+        int randomNumberOfFile = 0;
+        try {
+            randomNumberOfFile = new RandomNumberWithRange().randomInteger(1, numberOfQuestions());
+        } catch (InvalidRangeException e) {
+            e.printStackTrace();
+        }
 
         if (randomNumberOfFile < 1) try {
             throw new EmptyQuestionFolderException("Not found any files in: " + path);

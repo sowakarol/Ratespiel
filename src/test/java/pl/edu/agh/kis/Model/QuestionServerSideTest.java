@@ -1,18 +1,34 @@
 package pl.edu.agh.kis.Model;
 
+import org.junit.Rule;
+import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
+import pl.edu.agh.kis.Model.question.QuestionServerSide;
+import pl.edu.agh.kis.utils.RatespielGetPropertyValues;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Created by Karl on 11.01.2017.
  */
+
+
 public class QuestionServerSideTest {
-    /*@Rule
+    @Rule
     public ExpectedException exception = ExpectedException.none();
+    String path = RatespielGetPropertyValues.getPath();
 
     @Test
     public void setQuestionAndAssertItsCorrect() {
         int testID = 1;
-        final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
         QuestionServerSide testQuestion = null;
-        testQuestion = new QuestionServerSide(testID);
+        testQuestion = new QuestionServerSide(testID, path);
 
         assertEquals(testID, testQuestion.getQuestionNumber());
 
@@ -41,9 +57,9 @@ public class QuestionServerSideTest {
         int testID = -1;
 
 
-        QuestionServerSide testQuestion = new QuestionServerSide(testID);
+        QuestionServerSide testQuestion = new QuestionServerSide(testID, path);
         //fail("Expected FileNotFoundException");
 
-    }*/
+    }
 
 }

@@ -18,12 +18,9 @@ public class RandomNumberWithRange {
         random = new Random(seed);
     }
 
-    public int randomInteger(int from, int to) {
-        if (to < from) try {
+    public int randomInteger(int from, int to) throws InvalidRangeException {
+        if (to < from)
             throw new InvalidRangeException();
-        } catch (InvalidRangeException invalidRange) {
-            invalidRange.printStackTrace();
-        }
 
 
         int divider = to - from + 1;

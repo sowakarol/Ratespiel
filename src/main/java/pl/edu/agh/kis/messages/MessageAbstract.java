@@ -9,10 +9,15 @@ public abstract class MessageAbstract {
     protected byte message;
     protected OutputStream out;
 
-
     public MessageAbstract(OutputStream out) {
         this.out = out;
     }
 
+    public OutputStream getOut() {
+        return out;
+    }
+
     public abstract void send();
+
+
 }
