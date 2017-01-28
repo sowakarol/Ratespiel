@@ -3,6 +3,7 @@ package pl.edu.agh.kis.View;
 import pl.edu.agh.kis.Controller.MainController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
@@ -10,7 +11,6 @@ import java.awt.event.ActionListener;
  */
 public class MainFrame extends JFrame {
     private static String title = "Ratespiele";
-    private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\View\\";
     boolean changeDefaultToGame = false;
     private MainController mainController;
     private JPanel mainPanel;
@@ -42,6 +42,7 @@ public class MainFrame extends JFrame {
         //     e.printStackTrace();
         //getContentPane().setBackground(Color.GREEN);
         // }
+        setLayout(new GridLayout());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         mainPanel = new JPanel();
@@ -76,7 +77,6 @@ public class MainFrame extends JFrame {
     @Override
     public void dispose() {
         System.out.println("u");
-
         mainController.disconnectPlayerWhenClosingWindow();
         super.dispose();
     }

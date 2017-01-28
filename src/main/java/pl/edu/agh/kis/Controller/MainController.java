@@ -16,6 +16,7 @@ public class MainController implements ActionListener {
     private MainFrame mainFrame;
     private boolean mainControllerClicked = false;
     private LoginController loginController;
+    private boolean exitWithoutPlaying = false;
     //observer albo interferjs jeszcze między buttonem
     public MainController() {
 
@@ -43,8 +44,20 @@ public class MainController implements ActionListener {
 
     }*/
 
+    public void setMainControllerClicked(boolean mainControllerClicked) {
+        this.mainControllerClicked = mainControllerClicked;
+    }
+
     public LoginController getLoginController() {
         return loginController;
+    }
+
+    public void setLoginController(LoginController loginController) {
+        this.loginController = loginController;
+    }
+
+    public boolean isExitWithoutPlaying() {
+        return exitWithoutPlaying;
     }
 
     @Override
@@ -92,6 +105,8 @@ public class MainController implements ActionListener {
                 new DisconnectPlayerMessage(getPlayer().getOutputStream()).send();
                 getPlayer().closeConnection();
             }
+        } else {
+            exitWithoutPlaying = true;
         }
     }
     /*class LoginCreation implements Runnable {

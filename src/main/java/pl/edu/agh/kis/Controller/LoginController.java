@@ -11,18 +11,18 @@ import java.awt.event.ActionListener;
  * Created by Karl on 14.01.2017.
  */
 public class LoginController implements ActionListener {
-    boolean clicked = false;
+    private boolean clicked = false;
     private MainFrame mainFrame;
     private LoginModel loginModel;
     private LoginPanel loginPanel;
-    private volatile boolean initialized = false;
+    private boolean initialized = false;
     private String hostname;
     private String username;
     private int portNumber;
     //private Socket socket;
     //private PlayerClientSideWithGUIAbstract player;
 
-    LoginController(MainFrame mainFrame) {
+    public LoginController(MainFrame mainFrame) {
         loginPanel = new LoginPanel(this);
         loginModel = new LoginModel();
         this.mainFrame = mainFrame;
@@ -53,28 +53,51 @@ public class LoginController implements ActionListener {
     //}
 
 
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
+
     public synchronized boolean isInitialized() {
         return initialized;
+    }
+
+    public void setInitialized(boolean initialized) {
+        this.initialized = initialized;
     }
 
     public String getHostname() {
         return hostname;
     }
 
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getPortNumber() {
         return portNumber;
     }
 
+    public void setPortNumber(int portNumber) {
+        this.portNumber = portNumber;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("XD");
         if (!clicked) {
+            System.out.println("XXD");
             username = loginPanel.getUserText().getText();
             System.out.println(username);
             String tmp = loginPanel.getPortText().getText();
+
             portNumber = Integer.parseInt(tmp);
             System.out.println(portNumber);
             hostname = loginPanel.getHostText().getText();

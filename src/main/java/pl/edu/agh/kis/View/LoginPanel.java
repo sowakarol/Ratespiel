@@ -40,13 +40,17 @@ public class LoginPanel extends JPanel {
         return hostText;
     }
 
-    public JLabel getHostLabel() {
-        return hostLabel;
+    public void setHostText(JTextField hostText) {
+        this.hostText = hostText;
     }
 
     //public JRadioButton getWordsButton() {
     //  return wordsButton;
     //}
+
+    public JLabel getHostLabel() {
+        return hostLabel;
+    }
 
     public JRadioButton getCitiesButton() {
         return citiesButton;
@@ -64,8 +68,16 @@ public class LoginPanel extends JPanel {
         return userText;
     }
 
+    public void setUserText(JTextField userText) {
+        this.userText = userText;
+    }
+
     public JTextField getPortText() {
         return portText;
+    }
+
+    public void setPortText(JTextField portText) {
+        this.portText = portText;
     }
 
     private void placeButtons() {
