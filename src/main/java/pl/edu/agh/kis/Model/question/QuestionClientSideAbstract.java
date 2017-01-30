@@ -22,7 +22,7 @@ public class QuestionClientSideAbstract extends Question {
     }
 
     public static void main(String[] args) {
-        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<String> arrayList = new ArrayList<String>();
         arrayList.add("a");
         arrayList.add("b");
         arrayList.add("c");
@@ -43,13 +43,13 @@ public class QuestionClientSideAbstract extends Question {
     }
 
     public void randomizeAnswers() {
-        ArrayList<String> ret = new ArrayList<>(getAnswers());
+        ArrayList<String> ret = new ArrayList<String>(getAnswers());
         ArrayList<String> tmp = durstenfeldShuffle(ret);
         setAnswers(tmp);
     }
 
     protected ArrayList<String> durstenfeldShuffle(ArrayList<String> unsortedAnswers) {
-        ArrayList<String> ret = new ArrayList<>(unsortedAnswers);
+        ArrayList<String> ret = new ArrayList<String>(unsortedAnswers);
         RandomNumberWithRange random = new RandomNumberWithRange();
         //System.out.println(ret);
 

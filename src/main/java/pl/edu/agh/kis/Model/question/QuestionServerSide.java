@@ -22,7 +22,8 @@ public class QuestionServerSide extends QuestionServerSideAbstract {
             }
         }
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(questionFile));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader(questionFile));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(questionFile), "UTF-8"));
             toTranslate = bufferedReader.readLine();
 
             for (int i = 0; i < 4; i++) {

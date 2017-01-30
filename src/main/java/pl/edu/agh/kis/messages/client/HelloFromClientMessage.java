@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 /**
  * Created by Karl on 20.01.2017.
+ * message with request to get all needed information to start a game
  */
 public class HelloFromClientMessage extends MessageAbstract {
 

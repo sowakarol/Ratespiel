@@ -35,10 +35,11 @@ public class QuestionClientSide extends QuestionClientSideAbstract {
 
     @Override
     public String toString() {
-        String ret = "toTranslate: " + toTranslate + "\n";
+        StringBuilder ret = new StringBuilder();
+        ret.append("toTranslate: " + toTranslate + "\n");
         for (int i = 0; i < 4; i++) {
-            ret += "" + i + " " + answers.get(i) + "\n";
+            ret.append("" + i + " " + answers.get(i) + "\n");
         }
-        return ret;
+        return ret.toString();
     }
 }

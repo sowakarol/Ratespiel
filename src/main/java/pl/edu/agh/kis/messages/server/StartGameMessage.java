@@ -7,10 +7,9 @@ import java.io.OutputStream;
 
 /**
  * Created by Karl on 20.01.2017.
+ * message informing that all needed players are connected and the game is going to start
  */
 public class StartGameMessage extends MessageAbstract {
-
-
     public StartGameMessage(OutputStream out) {
         super(out);
         message = (byte) ServerMessages.START_GAME.ordinal();

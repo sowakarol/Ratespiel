@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 /**
  * Created by Karl on 27.01.2017.
+ * Message sent to a player which was left along and is going to win by a walkover
  */
 public class WalkoverMessage extends MessageAbstract {
     private int points;

@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 /**
  * Created by Karl on 22.01.2017.
+ * message with information about disconnecting from player
  */
 public class DisconnectPlayerMessage extends MessageAbstract {
     public DisconnectPlayerMessage(OutputStream out) {

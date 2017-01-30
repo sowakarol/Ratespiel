@@ -26,10 +26,13 @@ import java.util.Vector;
  */
 public abstract class GameAbstract implements GameInterface {
     protected String path;
-    protected ArrayList<ServerSidePlayer> players = new ArrayList<>();
+    protected ArrayList<ServerSidePlayer> players = new ArrayList<ServerSidePlayer>();
     protected int numberOfPlayers;
     protected int roundNumbers;
     private int threadCount;
+    private BufferedReader bufferedReader;
+    //private BufferedReader answersReader;
+
     /**
      * variable representing time in which player has to answer for question in seconds
      */
@@ -75,12 +78,12 @@ public abstract class GameAbstract implements GameInterface {
 
         }
         //sendQuestionToPlayers(new QuestionClientSideAbstract(question.getAnswers()), players,isImage);
-        ArrayList<Answer> answers = new ArrayList<>();
+        final ArrayList<Answer> answers = new ArrayList<Answer>();
 
         System.out.println("sendeeed");
-        Vector<Thread> threads = new Vector<>();
+        Vector<Thread> threads = new Vector<Thread>();
         int i = 0;
-        for (ServerSidePlayer player : players) {
+        for (final ServerSidePlayer player : players) {
             threads.add(new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -159,7 +162,6 @@ public abstract class GameAbstract implements GameInterface {
                     break;
                 } else if (b == PlayerMessages.DISCONNECT.ordinal()) {
                     players.remove(player);
-                    //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
                     if (players.size() == 1) {
                         players.get(0).sendMessage(new WalkoverMessage(players.get(0).getOutputStream(),
                                 players.get(0).getPoints()));
@@ -180,7 +182,6 @@ public abstract class GameAbstract implements GameInterface {
             System.err.println("ERROR, REMOVING PLAYER " + player.getId());
 
             players.remove(player);
-            //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
             if (players.size() == 1) {
                 players.get(0).sendMessage(new WalkoverMessage(players.get(0).getOutputStream(),
                         players.get(0).getPoints()));
@@ -216,7 +217,7 @@ public abstract class GameAbstract implements GameInterface {
 
 
     protected void sendQuestionToPlayers(QuestionServerSide question, ArrayList<ServerSidePlayer> players) {
-        QuestionClientSide q;
+        final QuestionClientSide q;
         synchronized (this) {
             q = new QuestionClientSide(question);
         }
@@ -224,11 +225,11 @@ public abstract class GameAbstract implements GameInterface {
             System.out.println("X" + q.getAnswers().get(i));
         }
 
-        Vector<Thread> threads = new Vector<>();
+        Vector<Thread> threads = new Vector<Thread>();
         threadCount = -1;
 
 
-        for (ServerSidePlayer player : players) {
+        for (final ServerSidePlayer player : players) {
             threads.add(new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -251,11 +252,11 @@ public abstract class GameAbstract implements GameInterface {
     }
 
     protected void sendQuestionToPlayers(QuestionServerSideWithPhoto question, ArrayList<ServerSidePlayer> players) {
-        QuestionClientSideWithPhoto q = new QuestionClientSideWithPhoto(question);
-        Vector<Thread> threads = new Vector<>();
+        final QuestionClientSideWithPhoto q = new QuestionClientSideWithPhoto(question);
+        Vector<Thread> threads = new Vector<Thread>();
         int i = 0;
 
-        for (ServerSidePlayer player : players) {
+        for (final ServerSidePlayer player : players) {
             threads.add(new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -279,7 +280,7 @@ public abstract class GameAbstract implements GameInterface {
     }
 
     protected int chooseWinnerOfRound(ArrayList<Answer> answers, QuestionServerSideAbstract question) {
-        Vector<Answer> correctAnswers = new Vector<>();
+        Vector<Answer> correctAnswers = new Vector<Answer>();
         AnswerChecker checker = new AnswerChecker();
         for (Answer answer : answers) {
             if (checker.isTrue(question, answer)) {

@@ -7,15 +7,12 @@ import java.io.OutputStream;
 
 /**
  * Created by Karl on 24.01.2017.
+ * message informing a player that his time for answering is over
  */
 public class GetAnswerMessage extends MessageAbstract {
-
-
     public GetAnswerMessage(OutputStream out) {
         super(out);
         message = (byte) ServerMessages.GET_ANSWER.ordinal();
-
-
     }
 
     @Override

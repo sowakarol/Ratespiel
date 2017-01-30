@@ -196,7 +196,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
      */
     public QuestionClientSide getQuestion() {
         String toTranslate = "";
-        ArrayList<String> answers = new ArrayList<>();
+        ArrayList<String> answers = new ArrayList<String>();
         BufferedReader br;
         try {
             br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
@@ -204,7 +204,6 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             toTranslate = br.readLine();
             for (int i = 0; i < 4; i++) {
                 answers.add(br.readLine());
-                System.out.println(answers.get(i));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -231,7 +230,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
      * @return QuestionClientSideWithPhoto object from a server for a current loop
      */
     public QuestionClientSideWithPhoto getQuestionWithPhoto() {
-        ArrayList<String> answers = new ArrayList<>();
+        ArrayList<String> answers = new ArrayList<String>();
 
         byte[] buffer;
         ObjectInputStream input;
@@ -241,14 +240,15 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
             for (int i = 0; i < 4; i++) {
                 answers.add(input.readUTF());
-                System.out.println(answers.get(i));
             }
             buffer = (byte[]) input.readObject();
             image = ImageIO.read(new ByteArrayInputStream(buffer));
             //image = ImageIO.read((File) input.readObject());
 
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
         }
 
 

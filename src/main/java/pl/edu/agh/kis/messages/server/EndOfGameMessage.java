@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 /**
  * Created by Karl on 26.01.2017.
+ * message informing about end of a game
  */
 public class EndOfGameMessage extends MessageAbstract {
     private int hasWon;

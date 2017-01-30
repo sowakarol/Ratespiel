@@ -11,10 +11,10 @@ import java.io.OutputStream;
 
 /**
  * Created by Karl on 22.01.2017.
+ * message with question with photo, send method randomizing answers
  */
 public class QuestionWithPhotoMessage extends MessageAbstract {
     private QuestionClientSideWithPhoto question;
-    private ByteArrayOutputStream baos;
 
     public QuestionWithPhotoMessage(OutputStream out, QuestionClientSideWithPhoto question) {
         super(out);
@@ -28,22 +28,14 @@ public class QuestionWithPhotoMessage extends MessageAbstract {
             out.write(message);
             question.randomizeAnswers();
 
-
             ObjectOutputStream outputStream = new ObjectOutputStream(out);
-
-
             for (int i = 0; i < question.getAnswers().size(); i++) {
                 outputStream.writeUTF(question.getAnswers().get(i));
             }
 
-            /*PrintWriter pw = new PrintWriter(out, true);
-            for (int i = 0; i < question.getAnswers().size(); i++) {
-                pw.println(question.getAnswers().get(i));
-            }*/
-
 
             //ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
-            baos = new ByteArrayOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(question.getImage(), "jpg", baos);
             baos.flush();
             //System.out.println("Size of baos = " + baos.size());

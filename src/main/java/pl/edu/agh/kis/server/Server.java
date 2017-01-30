@@ -11,7 +11,6 @@ import pl.edu.agh.kis.utils.RatespielGetPropertyValues;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -40,11 +39,11 @@ public class Server {
         waitingTimeForNewGame = RatespielGetPropertyValues.getWaitingTimeForNewGame();
         roundsNumber = RatespielGetPropertyValues.getroundsNumber();
         maximalRespondTime = RatespielGetPropertyValues.getMaximalRespondTime();
-        players = new ArrayList<>(playersNumber);
+        players = new ArrayList<ServerSidePlayer>(playersNumber);
 
 
         try {
-            serverSocket = new ServerSocket(RatespielGetPropertyValues.getPortNumber(), 0, InetAddress.getByName(hostname));
+            serverSocket = new ServerSocket(RatespielGetPropertyValues.getPortNumber(), 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,19 +60,16 @@ public class Server {
             while (true) {
                 Socket playerSocket = serverSocket.accept();
                 // SERVERSIDEPLAYER!!   PlayerServerSide player = new PlayerServerSide(playerSocket, ++numberOfConnectedPlayers);
-                ServerSidePlayer player = new ServerSidePlayer(playerSocket, gameType, playersNumber, waitingTimeForNewGame, roundsNumber,
+                final ServerSidePlayer player = new ServerSidePlayer(playerSocket, gameType, playersNumber, waitingTimeForNewGame, roundsNumber,
                         maximalRespondTime, ++numberOfConnectedPlayers);
                 int gameTypeRepresentation;
-                switch (gameType) {
-                    case "translation":
-                        gameTypeRepresentation = 0;
-                        break;
-                    case "cities":
-                        gameTypeRepresentation = 1;
-                        break;
-                    default:
-                        gameTypeRepresentation = 0;
-                        break;
+
+                if (gameType.equals("translation")) {
+                    gameTypeRepresentation = 0;
+                } else if (gameType.equals("cities")) {
+                    gameTypeRepresentation = 1;
+                } else {
+                    gameTypeRepresentation = 0;
                 }
 
                 //adding player
@@ -149,7 +145,6 @@ public class Server {
                     if (b == PlayerMessages.DISCONNECT.ordinal()) {
                         --numberOfConnectedPlayers;
                         players.remove(player);
-                        //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
                         for (ServerSidePlayer pl : players) {
                             new WaitMessage(pl.getOutputStream(), playersNumber - numberOfConnectedPlayers).send();
                         }
@@ -164,23 +159,7 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*while(!gameStarted){
-            try {
-                b = (byte) player.getInputStream().read();
-                if(b == PlayerMessages.DISCONNECT.ordinal()){
-                    --numberOfConnectedPlayers;
-                    players.remove(player);
-                    //new GoodbyeIfDisconnectedMessage(player.getOutputStream());
-                    for (ServerSidePlayer pl: players) {
-                        new WaitMessage(pl.getOutputStream(),numberOfConnectedPlayers).send();
-                    }
-                    player.closeConnection();
-                    break;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
+
     }
 
 

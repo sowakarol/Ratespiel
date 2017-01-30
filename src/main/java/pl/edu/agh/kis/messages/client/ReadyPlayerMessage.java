@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 /**
  * Created by Karl on 22.01.2017.
+ * message informing server that player is ready to start a game
  */
 public class ReadyPlayerMessage extends MessageAbstract {
     public ReadyPlayerMessage(OutputStream out) {

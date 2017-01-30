@@ -126,7 +126,7 @@ public class QuestionClientSideTest {
         QuestionClientSideTestImplementation(ArrayList<String> answers, String toTranslate, int seed) throws FileNotFoundException {
             super(answers, toTranslate);
             this.seed = seed;
-            this.answersBeforeRandomize = new ArrayList<>(this.answers);
+            this.answersBeforeRandomize = new ArrayList<String>(this.answers);
         }
 
         @Override
@@ -138,7 +138,7 @@ public class QuestionClientSideTest {
         }
 
         private ArrayList<String> durstenfeldShuffle(ArrayList<String> unsortedAnswers, int seed) {
-            ArrayList<String> ret = new ArrayList<>(unsortedAnswers);
+            ArrayList<String> ret = new ArrayList<String>(unsortedAnswers);
             RandomNumberWithRange random = new RandomNumberWithRange(seed);
 
             for (int i = ret.size() - 1; i > 0; i--) {

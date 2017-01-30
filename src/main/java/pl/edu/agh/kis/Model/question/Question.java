@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public abstract class Question {
     //private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\";
-    protected ArrayList<String> answers = new ArrayList<>(4);
+    protected ArrayList<String> answers = new ArrayList<String>(4);
 
     public Question(ArrayList<String> answers) {
         this.answers = answers;

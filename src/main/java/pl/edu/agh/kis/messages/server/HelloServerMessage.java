@@ -8,7 +8,7 @@ import java.io.OutputStream;
 /**
  * Created by Karl on 20.01.2017.
  * class representing a Hello Message from Server including informing a Client about number of players, kind
- * of game
+ * of game, number of rounds, maximal respond time in seconds and waiting time for a new game in seconds
  */
 public class HelloServerMessage extends MessageAbstract {
     private int numberOfPlayers;
