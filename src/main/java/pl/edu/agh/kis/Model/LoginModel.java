@@ -4,9 +4,9 @@ package pl.edu.agh.kis.Model;
  * Created by Karl on 14.01.2017.
  */
 public class LoginModel {
-    String username;
-    int portNumber;
-    String hostname;
+    private String username = ""; //for future functionalities
+    private int portNumber;
+    private String hostname;
 
     public LoginModel() {
 

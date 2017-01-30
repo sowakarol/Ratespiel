@@ -8,7 +8,6 @@ import javax.swing.*;
  * Created by Karl on 14.01.2017.
  */
 public class LoginPanel extends JPanel {
-    JRadioButton citiesButton;
     private boolean initialized;
     private JLabel userLabel;
     private JLabel portLabel;
@@ -22,18 +21,6 @@ public class LoginPanel extends JPanel {
         super();
         initialized = false;
         this.loginController = loginController;
-    }
-    //private JRadioButton wordsButton;
-
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame();
-
-        //LoginPanel loginPanel = new LoginPanel();
-
-
-        //jFrame.add(loginPanel);
-        jFrame.pack();
-        jFrame.setVisible(true);
     }
 
     public JTextField getHostText() {
@@ -50,10 +37,6 @@ public class LoginPanel extends JPanel {
 
     public JLabel getHostLabel() {
         return hostLabel;
-    }
-
-    public JRadioButton getCitiesButton() {
-        return citiesButton;
     }
 
     public JLabel getUserLabel() {

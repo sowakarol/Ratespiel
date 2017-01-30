@@ -29,7 +29,7 @@ import java.util.ArrayList;
  */
 public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     private MainController main;
-    private String gameType;
+    private String gameType;//for future functionalities - printing to a player in which version of game he plays
     private int playersNumber;
     private int waitingTimeForNewGame;
     private int roundsNumber;
@@ -144,8 +144,10 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     public QuestionClientSide getQuestion() {
         String toTranslate = "";
         ArrayList<String> answers = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader br = null;
         try {
+            br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+
             toTranslate = br.readLine();
             for (int i = 0; i < 4; i++) {
                 answers.add(br.readLine());

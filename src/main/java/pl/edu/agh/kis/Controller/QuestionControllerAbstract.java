@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.Controller;
 
-import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.View.MainFrame;
 import pl.edu.agh.kis.client.ClientSidePlayer;
 import pl.edu.agh.kis.panels.AnswerSentPanel;
@@ -17,7 +16,6 @@ public class QuestionControllerAbstract implements ActionListener {
     private boolean clicked = false;
     private ClientSidePlayer player;
     private long deliveredTime;
-    private Reply reply;
     private long answerTime;
     private String chosenAnswer;
     // private QuestionPanel questionPanel;

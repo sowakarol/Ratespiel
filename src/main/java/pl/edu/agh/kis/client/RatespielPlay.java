@@ -58,6 +58,8 @@ public class RatespielPlay {
                 initialized = true;
                 if (main.isExitWithoutPlaying()) break;
 
+            } catch (RuntimeException e1) {
+                e1.printStackTrace();
             } catch (Exception e) {
                 if (main.isExitWithoutPlaying()) break;
 

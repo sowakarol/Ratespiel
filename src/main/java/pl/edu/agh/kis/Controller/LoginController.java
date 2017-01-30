@@ -21,8 +21,7 @@ public class LoginController implements ActionListener {
     private String hostname;
     private String username;
     private int portNumber;
-    //private Socket socket;
-    //private PlayerClientSideWithGUIAbstract player;
+
 
     public LoginController(MainFrame mainFrame) {
         loginPanel = new LoginPanel(this);

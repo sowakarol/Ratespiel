@@ -24,7 +24,10 @@ public class RandomNumberWithRange {
 
 
         int divider = to - from + 1;
-        int ret = Math.abs(random.nextInt()) % divider;
+
+        int ret = random.nextInt(Integer.MAX_VALUE) % divider;
+
+
         return ret + from;
     }
 

@@ -15,10 +15,7 @@ import pl.edu.agh.kis.server.ServerSidePlayer;
 import pl.edu.agh.kis.utils.AnswerChecker;
 import pl.edu.agh.kis.utils.RandomNumberWithRange;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,7 +29,7 @@ public abstract class GameAbstract implements GameInterface {
     protected ArrayList<ServerSidePlayer> players = new ArrayList<>();
     protected int numberOfPlayers;
     protected int roundNumbers;
-    int threadCount;
+    private int threadCount;
     /**
      * variable representing time in which player has to answer for question in seconds
      */
@@ -133,7 +130,12 @@ public abstract class GameAbstract implements GameInterface {
     }
 
     protected void getAnswer(ArrayList<Answer> answers, ServerSidePlayer player, int maxTimeToReply) {
-        BufferedReader br = new BufferedReader(new InputStreamReader(player.getInputStream()));
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new InputStreamReader(player.getInputStream(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         try {
             Reminder r = new Reminder(maxTimeToReply);
             String ans = null;
@@ -235,10 +237,8 @@ public abstract class GameAbstract implements GameInterface {
                 }
             }));
             threadCount++;
-
             threads.get(threadCount).start();
         }
-
 
         for (Thread thread : threads
                 ) {
@@ -254,7 +254,6 @@ public abstract class GameAbstract implements GameInterface {
         QuestionClientSideWithPhoto q = new QuestionClientSideWithPhoto(question);
         Vector<Thread> threads = new Vector<>();
         int i = 0;
-
 
         for (ServerSidePlayer player : players) {
             threads.add(new Thread(new Runnable() {
@@ -289,9 +288,7 @@ public abstract class GameAbstract implements GameInterface {
                 findPlayer(answer.getPlayerID()).addPoints(1); // for correct answer
             }
         }
-
         long quickestTime = Long.MAX_VALUE;
-
 
         for (Answer answer : correctAnswers) {
             if (answer.getReply().getReplyTime() < quickestTime) {
@@ -395,8 +392,4 @@ class Reminder {
         }
     }
 
-    /*public static void main(String args[]) {
-        new Reminder(5);
-        System.out.format("Task scheduled.%n");
-    }*/
 }

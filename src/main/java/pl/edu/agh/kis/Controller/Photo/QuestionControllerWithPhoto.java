@@ -20,7 +20,6 @@ public class QuestionControllerWithPhoto extends QuestionControllerAbstract {
         this.question = question;
         questionPanel = new QuestionPanelWithPhoto(question, mainFrame, this, howManyLoopsLeft);
 
-
     }
 
 

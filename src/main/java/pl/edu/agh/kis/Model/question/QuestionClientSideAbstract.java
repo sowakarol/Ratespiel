@@ -13,7 +13,7 @@ public class QuestionClientSideAbstract extends Question {
 
     public QuestionClientSideAbstract(ArrayList<String> answers) {
         for (int i = 0; i < answers.size(); i++) {
-            this.answers.add(new String(answers.get(i)));
+            this.answers.add(answers.get(i));
         }
     }
 
