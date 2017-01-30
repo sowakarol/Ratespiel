@@ -14,7 +14,7 @@ public class QuestionController extends QuestionControllerAbstract {
     private QuestionClientSide question;
 
     public QuestionController(QuestionClientSide question, long deliveredTime, ClientSidePlayer player, MainFrame mainFrame, int howManyLoopsLeft) {
-        super(deliveredTime, player, mainFrame);
+        super(deliveredTime, player, mainFrame, howManyLoopsLeft);
         this.question = question;
         questionPanel = new QuestionPanel(question, mainFrame, this, howManyLoopsLeft);
     }

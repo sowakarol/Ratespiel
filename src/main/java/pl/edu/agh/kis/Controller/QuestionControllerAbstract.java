@@ -3,6 +3,8 @@ package pl.edu.agh.kis.Controller;
 import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.View.MainFrame;
 import pl.edu.agh.kis.client.ClientSidePlayer;
+import pl.edu.agh.kis.panels.AnswerSentPanel;
+import pl.edu.agh.kis.panels.HowManyRoundsLeftPanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,11 +23,13 @@ public class QuestionControllerAbstract implements ActionListener {
     // private QuestionPanel questionPanel;
     private MainFrame mainFrame;
     private Container container;
+    private int howManyLoopsLeft;
 
-    public QuestionControllerAbstract(long deliveredTime, ClientSidePlayer player, MainFrame mainFrame) {
+    public QuestionControllerAbstract(long deliveredTime, ClientSidePlayer player, MainFrame mainFrame, int howManyLoopsLeft) {
         this.player = player;
         this.deliveredTime = deliveredTime;
         this.mainFrame = mainFrame;
+        this.howManyLoopsLeft = howManyLoopsLeft;
         //listenToTimeout();
         //questionPanel = new QuestionPanel(question, mainFrame, this);
 
@@ -115,6 +119,23 @@ public class QuestionControllerAbstract implements ActionListener {
             //player.closeConnection();
             //WAIT
             clicked = true;
+
+
+            container = mainFrame.getContentPane();
+            container.removeAll();
+
+            Dimension d = mainFrame.getSize();
+
+            mainFrame.getContentPane().add(new AnswerSentPanel());
+            mainFrame.pack();
+
+            mainFrame.getContentPane().add(new HowManyRoundsLeftPanel(howManyLoopsLeft));
+            mainFrame.pack();
+
+            mainFrame.validate();
+            mainFrame.repaint();
+            mainFrame.setSize(d);
+            mainFrame.setVisible(true);
         }
     }
 }

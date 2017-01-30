@@ -10,7 +10,11 @@ public class HowManyRoundsLeftPanel extends JPanel {
         super();
         JTextPane textPane = new JTextPane();
         textPane.setContentType("text/html");
-        textPane.setText("There are " + howMany + " rounds left");
+        if (howMany != 0) {
+            textPane.setText("There are " + howMany + " rounds left");
+        } else {
+            textPane.setText("Last round!");
+        }
         textPane.setEditable(false);
         add(textPane);
     }

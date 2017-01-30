@@ -16,7 +16,7 @@ public class QuestionControllerWithPhoto extends QuestionControllerAbstract {
 
     public QuestionControllerWithPhoto(QuestionClientSideWithPhoto question, long deliveredTime,
                                        ClientSidePlayer player, MainFrame mainFrame, int howManyLoopsLeft) {
-        super(deliveredTime, player, mainFrame);
+        super(deliveredTime, player, mainFrame, howManyLoopsLeft);
         this.question = question;
         questionPanel = new QuestionPanelWithPhoto(question, mainFrame, this, howManyLoopsLeft);
 
