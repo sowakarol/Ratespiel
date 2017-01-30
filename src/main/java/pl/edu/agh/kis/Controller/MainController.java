@@ -10,58 +10,90 @@ import java.awt.event.ActionListener;
 
 /**
  * Created by Karl on 14.01.2017.
+ * Class taking care of changing panels after start button is clicked
  */
 public class MainController implements ActionListener {
+    /**
+     * variable representing current player
+     */
     private ClientSidePlayer player;
+    /**
+     * player's mainFrame
+     */
     private MainFrame mainFrame;
+    /**
+     * true if start button was clicked
+     */
     private boolean mainControllerClicked = false;
+    /**
+     * loginController of current player
+     */
     private LoginController loginController;
+    /**
+     * exit when player wants to exit mainFrame
+     */
     private boolean exitWithoutPlaying = false;
 
 
-    public MainController() {
-
-    }
-
+    /**
+     * @return current ClientSidePlayer
+     */
     public ClientSidePlayer getPlayer() {
         return player;
     }
 
+    /**
+     * setter of player value
+     *
+     * @param player new player of current MainController
+     */
     public void setPlayer(ClientSidePlayer player) {
         this.player = player;
     }
 
 
+    /**
+     * @param mainControllerClicked new value of mainControllerClicked
+     */
     public void setMainControllerClicked(boolean mainControllerClicked) {
         this.mainControllerClicked = mainControllerClicked;
     }
 
+    /**
+     * @return loginController reference
+     */
     public LoginController getLoginController() {
         return loginController;
     }
 
+    /**
+     * setter of LoginController
+     * @param loginController new LoginController reference
+     */
     public void setLoginController(LoginController loginController) {
         this.loginController = loginController;
     }
 
+    /**
+     * @return isExitWithoutPlaying value
+     */
     public boolean isExitWithoutPlaying() {
         return exitWithoutPlaying;
     }
 
+    /**
+     * method handling setting new loginController after clicking start and changing panels
+     * @param e button connected to this action
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!mainControllerClicked) {
-            //LoginCreation loginCreation = new LoginCreation();
             Container container = mainFrame.getContentPane();
             container.removeAll();
-            //mainFrame.revalidate();
 
-            //mainFrame.repaint();
-            //mainFrame.revalidate();
             loginController.getLoginPanel().set();
             container.add(loginController.getLoginPanel());
-            //mainFrame.repaint();
-            //mainFrame.revalidate();
+
             mainFrame.validate();
             mainFrame.repaint();
             mainFrame.setVisible(true);
