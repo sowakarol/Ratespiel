@@ -29,7 +29,7 @@ public abstract class QuestionPanelAbstract extends JPanel {
 
     protected void addAnswersAndPrepare() {
         JPanel answersButtonsPanel = new JPanel();
-        add(new HowManyRoundsLeftPanel(howManyLoopsLeft));
+        //add(new HowManyRoundsLeftPanel(howManyLoopsLeft));
         answersButtonsPanel.setLayout(new BoxLayout(answersButtonsPanel, BoxLayout.Y_AXIS));
         for (int i = 0; i < 4; i++) {
             JButton button = new JButton(question.getAnswers().get(i));
@@ -42,6 +42,7 @@ public abstract class QuestionPanelAbstract extends JPanel {
         add(answersButtonsPanel);
         setVisible(true);
 
+        add(new HowManyRoundsLeftPanel(howManyLoopsLeft));
 
         //if(mainFrame.getMainPanel() == null) System.out.println("PRZYPA");
         container = mainFrame.getContentPane();
@@ -54,11 +55,9 @@ public abstract class QuestionPanelAbstract extends JPanel {
         container.add(this);
         //mainFrame.repaint();
         //mainFrame.revalidate();
-        System.out.println("ASDAS");
         mainFrame.validate();
         mainFrame.repaint();
         mainFrame.setVisible(true);
-        System.out.println("ASDAS");
 
     }
 

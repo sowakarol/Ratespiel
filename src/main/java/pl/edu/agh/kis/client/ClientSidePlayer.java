@@ -218,8 +218,6 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 
@@ -361,8 +359,6 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 e.printStackTrace();
                 break;
             }
-
-
         }
         setConnected(false);
     }
