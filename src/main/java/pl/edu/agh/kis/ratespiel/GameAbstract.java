@@ -293,17 +293,19 @@ public abstract class GameAbstract implements GameInterface {
         long quickestTime = Long.MAX_VALUE;
 
 
-/*        for (Answer answer : correctAnswers) {
+        for (Answer answer : correctAnswers) {
             if (answer.getReply().getReplyTime() < quickestTime) {
+                System.out.println(quickestTime);
                 quickestTime = answer.getReply().getReplyTime();
             }
         }
 
         for (Answer answer : correctAnswers) {
             if (answer.getReply().getReplyTime() == quickestTime) {
+                System.out.println("QUICKEST" + answer.getPlayerID());
                 findPlayer(answer.getPlayerID()).addPoints(1); // for being quickest
             }
-        }*/
+        }
 
         return -1;
     }

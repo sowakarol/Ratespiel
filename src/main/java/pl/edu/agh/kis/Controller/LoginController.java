@@ -3,7 +3,9 @@ package pl.edu.agh.kis.Controller;
 import pl.edu.agh.kis.Model.LoginModel;
 import pl.edu.agh.kis.View.LoginPanel;
 import pl.edu.agh.kis.View.MainFrame;
+import pl.edu.agh.kis.panels.WrongPortNumberFormatPanel;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -98,24 +100,23 @@ public class LoginController implements ActionListener {
             System.out.println(username);
             String tmp = loginPanel.getPortText().getText();
 
-            portNumber = Integer.parseInt(tmp);
+            try {
+                portNumber = Integer.parseInt(tmp);
+            } catch (NumberFormatException e1) {
+                e1.printStackTrace();
+                Dimension d = mainFrame.getSize();
+                WrongPortNumberFormatPanel wrongPortNumberFormatPanel = new WrongPortNumberFormatPanel();
+                wrongPortNumberFormatPanel.setBounds(10, 155, 80, 25);
+                mainFrame.getContentPane().add(wrongPortNumberFormatPanel);
+                mainFrame.pack();
+                mainFrame.validate();
+                mainFrame.repaint();
+                mainFrame.setSize(d);
+                mainFrame.setVisible(true);
+                return;
+            }
             System.out.println(portNumber);
             hostname = loginPanel.getHostText().getText();
-
-            /*try {
-                socket = new Socket(hostname, portNumber);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            //client = new Client(portNumber, "localhost");
-            //socket = client.getPlayerSocket();
-            //player = new PlayerClientSideWithGUI(socket, mainFrame);
-            if (loginPanel.getCitiesButton().isSelected()) {
-                player = new PlayerClientSideWithGUIPhoto(socket, mainFrame);
-
-            } else {
-                player = new PlayerClientSideWithGUI(socket, mainFrame);
-            }*/
 
 
             initialized = true;

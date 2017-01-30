@@ -230,14 +230,14 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         } catch (IOException e) {
             e.printStackTrace();
         }
-        long time = System.nanoTime();
+        long Startedtime = System.nanoTime();
         //System.out.println(question);
         //QuestionController questionController = new QuestionController(question, time, this, mainFrame);
         isAnswering = true;
         if (bytes[0] == ServerMessages.QUESTION.ordinal()) {
             QuestionClientSide q = getQuestion();
             System.out.println("1");
-            QuestionController questionController = new QuestionController(q, time, this,
+            QuestionController questionController = new QuestionController(q, Startedtime, this,
                     main.getMainFrame(), roundsNumber - currentLoop);
             System.out.println("2");
 
@@ -248,7 +248,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
         } else if (bytes[0] == ServerMessages.QUESTION_WITH_PHOTO.ordinal()) {
             QuestionClientSideWithPhoto q = getQuestionWithPhoto();
-            QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, time, this,
+            QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, Startedtime, this,
                     main.getMainFrame(), roundsNumber - currentLoop);
             //questionController.listenToTimeout();
             bytes[0] = -1;
