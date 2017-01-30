@@ -24,28 +24,66 @@ import java.util.ArrayList;
 
 /**
  * Created by Karl on 22.01.2017.
- *
+ * Class representing a player on a client side. Contains all methods necessary to play. It defines a game and is connected to GUI.
  *
  */
 public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
+    /**
+     * a MainController of a player
+     */
     private MainController main;
+    /**
+     * There are two main types in this game - a city type, and words to translate type
+     * this string is representing in which one a player is playing. It's sent from server.
+     * Ratespiel can be expended so that gameType will be needed here.
+     */
     private String gameType;//for future functionalities - printing to a player in which version of game he plays
+    /**
+     * Variable representing the number of players. Sent by a server.
+     * When Ratespiel will be expanded to a version that flashes usernames with their scores after game ended it might be useful.
+     */
     private int playersNumber;
+    /**
+     * Variable representing time in seconds that the server waits after players needed for a game's start.
+     */
     private int waitingTimeForNewGame;
+    /**
+     * Variable representing a number of rounds that a game consist of
+     */
     private int roundsNumber;
+    /**
+     * Variable representing time in seconds that a client has to answer for every question
+     */
     private int maximalRespondTime;
+    /**
+     * Variable representing a boolean value is a player in chosen moment answering for a question
+     */
     private boolean isAnswering = false;
+    /**
+     * variable used to clear a main GUI frame
+     */
     private Container container;
+    /**
+     * variable representing a boolean value is a player connected to a server
+     */
     private boolean isConnected;
 
+    /**
+     * The only constructor of ClientSidePlayer class
+     *
+     * @param playerSocket socket maintaining a connection with server
+     * @param main         MainController communicating and updating GUI of a client
+     */
     public ClientSidePlayer(Socket playerSocket, MainController main) {
         super(playerSocket);
         this.main = main;
         isConnected = true;
-
-
     }
 
+    /**
+     * method cleaning a main frame
+     * @return dimension of a main frame before cleaning
+     */
     private Dimension clearMainFrameAndGetDimension() {
         Dimension ret = main.getMainFrame().getSize();
         container = main.getMainFrame().getContentPane();
@@ -54,22 +92,34 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
     }
 
+    /**
+     * @return a value of a boolean isAnswering variable
+     */
     public boolean isAnswering() {
         return isAnswering;
     }
 
+    /**
+     * method setting isAnswering boolean value
+     * @param answering new boolean value of a isAnswering value
+     */
     public void setAnswering(boolean answering) {
         isAnswering = answering;
     }
 
+    /**
+     * method sending a hello request to a server, getting from server and initializing
+     * playersNumber, roundsNumber, gameType, maximalRespondTime and waitingTimeForNewGame variables
+     */
     public void getHelloFromServer() {
         sendMessage(new HelloFromClientMessage(outputStream));
         byte b[] = new byte[6];
         try {
+            //reading from server
             for (int i = 0; i < b.length; i++) {
-                System.out.println(i);
                 b[i] = (byte) inputStream.read();
             }
+            //initializing variables
             if (b[0] == 0) {
                 playersNumber = b[1];
                 roundsNumber = b[2];
@@ -85,9 +135,6 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 }
                 maximalRespondTime = b[4];
                 waitingTimeForNewGame = b[5];
-                for (byte a : b) {
-                    System.out.println(a);
-                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,18 +142,23 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
     }
 
+    /**
+     * @return true - if player waited for a game or false if player disconnected
+     */
     public boolean waitForGame() {
         byte b[] = new byte[2];
         b[0] = -1;
         try {
             b[0] = (byte) inputStream.read();
+            //while game not started
             while (b[0] != ServerMessages.START_GAME.ordinal()) {
+                //wait message changing the state of waiting game - some player disconnected or connected
+
                 if (b[0] == ServerMessages.WAIT.ordinal()) {
                     int requiredPlayers = inputStream.read();
 
-
+                    //updating a waiting panel
                     Dimension d = clearMainFrameAndGetDimension();
-
                     main.getMainFrame().getContentPane().add(new WaitForOtherPlayersPanel(requiredPlayers));
                     main.getMainFrame().pack();
                     main.getMainFrame().validate();
@@ -126,25 +178,26 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             return false;
         }
 
+        //setting up a GetReadyPanel
         Dimension d = clearMainFrameAndGetDimension();
-
         main.getMainFrame().getContentPane().add(new GetReadyPanel(waitingTimeForNewGame));
         main.getMainFrame().pack();
         main.getMainFrame().validate();
         main.getMainFrame().repaint();
         main.getMainFrame().setSize(d);
         main.getMainFrame().setVisible(true);
-        System.out.println(waitingTimeForNewGame + " more!! WAIT");
-
-
         System.out.println("BE READY " + waitingTimeForNewGame + " seconds for a game!");
         return true;
     }
 
+    /**
+     * method getting a question QuestionClientSide from server
+     * @return a QuestionClientSide class for current loop
+     */
     public QuestionClientSide getQuestion() {
         String toTranslate = "";
         ArrayList<String> answers = new ArrayList<>();
-        BufferedReader br = null;
+        BufferedReader br;
         try {
             br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
 
@@ -160,16 +213,24 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         return new QuestionClientSide(answers, toTranslate);
     }
 
+    /**
+     * @return isConnected variable's value
+     */
     public boolean isConnected() {
         return isConnected;
     }
 
+    /**
+     * @param connected a new value for isConnected variable
+     */
     public void setConnected(boolean connected) {
         isConnected = connected;
     }
 
+    /**
+     * @return QuestionClientSideWithPhoto object from a server for a current loop
+     */
     public QuestionClientSideWithPhoto getQuestionWithPhoto() {
-
         ArrayList<String> answers = new ArrayList<>();
 
         byte[] buffer;
@@ -186,9 +247,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
             image = ImageIO.read(new ByteArrayInputStream(buffer));
             //image = ImageIO.read((File) input.readObject());
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -197,8 +256,10 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
     }
 
-    //TODO
-    //JUST DO IT!!
+
+    /**
+     * main method doing all connected player's actions - from sending hello request, playing round, sending answers to displaying win/lose/draw at the end
+     */
     public void play() {
         getHelloFromServer();
         if (waitForGame() && isConnected()) {
@@ -208,7 +269,6 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                     sendMessage(new ReadyPlayerMessage(outputStream));
 
                 for (int i = 0; i < roundsNumber; i++) {
-                    //sendMessage(new ReadyPlayerMessage(outputStream));
                     if (isConnected()) {
                         playRound(i + 1);
                     }
@@ -224,6 +284,10 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     }
 
 
+    /**
+     * method which takes all necessity actions to player that allows him to play a round
+     * @param currentLoop number of a current loop - helps displaying how many loops left till the end of a game
+     */
     public void playRound(int currentLoop) {
         byte[] bytes = new byte[1];
         bytes[0] = -1;
@@ -232,29 +296,26 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         } catch (IOException e) {
             e.printStackTrace();
         }
-        long Startedtime = System.nanoTime();
-        //System.out.println(question);
-        //QuestionController questionController = new QuestionController(question, time, this, mainFrame);
+
+        //beginning of counting time from client side
+        long startedTime = System.nanoTime();
+
         isAnswering = true;
         if (bytes[0] == ServerMessages.QUESTION.ordinal()) {
             QuestionClientSide q = getQuestion();
-            System.out.println("1");
-            QuestionController questionController = new QuestionController(q, Startedtime, this,
+            QuestionController questionController = new QuestionController(q, startedTime, this,
                     main.getMainFrame(), roundsNumber - currentLoop);
-            System.out.println("2");
 
             bytes[0] = -1;
-            System.out.println("3");
             sendAnswer(questionController, bytes);
 
 
         } else if (bytes[0] == ServerMessages.QUESTION_WITH_PHOTO.ordinal()) {
             QuestionClientSideWithPhoto q = getQuestionWithPhoto();
-            QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, Startedtime, this,
+            QuestionControllerWithPhoto questionController = new QuestionControllerWithPhoto(q, startedTime, this,
                     main.getMainFrame(), roundsNumber - currentLoop);
             //questionController.listenToTimeout();
             bytes[0] = -1;
-            System.out.println("3");
             sendAnswer(questionController, bytes);
 
         } else if (bytes[0] == ServerMessages.WALKOVER.ordinal()) {
@@ -263,6 +324,10 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     }
 
 
+    /**
+     * @param questionController Question Controller that has all necessary information about answer
+     * @param bytes byte array which will be used to read all information from server
+     */
     private void sendAnswer(QuestionControllerAbstract questionController, byte[] bytes) {
         while (true) {
             try {
@@ -275,6 +340,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                         break;
                     }
                     if (bytes[0] == ServerMessages.GET_ANSWER.ordinal()) {
+                        //if player not answered get him the highest answerTime
                         if (!questionController.isClicked()) {
                             questionController.setClicked(true);
                             questionController.setAnswerTime(Long.MAX_VALUE);
@@ -282,11 +348,14 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                         if (!isConnected()) {
                             break;
                         }
+
                         Reply reply = new Reply(questionController.getChosenAnswer(), questionController.getAnswerTime());
-                        System.out.println("WYSYLAM");
+                        System.out.println("sending answer");
                         new AnswerFromPlayerMessage(outputStream, reply).send();
                         setAnswering(false);
                         break;
+
+                        // in case of Walkover message from server, create a walkover panel
                     } else if (bytes[0] == ServerMessages.WALKOVER.ordinal()) {
                         winByWalkover();
                         break;
@@ -300,13 +369,13 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 e1.printStackTrace();
                 break;
             }
-
-
         }
-
     }
 
 
+    /**
+     * method which creates walkover panel
+     */
     private void winByWalkover() {
         Dimension d = clearMainFrameAndGetDimension();
         main.getMainFrame().getContentPane().add(new WalkoverPanel());
@@ -319,18 +388,22 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     }
 
 
-    //check every while!!
+    /**
+     * method getting information from server about player result of a game
+     */
     private void endGame() {
         byte b = -1;
         while (true) {
             try {
                 b = (byte) inputStream.read();
                 if (b == ServerMessages.END.ordinal()) {
+                    //read information from server about result
                     int hasWon = inputStream.read();
                     int howManyDraws = inputStream.read();
                     int points = inputStream.read();
                     Dimension d = clearMainFrameAndGetDimension();
 
+                    //adding Panels depending on a result
                     if (hasWon == 1 && howManyDraws == 0) {
                         main.getMainFrame().getContentPane().add(new WinPanel());
                         main.getMainFrame().pack();
@@ -342,8 +415,9 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                     } else {
                         main.getMainFrame().getContentPane().add(new FailPanel());
                         main.getMainFrame().pack();
-
                     }
+
+                    //adding pointsPanel
                     main.getMainFrame().getContentPane().add(new PointsPanel(points));
                     main.getMainFrame().pack();
                     main.getMainFrame().validate();
@@ -351,12 +425,11 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                     main.getMainFrame().setSize(d);
                     main.getMainFrame().setVisible(true);
                     break;
+                    // in case of Walkover message from server, create a walkover panel
                 } else if (b == ServerMessages.WALKOVER.ordinal()) {
                     winByWalkover();
                     break;
                 }
-
-
             } catch (IOException e) {
                 e.printStackTrace();
                 break;

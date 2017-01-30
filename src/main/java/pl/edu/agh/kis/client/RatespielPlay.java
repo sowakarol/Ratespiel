@@ -11,29 +11,43 @@ import java.net.Socket;
 
 /**
  * Created by Karl on 22.01.2017.
+ * Class starting a game. Represents client side Main GUI Panel and taking actions like connecting to a server.
+ * When player is ready to play, it starts the game on a Client side.
  */
 public class RatespielPlay {
-    MainController main;
-    ClientSidePlayer player;
-    Container container;
+    /**
+     * Main Controller of a player
+     */
+    private MainController main;
+    /**
+     * player which will be initialized
+     */
+    private ClientSidePlayer player;
+    /**
+     * variable handling cleaning GUI
+     */
+    private Container container;
 
-    public RatespielPlay() {
-    }
-
+    /**
+     * method starting game on a Client side
+     *
+     * @param args not needed
+     */
     public static void main(String[] args) {
         RatespielPlay ratespiel = new RatespielPlay();
         ratespiel.startPlaying();
     }
 
+    /**
+     * method which makes GUI, taking care with LoginController on a connecting to a server
+     */
     private void startPlaying() {
         main = new MainController();
         MainFrame mainFrame = new MainFrame(main);
         main.setMainFrame(mainFrame);
         mainFrame.setDefault();
         boolean initialized = false;
-
         do {
-
             while (!main.getLoginController().isInitialized()) {
                 try {
                     Thread.sleep(500);
@@ -43,11 +57,10 @@ public class RatespielPlay {
                     e.printStackTrace();
                 }
             }
-            System.out.println(":OOOO");
             String hostname = "";
             int portNumber = 0;
             try {
-                System.out.println("inner try");
+                //trying to connect with data inputted to GUI
                 hostname = main.getLoginController().getHostname();
                 portNumber = main.getLoginController().getPortNumber();
                 System.out.println(hostname);
@@ -61,14 +74,12 @@ public class RatespielPlay {
             } catch (RuntimeException e1) {
                 e1.printStackTrace();
             } catch (Exception e) {
+
                 if (main.isExitWithoutPlaying()) break;
 
-                //main.getLoginController().setInitialized(false);
-
-
+                //creating a panel which can go back to logging panel in case of bad data inputted
                 main.setLoginController(new LoginController(main.getMainFrame()));
                 main.setMainControllerClicked(false);
-                System.out.println("xd");
                 e.printStackTrace();
                 Dimension d = main.getMainFrame().getSize();
 
@@ -79,12 +90,9 @@ public class RatespielPlay {
                 b1.setVerticalTextPosition(AbstractButton.CENTER);
                 b1.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
                 b1.setActionCommand("disable");
-
                 b1.addActionListener(main);
-
                 main.getMainFrame().getContentPane().add(b1);
                 main.getMainFrame().pack();
-
                 main.getMainFrame().getContentPane().add(new CannotReachServerPanel(hostname, portNumber));
                 main.getMainFrame().pack();
                 main.getMainFrame().validate();
@@ -97,13 +105,12 @@ public class RatespielPlay {
 
         if (main.isExitWithoutPlaying()) return;
 
+
+        //in case when everything is OK, get player to play a game
         player.play();
-        //player.getResult();
         player.closeConnection();
 
     }
 
-    private void initialize() {
-    }
 
 }

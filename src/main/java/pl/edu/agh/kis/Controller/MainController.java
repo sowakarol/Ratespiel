@@ -17,7 +17,8 @@ public class MainController implements ActionListener {
     private boolean mainControllerClicked = false;
     private LoginController loginController;
     private boolean exitWithoutPlaying = false;
-    //observer albo interferjs jeszcze między buttonem
+
+
     public MainController() {
 
     }
@@ -30,19 +31,6 @@ public class MainController implements ActionListener {
         this.player = player;
     }
 
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                MainController main = new MainController();
-                MainFrame mainFrame = new MainFrame(main);
-                main.setMainFrame(mainFrame);
-                mainFrame.setDefault();
-
-            }
-        });
-
-    }*/
 
     public void setMainControllerClicked(boolean mainControllerClicked) {
         this.mainControllerClicked = mainControllerClicked;
@@ -81,11 +69,6 @@ public class MainController implements ActionListener {
 
             mainControllerClicked = true;
         }
-        /*portNumber = loginController.getLoginPanel().getPortNumber();
-        username = loginController.getLoginPanel().getUsername();
-        client = new Client(portNumber, "localhost");
-        socket = client.getPlayerSocket();
-        player = new PlayerClientSideWithGUI(socket,mainFrame);*/
     }
 
     public MainFrame getMainFrame() {
@@ -109,21 +92,5 @@ public class MainController implements ActionListener {
             exitWithoutPlaying = true;
         }
     }
-    /*class LoginCreation implements Runnable {
-        public LoginFrame loginFrame;
-        LoginController loginController;
 
-        LoginCreation() {
-            loginController = new LoginController();
-            loginPanel = new LoginPanel(loginController);
-        }
-
-        @Override
-        public void run() {
-            LoginController loginController = new LoginController();
-            LoginFrame loginFrame;
-            loginFrame = new LoginFrame(loginController);
-            loginFrame.set();
-        }
-    }*/
 }
