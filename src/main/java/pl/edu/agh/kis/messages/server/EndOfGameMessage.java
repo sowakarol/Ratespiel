@@ -33,6 +33,15 @@ public class EndOfGameMessage extends MessageAbstract {
             out.write(hasWon);
             out.write(howManyDraws);
             out.write(points);
+            byte negative;
+            if (points >= 0) {
+                negative = 0;
+            } else {
+                negative = 1;
+            }
+            out.write(Math.abs(points));
+
+            out.write(negative);
 
             out.flush();
         } catch (IOException e) {

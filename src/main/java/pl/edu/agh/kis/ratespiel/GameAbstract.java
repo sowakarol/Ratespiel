@@ -118,8 +118,7 @@ public abstract class GameAbstract implements GameInterface {
             i++;
         }
 
-        for (Thread thread : threads
-                ) {
+        for (Thread thread : threads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
@@ -173,8 +172,25 @@ public abstract class GameAbstract implements GameInterface {
         try {
             Reminder r = new Reminder(maxTimeToReply);
             String ans = null;
+            boolean thisOne = false;
             String timeString = null;
-            while (!r.getTimePassed()) {
+            /*while (!r.getTimePassed()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }*/
+            byte b1 = -1;
+            while (answers.size() < 1) {
+                if ((byte) player.getInputStream().available() > 0) {
+                    b1 = (byte) player.getInputStream().read();
+                }
+                if (b1 == PlayerMessages.PLAYER_ANSWERED_MESSAGE.ordinal()) {
+                    System.out.println("GOT IT");
+                    thisOne = true;
+                    break;
+                }
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -200,8 +216,8 @@ public abstract class GameAbstract implements GameInterface {
                     break;
                 }
             }
-            if (timeString == null || ans == null) {
-                answers.add(new Answer(null, player.getId()));
+            if (timeString == null || ans == null || !thisOne) {
+                //answers.add(new Answer(null, player.getId()));
             } else {
                 answers.add(new Answer(new Reply(ans, Long.parseLong(timeString)), player.getId()));
             }
@@ -325,23 +341,26 @@ public abstract class GameAbstract implements GameInterface {
                 correctAnswers.add(answer);
                 System.out.println("PLAYER " + answer.getPlayerID() + " CORRECT ANSWER");
                 findPlayer(answer.getPlayerID()).addPoints(1); // for correct answer
+            } else {
+                findPlayer(answer.getPlayerID()).addPoints(-1); // for notcorrect answer
+                System.out.println(findPlayer(answer.getPlayerID()).getPoints());
             }
         }
         long quickestTime = Long.MAX_VALUE;
 
-        for (Answer answer : correctAnswers) {
+        /*for (Answer answer : correctAnswers) {
             if (answer.getReply().getReplyTime() < quickestTime) {
                 System.out.println(quickestTime);
                 quickestTime = answer.getReply().getReplyTime();
             }
-        }
+        }*/
 
-        for (Answer answer : correctAnswers) {
+        /*for (Answer answer : correctAnswers) {
             if (answer.getReply().getReplyTime() == quickestTime) {
                 System.out.println("QUICKEST" + answer.getPlayerID());
                 findPlayer(answer.getPlayerID()).addPoints(1); // for being quickest
             }
-        }
+        }*/
 
         return -1;
     }

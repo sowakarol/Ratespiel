@@ -173,6 +173,8 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                 }
                 b[0] = (byte) inputStream.read();
             }
+
+
         } catch (IOException e) {
             e.printStackTrace();
             sendMessage(new DisconnectPlayerMessage(outputStream));
@@ -180,14 +182,14 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
         }
 
         //setting up a GetReadyPanel
-        Dimension d = clearMainFrameAndGetDimension();
+        /*Dimension d = clearMainFrameAndGetDimension();
         main.getMainFrame().getContentPane().add(new GetReadyPanel(waitingTimeForNewGame, playersNumber - 1));
         main.getMainFrame().pack();
         main.getMainFrame().validate();
         main.getMainFrame().repaint();
         main.getMainFrame().setSize(d);
         main.getMainFrame().setVisible(true);
-        System.out.println("BE READY " + waitingTimeForNewGame + " seconds for a game!");
+        System.out.println("BE READY " + waitingTimeForNewGame + " seconds for a game!");*/
         return true;
     }
 
@@ -264,8 +266,31 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
     public void play() {
         getHelloFromServer();
         if (waitForGame() && isConnected()) {
-            try {
-                Thread.sleep(waitingTimeForNewGame * 1000);
+            boolean waitingIsOver = false;
+            byte x;
+            while (waitingIsOver) {
+                try {
+                    x = (byte) inputStream.read();
+                    if (x != ServerMessages.WAIT_FOR_X_SECONDS.ordinal()) {
+                        break;
+                    }
+                    x = (byte) inputStream.read();
+                    Dimension d = clearMainFrameAndGetDimension();
+                    main.getMainFrame().getContentPane().add(new GetReadyPanel(x, playersNumber - 1));
+                    main.getMainFrame().pack();
+                    main.getMainFrame().validate();
+                    main.getMainFrame().repaint();
+                    main.getMainFrame().setSize(d);
+                    main.getMainFrame().setVisible(true);
+                    System.out.println("BE READY " + waitingTimeForNewGame + " seconds for a game!");
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
                 if (isConnected())
                     sendMessage(new ReadyPlayerMessage(outputStream));
 
@@ -278,9 +303,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                     endGame();
                 }
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
         }
     }
 
@@ -402,8 +425,11 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
                     int hasWon = inputStream.read();
                     int howManyDraws = inputStream.read();
                     int points = inputStream.read();
+                    byte negative = (byte) inputStream.read();
                     Dimension d = clearMainFrameAndGetDimension();
-
+                    if (negative == 1) {
+                        points = -points;
+                    }
                     //adding Panels depending on a result
                     if (hasWon == 1 && howManyDraws == 0) {
                         main.getMainFrame().getContentPane().add(new WinPanel());

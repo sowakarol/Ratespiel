@@ -2,6 +2,7 @@ package pl.edu.agh.kis.Controller;
 
 import pl.edu.agh.kis.View.MainFrame;
 import pl.edu.agh.kis.client.ClientSidePlayer;
+import pl.edu.agh.kis.messages.client.PlayerAnsweredMessage;
 import pl.edu.agh.kis.panels.AnswerSentPanel;
 import pl.edu.agh.kis.panels.HowManyRoundsLeftPanel;
 
@@ -132,6 +133,7 @@ public class QuestionControllerAbstract implements ActionListener {
             //clear mainFrame
             container = mainFrame.getContentPane();
             container.removeAll();
+            new PlayerAnsweredMessage(player.getOutputStream()).send();
             Dimension d = mainFrame.getSize();
 
             //add AnswerSentPanel and HowManyRoundsLeftPanel to mainframe

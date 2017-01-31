@@ -5,5 +5,5 @@ package pl.edu.agh.kis.messages.client;
  * enum with all messages from player to server
  */
 public enum PlayerMessages {
-    HELLO_CLIENT, READY, DISCONNECT, ANSWER
+    HELLO_CLIENT, READY, DISCONNECT, ANSWER, PLAYER_ANSWERED_MESSAGE
 }
