@@ -57,58 +57,6 @@ public class QuestionClientSideTest {
         }
     }
 
-    @Test
-    public void checkDifferentOrderOfAnswersWithConstantSeedForIDEquals2() {
-        checkDifferentOrderOfAnswersWithConstantSeed(2, path);
-
-    }
-
-    @Test
-    public void checkDifferentOrderOfAnswersWithConstantSeedForIDEquals3() {
-        checkDifferentOrderOfAnswersWithConstantSeed(3, path);
-
-    }
-
-    @Test
-    public void creatingSomeClientSideQuestionFromOneServerSide() {
-        QuestionClientSideTest questionClientSideTest = new QuestionClientSideTest();
-        QuestionClientSideTest.QuestionClientSideTestImplementation testedQuestion1 = null;
-        QuestionClientSideTest.QuestionClientSideTestImplementation testedQuestion2 = null;
-        QuestionClientSideTest.QuestionClientSideTestImplementation testedQuestion3 = null;
-
-        int seed = 2;
-        try {
-            QuestionServerSide tmp = new QuestionServerSide(1, path);
-            testedQuestion1 = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.getAnswers(), tmp.getToTranslate(), seed);
-            testedQuestion1.randomizeAnswers();
-            testedQuestion2 = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.getAnswers(), tmp.getToTranslate(), seed);
-            testedQuestion2.randomizeAnswers();
-            testedQuestion3 = questionClientSideTest.new QuestionClientSideTestImplementation(tmp.getAnswers(), tmp.getToTranslate(), seed);
-            testedQuestion3.randomizeAnswers();
-            for (int i = 0; i < 4; i++) {
-                if (i == 0) {
-                    assertEquals(testedQuestion1.answersBeforeRandomize.get(i), testedQuestion1.getAnswers().get(i + 2));
-                    assertEquals(testedQuestion2.answersBeforeRandomize.get(i), testedQuestion2.getAnswers().get(i + 2));
-                    assertEquals(testedQuestion3.answersBeforeRandomize.get(i), testedQuestion3.getAnswers().get(i + 2));
-                } else if (i == 1) {
-                    assertEquals(testedQuestion1.answersBeforeRandomize.get(i), testedQuestion1.getAnswers().get(i - 1));
-                    assertEquals(testedQuestion2.answersBeforeRandomize.get(i), testedQuestion2.getAnswers().get(i - 1));
-                    assertEquals(testedQuestion3.answersBeforeRandomize.get(i), testedQuestion3.getAnswers().get(i - 1));
-                } else if (i == 2) {
-                    assertEquals(testedQuestion1.answersBeforeRandomize.get(i), testedQuestion1.getAnswers().get(i - 1));
-                    assertEquals(testedQuestion2.answersBeforeRandomize.get(i), testedQuestion2.getAnswers().get(i - 1));
-                    assertEquals(testedQuestion3.answersBeforeRandomize.get(i), testedQuestion3.getAnswers().get(i - 1));
-
-                } else {
-                    assertEquals(testedQuestion1.answersBeforeRandomize.get(i), testedQuestion1.getAnswers().get(i));
-                    assertEquals(testedQuestion2.answersBeforeRandomize.get(i), testedQuestion2.getAnswers().get(i));
-                    assertEquals(testedQuestion3.answersBeforeRandomize.get(i), testedQuestion3.getAnswers().get(i));
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     @Test(expected = IndexOutOfBoundsException.class)

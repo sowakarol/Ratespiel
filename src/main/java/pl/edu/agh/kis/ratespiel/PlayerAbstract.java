@@ -12,8 +12,17 @@ import java.net.Socket;
  * abstract class refactoring code to player on both server/client side
  */
 public abstract class PlayerAbstract implements PlayerInterface {
+    /**
+     * Socket of connected player
+     */
     protected Socket playerSocket;
+    /**
+     * outputstream of connected player
+     */
     protected OutputStream outputStream;
+    /**
+     * inputstream of connected player
+     */
     protected InputStream inputStream;
 
 

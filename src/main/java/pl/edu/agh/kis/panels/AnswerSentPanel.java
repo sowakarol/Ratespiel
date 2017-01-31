@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 30.01.2017.
+ * Answer panel after sent
  */
 public class AnswerSentPanel extends JPanel {
     public AnswerSentPanel() {

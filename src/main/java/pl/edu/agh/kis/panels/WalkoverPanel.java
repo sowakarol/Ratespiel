@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 27.01.2017.
+ * player informing a player that he won by a walkover
  */
 public class WalkoverPanel extends JPanel {
     public WalkoverPanel() {

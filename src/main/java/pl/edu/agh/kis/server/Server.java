@@ -32,6 +32,9 @@ public class Server {
     private ArrayList<ServerSidePlayer> players;
     private int numberOfConnectedPlayers;
 
+    /**
+     * constructor reading all variables from config file
+     */
     public Server() {
         gameType = RatespielGetPropertyValues.getGameType();
         playersNumber = RatespielGetPropertyValues.getPlayersNumber();
@@ -49,11 +52,19 @@ public class Server {
         }
     }
 
+    /**
+     * main method starting a server
+     *
+     * @param args no arguments are needed
+     */
     public static void main(String[] args) {
         Server server = new Server();
         server.startGame();
     }
 
+    /**
+     * method loading whole server
+     */
     public void startGame() {
         numberOfConnectedPlayers = 0;
         try {
@@ -101,7 +112,7 @@ public class Server {
                 } else {
                     for (ServerSidePlayer pl : players) {
                         new WaitMessage(pl.getOutputStream(),
-                                playersNumber - numberOfConnectedPlayers).send();
+                                playersNumber - numberOfConnectedPlayers, numberOfConnectedPlayers).send();
                     }
                 }
 
@@ -110,11 +121,14 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
 
+    /**
+     * method sending all necessary information to player
+     * @param playerSocket socket of an connected player
+     * @param gameTypeRepresentation representation of available game types - cities or words to translate
+     */
     private void handleNewPlayer(Socket playerSocket, int gameTypeRepresentation) {
         try {
             OutputStream out = playerSocket.getOutputStream();
@@ -132,6 +146,10 @@ public class Server {
         }
     }
 
+    /**
+     * checks if a player is disconnected
+     * @param player player which is checked
+     */
     private void checkForPlayerDisconnect(ServerSidePlayer player) {
         byte b = -1;
 
@@ -146,7 +164,7 @@ public class Server {
                         --numberOfConnectedPlayers;
                         players.remove(player);
                         for (ServerSidePlayer pl : players) {
-                            new WaitMessage(pl.getOutputStream(), playersNumber - numberOfConnectedPlayers).send();
+                            new WaitMessage(pl.getOutputStream(), playersNumber - numberOfConnectedPlayers, numberOfConnectedPlayers).send();
                         }
                         player.closeConnection();
                         break;

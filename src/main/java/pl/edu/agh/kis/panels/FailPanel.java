@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 15.01.2017.
+ * Panel when player fail the game
  */
 public class FailPanel extends JPanel {
     public FailPanel() {

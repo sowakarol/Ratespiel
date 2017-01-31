@@ -10,6 +10,7 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 15.01.2017.
+ * Panel of question with photo inside it
  */
 public class QuestionPanelWithPhoto extends QuestionPanelAbstract {
 
@@ -21,7 +22,10 @@ public class QuestionPanelWithPhoto extends QuestionPanelAbstract {
     }
 
 
-    public void prepareAndShow() {
+    /**
+     * method preparing frame with this panel
+     */
+    public final void prepareAndShow() {
         QuestionClientSideWithPhoto questionClientSideWithPhoto = (QuestionClientSideWithPhoto) question;
         JLabel questionLabel = new JLabel(new ImageIcon(questionClientSideWithPhoto.getImage()));
 
@@ -33,7 +37,5 @@ public class QuestionPanelWithPhoto extends QuestionPanelAbstract {
 
 
         addAnswersAndPrepare();
-
-
     }
 }

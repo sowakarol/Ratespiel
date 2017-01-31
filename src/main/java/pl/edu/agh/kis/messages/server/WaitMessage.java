@@ -11,11 +11,13 @@ import java.io.OutputStream;
  */
 public class WaitMessage extends MessageAbstract {
     private int numberOfRequiredPlayers;
+    private int connectedPlayers;
 
-    public WaitMessage(OutputStream out, int numberOfRequiredPlayers) {
+    public WaitMessage(OutputStream out, int numberOfRequiredPlayers, int connectedPlayers) {
         super(out);
         message = (byte) ServerMessages.WAIT.ordinal();
         this.numberOfRequiredPlayers = numberOfRequiredPlayers;
+        this.connectedPlayers = connectedPlayers;
     }
 
     @Override
@@ -23,6 +25,7 @@ public class WaitMessage extends MessageAbstract {
         try {
             out.write(message);
             out.write(numberOfRequiredPlayers);
+            out.write(connectedPlayers);
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();

@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 25.01.2017.
+ * panel informing a player how many rounds are left
  */
 public class HowManyRoundsLeftPanel extends JPanel {
     public HowManyRoundsLeftPanel(int howMany) {

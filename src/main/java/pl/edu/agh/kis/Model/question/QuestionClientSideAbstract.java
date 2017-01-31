@@ -8,46 +8,39 @@ import java.util.Collections;
 
 /**
  * Created by Karl on 15.01.2017.
+ * Abstract class of question client side
  */
 public class QuestionClientSideAbstract extends Question {
 
+    /**
+     * @param answers
+     */
     public QuestionClientSideAbstract(ArrayList<String> answers) {
         for (int i = 0; i < answers.size(); i++) {
             this.answers.add(answers.get(i));
         }
     }
 
+    /**
+     * Non-parameter constructor
+     */
     public QuestionClientSideAbstract() {
-
     }
 
-    public static void main(String[] args) {
-        ArrayList<String> arrayList = new ArrayList<String>();
-        arrayList.add("a");
-        arrayList.add("b");
-        arrayList.add("c");
-        arrayList.add("d");
 
-        QuestionClientSide questionClientSide = new QuestionClientSide(arrayList, "");
-
-        for (int i = 0; i < 4; i++) {
-            System.out.println(questionClientSide.answers.get(i));
-        }
-
-        questionClientSide.randomizeAnswers();
-        System.out.println();
-
-        for (int i = 0; i < 4; i++) {
-            System.out.println(questionClientSide.answers.get(i));
-        }
-    }
-
+    /**
+     * method randomizing answers by dursenfeld shuffle
+     */
     public void randomizeAnswers() {
         ArrayList<String> ret = new ArrayList<String>(getAnswers());
         ArrayList<String> tmp = durstenfeldShuffle(ret);
         setAnswers(tmp);
     }
 
+    /**
+     * @param unsortedAnswers not sorted answers to be random sorted
+     * @return ArrayList of random sorted @param unsortedAnswers
+     */
     protected ArrayList<String> durstenfeldShuffle(ArrayList<String> unsortedAnswers) {
         ArrayList<String> ret = new ArrayList<String>(unsortedAnswers);
         RandomNumberWithRange random = new RandomNumberWithRange();

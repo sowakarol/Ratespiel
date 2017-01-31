@@ -1,6 +1,6 @@
 package pl.edu.agh.kis.messages.client;
 
-import pl.edu.agh.kis.Model.Reply;
+import pl.edu.agh.kis.answer.Reply;
 import pl.edu.agh.kis.messages.MessageAbstract;
 
 import java.io.IOException;

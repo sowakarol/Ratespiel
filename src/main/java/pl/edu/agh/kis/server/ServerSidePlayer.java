@@ -1,6 +1,5 @@
 package pl.edu.agh.kis.server;
 
-import pl.edu.agh.kis.messages.MessageAbstract;
 import pl.edu.agh.kis.ratespiel.PlayerAbstract;
 
 import java.io.IOException;
@@ -8,6 +7,7 @@ import java.net.Socket;
 
 /**
  * Created by Karl on 22.01.2017.
+ * Player from server side
  */
 public class ServerSidePlayer extends PlayerAbstract {
     private String gameType;
@@ -34,16 +34,15 @@ public class ServerSidePlayer extends PlayerAbstract {
         return id;
     }
 
+    /**
+     * @param i number of points which are going to be incremented
+     */
     public void addPoints(int i) {
         points += i;
     }
 
     public int getPoints() {
         return points;
-    }
-
-    public MessageAbstract getMessage() {
-        return null;
     }
 
     @Override

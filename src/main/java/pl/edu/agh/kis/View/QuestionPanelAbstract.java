@@ -9,6 +9,7 @@ import java.awt.*;
 
 /**
  * Created by Karl on 15.01.2017.
+ * Abstract class of question panel which loads answers of both questions with or without photo
  */
 public abstract class QuestionPanelAbstract extends JPanel {
     protected QuestionClientSideAbstract question;
@@ -27,6 +28,9 @@ public abstract class QuestionPanelAbstract extends JPanel {
         this.howManyLoopsLeft = howManyLoopsLeft;
     }
 
+    /**
+     * method adding answers and preparing GUI
+     */
     protected void addAnswersAndPrepare() {
         JPanel answersButtonsPanel = new JPanel();
         //add(new HowManyRoundsLeftPanel(howManyLoopsLeft));
@@ -44,7 +48,6 @@ public abstract class QuestionPanelAbstract extends JPanel {
 
         add(new HowManyRoundsLeftPanel(howManyLoopsLeft));
 
-        //if(mainFrame.getMainPanel() == null) System.out.println("PRZYPA");
         container = mainFrame.getContentPane();
         container.removeAll();
         //mainFrame.revalidate();

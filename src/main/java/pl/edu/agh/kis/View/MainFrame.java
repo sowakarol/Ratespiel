@@ -8,12 +8,25 @@ import java.awt.event.ActionListener;
 
 /**
  * Created by Karl on 11.01.2017.
+ * mainframe where all panels go
  */
 public class MainFrame extends JFrame {
+    /**
+     * title of this frame
+     */
     private static String title = "Ratespiele";
-    boolean changeDefaultToGame = false;
+    /**
+     * main controller of that frame
+     */
     private MainController mainController;
+    /**
+     * main starting panel of game
+     */
     private JPanel mainPanel;
+
+    /**
+     * @param mainController controller of that frame
+     */
     public MainFrame(MainController mainController) {
         super(title);
         this.mainController = mainController;
@@ -27,12 +40,9 @@ public class MainFrame extends JFrame {
         return mainPanel;
     }
 
-    /*public static void main(String[] args) {
-        MainFrame mainFrame = new MainFrame();
-        mainFrame.setDefault();
-
-    }*/
-
+    /**
+     * setting default values of that frame and panel
+     */
     public void setDefault() { //menu
         //try {
         //setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File(path + "background.jpg")))));
@@ -55,6 +65,10 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * @param actionListener actionlistener which is responsible for start button reaction
+     * @param panel          panel in which buttons are going to be added
+     */
     private void setDefaultButtons(ActionListener actionListener, JPanel panel) {
         JButton b1 = new JButton("start");
         b1.setVerticalTextPosition(AbstractButton.CENTER);
@@ -76,19 +90,8 @@ public class MainFrame extends JFrame {
      */
     @Override
     public void dispose() {
-        System.out.println("u");
         mainController.disconnectPlayerWhenClosingWindow();
         super.dispose();
     }
 
-/*    class DefaultActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            changeDefaultToGame = true;
-            LoginFrame loginFrame = new LoginFrame();
-            loginFrame.set();
-
-
-        }
-    }*/
 }

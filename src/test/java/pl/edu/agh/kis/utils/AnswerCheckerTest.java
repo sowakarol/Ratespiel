@@ -1,9 +1,9 @@
 package pl.edu.agh.kis.utils;
 
 import org.junit.Test;
-import pl.edu.agh.kis.Model.Answer;
-import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.Model.question.QuestionServerSide;
+import pl.edu.agh.kis.answer.Answer;
+import pl.edu.agh.kis.answer.Reply;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

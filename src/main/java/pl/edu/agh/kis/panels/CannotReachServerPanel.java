@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 27.01.2017.
+ * Panel when player cannot reach server
  */
 public class CannotReachServerPanel extends JPanel {
     public CannotReachServerPanel(String hostname, int portNumber) {

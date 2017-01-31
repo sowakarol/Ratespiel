@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 25.01.2017.
+ * panel informing a player about how may points he has
  */
 public class PointsPanel extends JPanel {
     public PointsPanel(int points) {

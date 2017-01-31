@@ -2,13 +2,13 @@ package pl.edu.agh.kis.ratespiel;
 
 import pl.edu.agh.kis.Exception.EmptyQuestionFolderException;
 import pl.edu.agh.kis.Exception.InvalidRangeException;
-import pl.edu.agh.kis.Model.Answer;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
 import pl.edu.agh.kis.Model.Photo.QuestionServerSideWithPhoto;
-import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.Model.question.QuestionClientSide;
 import pl.edu.agh.kis.Model.question.QuestionServerSide;
 import pl.edu.agh.kis.Model.question.QuestionServerSideAbstract;
+import pl.edu.agh.kis.answer.Answer;
+import pl.edu.agh.kis.answer.Reply;
 import pl.edu.agh.kis.messages.client.PlayerMessages;
 import pl.edu.agh.kis.messages.server.*;
 import pl.edu.agh.kis.server.ServerSidePlayer;
@@ -23,21 +23,41 @@ import java.util.Vector;
 
 /**
  * Created by Karl on 23.01.2017.
+ * Class representing core of standard game
  */
 public abstract class GameAbstract implements GameInterface {
+    /**
+     * path to directory with questions
+     */
     protected String path;
+    /**
+     * players in this game
+     */
     protected ArrayList<ServerSidePlayer> players = new ArrayList<ServerSidePlayer>();
+    /**
+     * number of players
+     */
     protected int numberOfPlayers;
+    /**
+     * number of rounds
+     */
     protected int roundNumbers;
+    /**
+     * variable counting threads
+     */
     private int threadCount;
-    private BufferedReader bufferedReader;
-    //private BufferedReader answersReader;
 
     /**
      * variable representing time in which player has to answer for question in seconds
      */
     private int waitingForPlayersAnswer;
 
+    /**
+     * @param players                 players playing the game
+     * @param waitingForPlayersAnswer number of seconds for waiting for players answer
+     * @param path                    path to directory of questions
+     * @param roundNumbers            number of rounds
+     */
     public GameAbstract(ArrayList<ServerSidePlayer> players, int waitingForPlayersAnswer, String path, int roundNumbers) {
         this.numberOfPlayers = players.size();
         this.waitingForPlayersAnswer = waitingForPlayersAnswer;
@@ -49,9 +69,15 @@ public abstract class GameAbstract implements GameInterface {
     }
 
 
+    /**
+     * in future functionalities might be useful to change gameplay
+     */
     public void removeTheWorstPlayer() {
     }
 
+    /**
+     * @return true if round was played without any disconnections
+     */
     public boolean playRound() {
         boolean isImage = false;
         //Integer questionNumber = questionPath.split("/[0-9]+$")
@@ -75,12 +101,10 @@ public abstract class GameAbstract implements GameInterface {
             QuestionServerSide question = new QuestionServerSide(questionNumber, path);
             q = question;
             sendQuestionToPlayers(question, players);
-
         }
-        //sendQuestionToPlayers(new QuestionClientSideAbstract(question.getAnswers()), players,isImage);
+
         final ArrayList<Answer> answers = new ArrayList<Answer>();
 
-        System.out.println("sendeeed");
         Vector<Thread> threads = new Vector<Thread>();
         int i = 0;
         for (final ServerSidePlayer player : players) {
@@ -106,7 +130,6 @@ public abstract class GameAbstract implements GameInterface {
             new WalkoverMessage(players.get(0).getOutputStream(), players.get(0).getPoints()).send();
             return false;
         }
-        System.out.println("W");
         for (Answer answer :
                 answers) {
             System.out.println(answer);
@@ -116,6 +139,9 @@ public abstract class GameAbstract implements GameInterface {
         return true;
     }
 
+    /**
+     * @return true if all players are ready for a game
+     */
     protected boolean checkPlayersReady() {
         boolean check = true;
         for (ServerSidePlayer player : players
@@ -132,6 +158,11 @@ public abstract class GameAbstract implements GameInterface {
 
     }
 
+    /**
+     * @param answers arraylist with all players' answers
+     * @param player player which will answer
+     * @param maxTimeToReply time in which player must reply
+     */
     protected void getAnswer(ArrayList<Answer> answers, ServerSidePlayer player, int maxTimeToReply) {
         BufferedReader br = null;
         try {
@@ -153,10 +184,8 @@ public abstract class GameAbstract implements GameInterface {
             new GetAnswerMessage(player.getOutputStream()).send();
             byte b = 0;
             while (true) {
-                System.out.println("inside");
                 b = (byte) player.inputStream.read();
                 if (b == ServerMessages.QUESTION.ordinal()) {
-                    System.out.println("przp");
                     ans = br.readLine();
                     timeString = br.readLine();
                     break;
@@ -188,16 +217,12 @@ public abstract class GameAbstract implements GameInterface {
             }
             player.closeConnection();
         }
-
     }
 
-    //METODA RUN() Z SENDQUESTIONS + GETANSWERS
-    //protected abstract void sendQuestionToPlayer(QuestionServerSideAbstract questionServerSide, PlayerServerSide player);
 
-    //protected Answer getAnswer(PlayerServerSide player) {
-    //return player.answer();
-    //}
-
+    /**
+     * @return random number of question
+     */
     protected int getRandomNumberOfQuestion() {
         int randomNumberOfFile = 0;
         try {
@@ -216,6 +241,10 @@ public abstract class GameAbstract implements GameInterface {
     }
 
 
+    /**
+     * @param question question from server side
+     * @param players all players playing
+     */
     protected void sendQuestionToPlayers(QuestionServerSide question, ArrayList<ServerSidePlayer> players) {
         final QuestionClientSide q;
         synchronized (this) {
@@ -251,6 +280,10 @@ public abstract class GameAbstract implements GameInterface {
         }
     }
 
+    /**
+     * @param question question to be sent
+     * @param players all players who are playing
+     */
     protected void sendQuestionToPlayers(QuestionServerSideWithPhoto question, ArrayList<ServerSidePlayer> players) {
         final QuestionClientSideWithPhoto q = new QuestionClientSideWithPhoto(question);
         Vector<Thread> threads = new Vector<Thread>();
@@ -279,6 +312,11 @@ public abstract class GameAbstract implements GameInterface {
         }
     }
 
+    /**
+     * @param answers all answers from all players in a round
+     * @param question question which was asked in a round
+     * @return id of a player
+     */
     protected int chooseWinnerOfRound(ArrayList<Answer> answers, QuestionServerSideAbstract question) {
         Vector<Answer> correctAnswers = new Vector<Answer>();
         AnswerChecker checker = new AnswerChecker();
@@ -308,6 +346,9 @@ public abstract class GameAbstract implements GameInterface {
         return -1;
     }
 
+    /**
+     * choosing winner of a game and sending messages about result to all players
+     */
     public void chooseWinner() {
         int maxPoints = 0;
         int tmp = 0; //checking if draw
@@ -343,7 +384,10 @@ public abstract class GameAbstract implements GameInterface {
     }
 
 
-
+    /**
+     * @param id id of desired player
+     * @return reference to player from server side
+     */
     private ServerSidePlayer findPlayer(int id) {
         for (ServerSidePlayer player : players
                 ) {

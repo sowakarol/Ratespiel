@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 15.01.2017.
+ * panel informing a player that he won a game
  */
 public class WinPanel extends JPanel {
 

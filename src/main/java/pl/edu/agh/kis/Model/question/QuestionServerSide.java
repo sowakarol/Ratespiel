@@ -4,13 +4,16 @@ import java.io.*;
 
 /**
  * Created by Karl on 06.01.2017.
+ * Class representing question on server side
  */
 public class QuestionServerSide extends QuestionServerSideAbstract {
-    //private final String path = "C:\\Users\\Karl\\GIT\\Ratespiel\\src\\main\\resources\\Questions\\";
     private String toTranslate;
-    //TODO
-    //add something in one exception
 
+
+    /**
+     * @param id   number of question in directory from questions
+     * @param path path to directory with questions
+     */
     public QuestionServerSide(int id, String path) {
         super(id);
         File questionFile = new File(path + id);
@@ -35,10 +38,16 @@ public class QuestionServerSide extends QuestionServerSideAbstract {
         }
     }
 
+    /**
+     * @return question's id
+     */
     public int getQuestionNumber() {
         return questionNumber;
     }
 
+    /**
+     * @return question string
+     */
     public String getToTranslate() {
         return toTranslate;
     }

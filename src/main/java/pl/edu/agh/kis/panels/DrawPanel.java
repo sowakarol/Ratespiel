@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 27.01.2017.
+ * Panel when player draw the game
  */
 public class DrawPanel extends JPanel {
     public DrawPanel(int howManyPlayersDraw) {

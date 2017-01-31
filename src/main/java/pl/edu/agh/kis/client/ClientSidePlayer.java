@@ -5,8 +5,8 @@ import pl.edu.agh.kis.Controller.Photo.QuestionControllerWithPhoto;
 import pl.edu.agh.kis.Controller.QuestionController;
 import pl.edu.agh.kis.Controller.QuestionControllerAbstract;
 import pl.edu.agh.kis.Model.Photo.QuestionClientSideWithPhoto;
-import pl.edu.agh.kis.Model.Reply;
 import pl.edu.agh.kis.Model.question.QuestionClientSide;
+import pl.edu.agh.kis.answer.Reply;
 import pl.edu.agh.kis.messages.client.AnswerFromPlayerMessage;
 import pl.edu.agh.kis.messages.client.DisconnectPlayerMessage;
 import pl.edu.agh.kis.messages.client.HelloFromClientMessage;
@@ -156,10 +156,11 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
                 if (b[0] == ServerMessages.WAIT.ordinal()) {
                     int requiredPlayers = inputStream.read();
+                    int connectedPlayers = inputStream.read();
 
                     //updating a waiting panel
                     Dimension d = clearMainFrameAndGetDimension();
-                    main.getMainFrame().getContentPane().add(new WaitForOtherPlayersPanel(requiredPlayers));
+                    main.getMainFrame().getContentPane().add(new WaitForOtherPlayersPanel(requiredPlayers, connectedPlayers));
                     main.getMainFrame().pack();
                     main.getMainFrame().validate();
                     main.getMainFrame().repaint();
@@ -180,7 +181,7 @@ public class ClientSidePlayer extends PlayerAbstract { // CHANGE NAME
 
         //setting up a GetReadyPanel
         Dimension d = clearMainFrameAndGetDimension();
-        main.getMainFrame().getContentPane().add(new GetReadyPanel(waitingTimeForNewGame));
+        main.getMainFrame().getContentPane().add(new GetReadyPanel(waitingTimeForNewGame, playersNumber - 1));
         main.getMainFrame().pack();
         main.getMainFrame().validate();
         main.getMainFrame().repaint();

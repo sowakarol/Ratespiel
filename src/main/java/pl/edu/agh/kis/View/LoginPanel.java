@@ -6,10 +6,20 @@ import javax.swing.*;
 
 /**
  * Created by Karl on 14.01.2017.
+ * Panel representing logging session
  */
 public class LoginPanel extends JPanel {
+    /**
+     * true if submit was clicked
+     */
     private boolean initialized;
+    /**
+     * label representing username
+     */
     private JLabel userLabel;
+    /**
+     * label representing portNumber field
+     */
     private JLabel portLabel;
     private JLabel hostLabel;
     private JTextField userText;
@@ -63,6 +73,9 @@ public class LoginPanel extends JPanel {
         this.portText = portText;
     }
 
+    /**
+     * method placing buttons nad labels in correct places
+     */
     private void placeButtons() {
 
         /* We will discuss about layouts in the later sections

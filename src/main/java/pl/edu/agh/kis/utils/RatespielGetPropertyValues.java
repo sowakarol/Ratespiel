@@ -11,6 +11,9 @@ import java.util.Properties;
 public class RatespielGetPropertyValues {
 
 
+    /**
+     * @return method getting players number
+     */
     public static Integer getPlayersNumber() {
         RatespielGetPropertyValues ratespielGetPropertyValues = new RatespielGetPropertyValues();
         try {
